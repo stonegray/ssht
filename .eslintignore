@@ -1,0 +1,7 @@
+coverage
+node_modules
+out
+dist
+build
+pack
+*.swp
