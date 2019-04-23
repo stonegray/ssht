@@ -34,16 +34,21 @@ interface DSHost {
     port?: number;
     isUp?: boolean;
     kind?: string;
+    family?: string;
+    bindAddress?: string;
+    bindInterface?: string;
 }
 
 interface HostInfo {
-    port: number;
-    username: string;
-    shkc: string;
-    user: string;
+    port?: number;
+    username?: string;
+    shkc?: string;
+    user?: string;
     family?: string;
-    host: string;
-    fqdn: string;
+    host?: string;
+    fqdn?: string;
+    bindAddress?: string;
+    bindInterface?: string;
 }
 
 // Array of hosts to return when file read is complete.
@@ -62,6 +67,56 @@ function getFile(callback: Function): void {
 
 function humanizeLocation(cfg: SSHConfig): string {
     return cfg.param;
+}
+
+function parseHostOptions(o: SSHConfig): HostInfo {
+    // Now we break the config object apart. This whole array of named keys
+    // thing is irritat
+    const info: HostInfo = {};
+
+    // Each host has an attached SSHConfig object. We need to rip it apart
+    // so that we're not blindly iterating through a loop.
+    if (typeof o.config === typeof []) {
+        o.config.forEach(cf => {
+            // If the object doesn't have a parameter, abort
+            if (typeof cf.param !== "string") return;
+
+            // Convert to unified case:
+            cf.param = cf.param.toLowerCase();
+
+            // If we get an Include, warn:
+            // It's not a priority to handle these at the moment.
+            if (cf.param == "include") {
+                console.warn("WARN: Not following Include statement.");
+            }
+
+            // ProxyCommand should work fine, but when we check the host
+            // it will appear offline.
+            if (cf.param == "proxycommand") {
+                console.warn(
+                    "WARN: ProxyCommand is unsupported; host most may appear offline"
+                );
+            } else if (cf.param == "proxyjump") {
+                console.warn(
+                    "WARN: ProxyJump is unsupported; host most may appear offline"
+                );
+            }
+
+            // I'm not aware of a more convienit way to do this so I'm
+            // resorting to if(){}
+            if (cf.param == "stricthostkeychecking") info.shkc = cf.value;
+            if (cf.param == "hostname") info.host = cf.value;
+            if (cf.param == "user") info.user = cf.value;
+            if (cf.param == "port") info.port = cf.value;
+            if (cf.param == "addressfamily") info.family = cf.family;
+
+            return;
+        });
+    } else {
+        console.warn("WARN: Recieved otherwise valid object without any data.");
+    }
+
+    return info;
 }
 
 // The Callback Way:
@@ -96,59 +151,12 @@ function _getHosts(callback) {
             // use these later
             if (/[!\*?]/.test(o.value)) return;
 
-            // Now we break the config object apart. This whole array of named keys
-            // thing is irritat
-            const info: HostInfo = {
-                port: undefined,
-                username: "",
-                shkc: "",
-                user: "",
-                host: "",
-                fqdn: ""
-            };
-
-            // Each host has an attached SSHConfig object. We need to rip it apart
-            // so that we're not blindly iterating through a loop.
-            if (typeof o.config === typeof []) {
-                o.config.forEach(cf => {
-                    // If the object doesn't have a parameter, abort
-                    if (typeof cf.param !== "string") return;
-
-                    // Convert to unified case:
-                    cf.param = cf.param.toLowerCase();
-
-                    // If we get an Include, warn:
-                    // It's not a priority to handle these at the moment.
-                    if (cf.param == "include") {
-                        console.warn("WARN: Not following Include statement.");
-                    }
-
-                    // I'm not aware of a more convienit way to do this so I'm
-                    // resorting to if(){}
-
-                    if (cf.param == "stricthostkeychecking") {
-                        info.shkc = cf.value;
-                    }
-                    if (cf.param == "hostname") info.host = cf.value;
-                    if (cf.param == "user") info.user = cf.value;
-                    if (cf.param == "port") info.port = cf.value;
-                    if (cf.param == "addressfamily") info.family = cf.family;
-
-                    return;
-                });
-            } else {
-                console.warn(
-                    "WARN: Recieved otherwise valid object without any data."
-                );
-            }
-
-            // Now we have:
-            // o = {} // basic host info
-            // info = {} // info extracted from o.value:SSHConfig array
+            // Convert the host options into something useful:
+            const info: HostInfo = parseHostOptions(o);
 
             // It's possible and valid to have a config entry without a hostname. If
             // this is the case, use the name instead.
-            if (info.host == "") {
+            if (typeof info.host !== "string") {
                 info.fqdn = o.value;
             } else {
                 info.fqdn = info.host;
@@ -160,7 +168,9 @@ function _getHosts(callback) {
                 name: o.value,
                 fqdn: info.fqdn,
                 username: info.user,
-                port: info.port
+                port: info.port,
+                kind: "sshconfig",
+                family: info.family
             });
         });
 
@@ -169,7 +179,7 @@ function _getHosts(callback) {
 }
 
 // Thanks, i hate it.
-export const getHosts = async function() {
+export const getSshHosts = async function() {
     return await new Promise((resolve, reject) => {
         _getHosts((err, obj) => {
             if (err) reject(err);
