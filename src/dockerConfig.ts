@@ -19,6 +19,7 @@ interface DSHost {
     isUp?: boolean;
     kind?: string;
     family?: string;
+    ssh: string;
     bindAddress?: string;
     bindInterface?: string;
 }
@@ -74,10 +75,11 @@ function _getHosts(callback: Function, sock: string): void {
                             // Looks good:
 
                             dshosts.push({
-                                name: name,
+                                name: name.substr(1),
                                 fqdn: ns[item].IPAddress,
                                 family: "ipv4",
                                 port: 22,
+                                ssh: "root@" + ns[item].IPAddress,
                                 kind: "docker"
                             });
                         }

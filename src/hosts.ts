@@ -3,11 +3,8 @@
 import { getSshHosts } from "./sshConfig";
 import { getDockerHosts } from "./dockerConfig";
 
-(async () => {
+export const hosts = async () => {
     let f = await getSshHosts();
     let g = await getDockerHosts();
-
-    const z = f.concat(g);
-
-    console.log(z);
-})();
+    return f.concat(g);
+};

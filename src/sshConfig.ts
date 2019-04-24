@@ -35,6 +35,7 @@ interface DSHost {
     isUp?: boolean;
     kind?: string;
     family?: string;
+    ssh: string;
     bindAddress?: string;
     bindInterface?: string;
 }
@@ -162,6 +163,13 @@ function _getHosts(callback) {
                 info.fqdn = info.host;
             }
 
+            // Build ssh command:
+            let sshCommand = o.value;
+
+            if (typeof info.user !== "undefined") {
+                sshCommand = info.user + "@" + sshCommand;
+            }
+
             // We should have something that works by here, let's push it into the
             // array of known devices.
             dshosts.push({
@@ -170,6 +178,7 @@ function _getHosts(callback) {
                 username: info.user,
                 port: info.port,
                 kind: "sshconfig",
+                ssh: sshCommand,
                 family: info.family
             });
         });
