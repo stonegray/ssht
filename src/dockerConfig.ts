@@ -12,16 +12,16 @@
 import { Docker } from "node-docker-api";
 
 interface DSHost {
-    name: string; // Human readable name
-    fqdn: string;
-    username?: string;
-    port?: number;
-    isUp?: boolean;
-    kind?: string;
-    family?: string;
-    ssh: string;
-    bindAddress?: string;
-    bindInterface?: string;
+name: string; // Human readable name
+fqdn: string;
+username?: string;
+port?: number;
+isUp?: boolean;
+kind?: string;
+family?: string;
+ssh: string;
+bindAddress?: string;
+bindInterface?: string;
 }
 
 // Check if the contner port object describes SSH
