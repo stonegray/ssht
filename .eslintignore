@@ -3,5 +3,6 @@ node_modules
 out
 dist
 build
+built
 pack
 *.swp
