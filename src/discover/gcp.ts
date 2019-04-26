@@ -36,8 +36,8 @@ function checkGcloudReady(msg) {
 					const s = JSON.parse(data);
 					s.forEach(j => {
 						if (j.status == 'ACTIVE') {
-							msg('Authorized '+j.account);
-							setTimeout(resolve, 800, j.account);
+							msg('authorization ok:  '+j.account);
+							setTimeout(resolve, 1, j.account);
 						}
 					});
 					resolve(false);
@@ -76,6 +76,7 @@ function getGcloudHosts(msg, callback) {
 							ok = true;
 						}
 					});
+					msg('done');
 
 					resolve(ok);
 				} catch (e) {
@@ -83,6 +84,7 @@ function getGcloudHosts(msg, callback) {
 				}
 			})
 			.catch(e => {
+				msg('requesting instance list failed');
 				resolve(false);
 			});
 	});
@@ -154,16 +156,15 @@ export class gcpPlugin extends DSPlugin {
 		const msg = this._msg.bind(this);
 		const emit = this.emit.bind(this);
 		// write to UI:
-		msg('Starting gcp plugin');
+		msg('starting gcp plugin');
 		
-		msg('Checking gcloud status');
 		checkGcloudReady(msg).then((ok)=>{
 			getGcloudHosts(msg,(h)=>{
-				msg('Loaded '+h.name);
+				msg('added host '+h.name);
 				emit(DSPEvents.host,h);
 			});
 		}).catch(e=>{
-			msg('Error: '+e);
+			msg('exiting: '+e);
 		});
 
 	}

@@ -5,6 +5,7 @@
 // Import our plugins:
 
 import { sshPlugin } from './discover/ssh';
+import { vboxPlugin } from './discover/vbox';
 import { gcpPlugin } from './discover/gcp';
 import { dockerPlugin } from './discover/docker';
 import { fooPlugin } from './discover/foo';
@@ -15,6 +16,7 @@ import { DSPEvents,DSPlugin } from './dsPlugin';
 const discoveryPlugins = [];
 discoveryPlugins.push(fooPlugin);
 discoveryPlugins.push(gcpPlugin);
+discoveryPlugins.push(vboxPlugin);
 discoveryPlugins.push(sshPlugin);
 discoveryPlugins.push(dockerPlugin);
 
@@ -30,7 +32,7 @@ discoveryPlugins.push(dockerPlugin);
 
 
 function addNewHost(host:DSHost){
-	console.log('Detected new '+host.kind+' host:'+host.name);
+	//console.log('Detected new '+host.kind+' host:'+host.name);
 	return true;
 }
 
@@ -38,9 +40,10 @@ function addNewHost(host:DSHost){
 // Register discovery plugins
 discoveryPlugins.forEach(PluginConstructor=>{
 	const plug = new PluginConstructor();
+	const name = plug.name;
 
 	// Check for name
-	if (typeof plug.name == 'undefined'){
+	if (name == 'undefined'){
 		throw new Error('Malformed plugin: Missing name');
 	}
 
@@ -53,6 +56,10 @@ discoveryPlugins.forEach(PluginConstructor=>{
 	plug.on(DSPEvents.error,e=>{
 		plug.emit(DSPEvents.stop);
 		throw new Error('Plugin emitted error: '+e);
+	});
+
+	plug.on(DSPEvents.status,s=>{
+		console.log('> '+name+' '+s);
 	});
 
 
