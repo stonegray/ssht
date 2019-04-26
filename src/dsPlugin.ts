@@ -1,16 +1,18 @@
 import { EventEmitter } from 'events';
 
 
+// Need to use another type for an event? Add it as a union here:
+type IUnionType = DSPEvents;
 
-type IUnionType = symbol | string| DSPEvents;
 
-// Define arguments passed to plugins
-export interface PluginArgs {
-	debug: boolean;
-}
 
 export enum DSPEvents {
-	start = 'NONE',
+
+	// Plugins listen for:
+	start = 'START',
+	stop = 'STOP',
+
+	// Plugins emit:
 	debug = 'DEBUG',
 	status = 'STATUS',
 	percentage = 'PERC',
@@ -31,3 +33,4 @@ export class DSPlugin extends EventEmitter {
 		return;
 	}
 }
+
