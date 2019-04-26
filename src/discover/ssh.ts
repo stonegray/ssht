@@ -165,16 +165,17 @@ export class sshPlugin extends DSPlugin {
 
 	// This is the main function of your plugin.
 	_start(debug){
-
-		this._msg('Reading SSH config file...');
+		const msg = this._msg.bind(this);
+		msg('reading config file');
 
 		getFile((err, buf) => {
 			// Parse file
 
+			let numHosts = 0;
 			// If we have an error at this stage, it's from the getFile(), so let's
 			// throw it and get it over with.
 			if (err) {
-				this._msg('Reading SSH config file...');
+				msg('failed to read config file');
 				return;
 			}
 
@@ -191,6 +192,8 @@ export class sshPlugin extends DSPlugin {
 				// Skip Comments
 				if (o.type == SSHFieldType.UserComment) return;
 				if (o.param !== 'Host') return;
+
+				msg('checking '+o.value+' for host definition');
 
 				// Ignore hosts that have a liteal *,!, or ?, since these are probably
 				// groups not actual hosts we can access. Could implement something to
@@ -219,6 +222,9 @@ export class sshPlugin extends DSPlugin {
 				// array of known devices.
 				//
 				//	this._msg('Found google.ca/afsdef');
+
+				msg('added '+sshCommand+'/'+o.value);
+				numHosts++;
 				const host:DSHost = {
 					name: o.value,
 					fqdn: info.fqdn,
@@ -232,7 +238,7 @@ export class sshPlugin extends DSPlugin {
 			});
 
 			// REading file failed, send message and end:
-			this._msg('Failed to read ssh config file.');
+			msg('exiting with '+numHosts+' hosts found');
 		});
 
 	}
