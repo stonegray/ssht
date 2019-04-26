@@ -19,7 +19,9 @@
         "eslint-plugin-security": "^1.4.0",
         "node-docker-api": "^1.1.22",
         "prompts": "^2.0.4",
-        "ssh-config": "^1.1.6"
+        "source-map-support": "^0.5.12",
+        "ssh-config": "^1.1.6",
+        "virtualbox": "^1.0.0"
     },
     "devDependencies": {
         "@types/node": "^11.13.6",
