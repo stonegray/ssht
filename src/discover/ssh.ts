@@ -1,12 +1,13 @@
 // Request array of hosts from the ~/.ssh/hosts file
 
+
+import { DSHost } from '../shared/interfaces';
+import { DSPEvents,DSPlugin } from '../dsPlugin';
+
 import { parse as sshConfigParser } from 'ssh-config';
-import { promisify } from 'util';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
-
-os;
 
 /* Type definitions for ssh-config */
 enum SSHFieldType {
@@ -27,19 +28,6 @@ interface SSHConfig {
     forEach?: Function;
 }
 
-interface DSHost {
-    name: string; // Human readable name
-    fqdn: string;
-    username?: string;
-    port?: number;
-    isUp?: boolean;
-    kind?: string;
-    family?: string;
-    ssh: string;
-    bindAddress?: string;
-    bindInterface?: string;
-}
-
 interface HostInfo {
     port?: number;
     username?: string;
@@ -52,8 +40,6 @@ interface HostInfo {
     bindInterface?: string;
 }
 
-// Array of hosts to return when file read is complete.
-const dshosts: Array<DSHost> = [];
 
 function getFile(callback: Function): void {
 	// cet homezozc
@@ -120,79 +106,136 @@ function parseHostOptions(o: SSHConfig): HostInfo {
 	return info;
 }
 
-// The Callback Way:
-function _getHosts(callback) {
-	getFile((err, buf) => {
-		// Parse file
+// Your discovery plugin is implemented here
+//
+// EVENTS:
+//
+// emits: debug
+//	Your plugin can emit any type. 
+//
+// emits: status
+//	Your plugin can emit a DSPEvents.status message. String. This may be shown
+//	to the user and can provide feedback. The UI is reponsible for rate
+//	limiting, so the plugin may call this as many times as needed.
+//
+// emits: percentage
+//	Your plugin can emit a DSPEvents.percentage message if it's progress is
+//	known. This may be ignored by the UI.
+//
+// emits: error
+//	Emitted on a fatal error. String. No other events are expected after this
+//	event is emitted, and may be discarded by the pool or UI. 
+//
+// emits: host
+//	Emitted when a new host is found.
+//
+//
+// listens: stop
+//	Optional to implement at this time. Instructs your discovery app to stop. 
+//
+// listens: start
+//	Optional to implement at this time. Instructs your discovery app to start.
+//
+//
+// returns: instance of self
+export class sshPlugin extends DSPlugin {
 
-		// If we have an error at this stage, it's from the getFile(), so let's
-		// throw it and get it over with.
-		if (err) {
-			callback(err, undefined);
-			return;
-		}
+	constructor(){
+		super();
 
-		// Expect this to get an array of config entries. These are parsed in an
-		// ugly way, so we'll pull this array apart and create an iterable object.
-		let cfg: Array<SSHConfig>;
+		this.name = 'sshPlugin';
 
-		cfg = sshConfigParser(buf);
-		const hosts = [];
+		// Bind events:
+		this.on(DSPEvents.start, this._start.bind(this));
+		// Return the name of the plugin.
+	}
 
-		// Put each detected host into the host database.
-		cfg.forEach(o => {
-			// Each host has multiple SSHConfig objects; parse them each
+	// Emit status and debug messages. Status messages are limited to String,
+	// however debug messages can contain anything. They will likely be
+	// serialized before writing to a file. 
+	private _msg(msg: string){
+		this.emit(DSPEvents.status, msg);
+	}
+	_debug(msg: any){
+		this.emit(DSPEvents.debug, msg);
+	}i
+	_percentage(msg: number){
+		this.emit(DSPEvents.percentage, msg+0);
+	}
 
-			// Skip Comments
-			if (o.type == SSHFieldType.UserComment) return;
-			if (o.param !== 'Host') return;
+	// This is the main function of your plugin.
+	_start(debug){
 
-			// Ignore hosts that have a liteal *,!, or ?, since these are probably
-			// groups not actual hosts we can access. Could implement something to
-			// use these later
-			if (/[!\*?]/.test(o.value)) return;
+		this._msg('Reading SSH config file...');
 
-			// Convert the host options into something useful:
-			const info: HostInfo = parseHostOptions(o);
+		getFile((err, buf) => {
+			// Parse file
 
-			// It's possible and valid to have a config entry without a hostname. If
-			// this is the case, use the name instead.
-			if (typeof info.host !== 'string') {
-				info.fqdn = o.value;
-			} else {
-				info.fqdn = info.host;
+			// If we have an error at this stage, it's from the getFile(), so let's
+			// throw it and get it over with.
+			if (err) {
+				this._msg('Reading SSH config file...');
+				return;
 			}
 
-			// Build ssh command:
-			let sshCommand = o.value;
+			// Expect this to get an array of config entries. These are parsed in an
+			// ugly way, so we'll pull this array apart and create an iterable object.
+			let cfg: Array<SSHConfig>;
 
-			if (typeof info.user !== 'undefined') {
-				sshCommand = info.user + '@' + sshCommand;
-			}
+			cfg = sshConfigParser(buf);
 
-			// We should have something that works by here, let's push it into the
-			// array of known devices.
-			dshosts.push({
-				name: o.value,
-				fqdn: info.fqdn,
-				username: info.user,
-				port: info.port,
-				kind: 'sshconfig',
-				ssh: sshCommand,
-				family: info.family
+			// Put each detected host into the host database.
+			cfg.forEach(o => {
+				// Each host has multiple SSHConfig objects; parse them each
+
+				// Skip Comments
+				if (o.type == SSHFieldType.UserComment) return;
+				if (o.param !== 'Host') return;
+
+				// Ignore hosts that have a liteal *,!, or ?, since these are probably
+				// groups not actual hosts we can access. Could implement something to
+				// use these later
+				if (/[!\*?]/.test(o.value)) return;
+
+				// Convert the host options into something useful:
+				const info: HostInfo = parseHostOptions(o);
+
+				// It's possible and valid to have a config entry without a hostname. If
+				// this is the case, use the name instead.
+				if (typeof info.host !== 'string') {
+					info.fqdn = o.value;
+				} else {
+					info.fqdn = info.host;
+				}
+
+				// Build ssh command:
+				let sshCommand = o.value;
+
+				if (typeof info.user !== 'undefined') {
+					sshCommand = info.user + '@' + sshCommand;
+				}
+
+				// We should have something that works by here, let's push it into the
+				// array of known devices.
+				//
+				//	this._msg('Found google.ca/afsdef');
+				const host:DSHost = {
+					name: o.value,
+					fqdn: info.fqdn,
+					username: info.user,
+					port: info.port,
+					kind: 'sshconfig',
+					ssh: sshCommand,
+					family: info.family
+				};
+				this.emit(DSPEvents.host, host);
 			});
+
+			// REading file failed, send message and end:
+			this._msg('Failed to read ssh config file.');
 		});
 
-		callback(false, dshosts);
-	});
+	}
 }
 
-// Thanks, i hate it.
-export const getSshHosts = async function() {
-	return await new Promise((resolve, reject) => {
-		_getHosts((err, obj) => {
-			if (err) reject(err);
-			resolve(obj);
-		});
-	});
-};
+

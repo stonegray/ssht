@@ -3,6 +3,10 @@
 //
 
 // Import our plugins:
+
+import { sshPlugin } from './discover/ssh';
+import { gcpPlugin } from './discover/gcp';
+import { dockerPlugin } from './discover/docker';
 import { fooPlugin } from './discover/foo';
 import { DSHost } from './shared/interfaces';
 import { DSPEvents,DSPlugin } from './dsPlugin';
@@ -10,7 +14,9 @@ import { DSPEvents,DSPlugin } from './dsPlugin';
 // register plugins:
 const discoveryPlugins = [];
 discoveryPlugins.push(fooPlugin);
-
+discoveryPlugins.push(gcpPlugin);
+discoveryPlugins.push(sshPlugin);
+discoveryPlugins.push(dockerPlugin);
 
 
 /* 
@@ -24,7 +30,7 @@ discoveryPlugins.push(fooPlugin);
 
 
 function addNewHost(host:DSHost){
-	console.log('Detected new host:'+host.name);
+	console.log('Detected new '+host.kind+' host:'+host.name);
 	return true;
 }
 
@@ -34,7 +40,7 @@ discoveryPlugins.forEach(PluginConstructor=>{
 	const plug = new PluginConstructor();
 
 	// Check for name
-	if (typeof plug.name){
+	if (typeof plug.name == 'undefined'){
 		throw new Error('Malformed plugin: Missing name');
 	}
 
@@ -46,6 +52,7 @@ discoveryPlugins.forEach(PluginConstructor=>{
 	// Handle errors:
 	plug.on(DSPEvents.error,e=>{
 		plug.emit(DSPEvents.stop);
+		throw new Error('Plugin emitted error: '+e);
 	});
 
 

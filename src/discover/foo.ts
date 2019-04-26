@@ -38,13 +38,14 @@ import { DSPEvents,DSPlugin } from '../dsPlugin';
 // returns: instance of self
 export class fooPlugin extends DSPlugin {
 
-	// Must have a name:
-	name:string = 'fooPlugin';
-
 	constructor(){
 		super();
+
+		this.name = 'fooPlugin';
+
 		// Bind events:
 		this.on(DSPEvents.start, this._start.bind(this));
+		// Return the name of the plugin.
 	}
 
 	// Emit status and debug messages. Status messages are limited to String,

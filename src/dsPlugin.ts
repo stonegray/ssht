@@ -25,6 +25,7 @@ export enum DSPEvents {
 export interface DSPlugin {
 	on(event: IUnionType, listener: Function): this;
 	emit(event: IUnionType, listener: any): boolean;
+	name: string;
 }
 
 export class DSPlugin extends EventEmitter {
