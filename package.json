@@ -19,6 +19,7 @@
         "eslint-plugin-security": "^1.4.0",
         "node-docker-api": "^1.1.22",
         "prompts": "^2.0.4",
+        "random-words": "^1.1.0",
         "source-map-support": "^0.5.12",
         "ssh-config": "^1.1.6",
         "virtualbox": "^1.0.0"
