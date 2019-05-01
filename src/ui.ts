@@ -148,6 +148,14 @@ function genMatchArray(arr){
 	const target = pool.hosts[index.toString()];
 
 	const childProcess = cp.spawn('ssh', [target.ssh], { stdio: 'inherit' });
+
+	childProcess.on('error', (e)=>{
+		process.stdout.write(e+'');
+
+		process.stderr.write('ssht: A fatal error has occured. Exiting.');
+	});
+	childProcess.on('close', process.exit);
+
 })();
 
 
