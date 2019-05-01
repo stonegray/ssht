@@ -8,7 +8,9 @@ import { sshPlugin } from './discover/ssh';
 import { vboxPlugin } from './discover/vbox';
 import { gcpPlugin } from './discover/gcp';
 import { dockerPlugin } from './discover/docker';
+import { floodPlugin } from './discover/flood';
 import { fooPlugin } from './discover/foo';
+
 import { DSHost } from './shared/interfaces';
 import { DSPEvents,DSPlugin } from './dsPlugin';
 
@@ -16,7 +18,8 @@ import { DSPEvents,DSPlugin } from './dsPlugin';
 const discoveryPlugins = [];
 discoveryPlugins.push(fooPlugin);
 discoveryPlugins.push(gcpPlugin);
-discoveryPlugins.push(vboxPlugin);
+//discoveryPlugins.push(vboxPlugin);
+discoveryPlugins.push(floodPlugin);
 discoveryPlugins.push(sshPlugin);
 discoveryPlugins.push(dockerPlugin);
 
@@ -30,9 +33,13 @@ discoveryPlugins.push(dockerPlugin);
  *
  */
 
+// Cache of hosts:
+const db:Array<DSHost> = [];
+
 
 function addNewHost(host:DSHost){
 	//console.log('Detected new '+host.kind+' host:'+host.name);
+	db.push(host);
 	return true;
 }
 
@@ -58,15 +65,29 @@ discoveryPlugins.forEach(PluginConstructor=>{
 		throw new Error('Plugin emitted error: '+e);
 	});
 
+	// Temporary handler for messages
 	plug.on(DSPEvents.status,s=>{
-		console.log('> '+name+' '+s);
+		//console.log('> '+name+' '+s);
 	});
-
 
 	// Start the plugin:
 	plug.emit(DSPEvents.start);
 });
 
+
+
+export class DSPool {
+	constructor(){
+
+		// Not really doing anything yet. Config?
+
+
+	}
+
+	get hosts(){
+		return db; 
+	}
+}
 
 
 

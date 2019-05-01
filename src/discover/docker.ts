@@ -14,6 +14,9 @@ import { DSHost } from '../shared/interfaces';
 import { DSPEvents,DSPlugin } from '../dsPlugin';
 
 
+let emit;
+let msg;
+
 // Check if the contner port object describes SSH
 function   portHasSSH(net): boolean {
 	// Check data object for a port entry that matches SSH
@@ -44,48 +47,58 @@ function _getHosts(callback: Function, sock: string): void {
 	const docker = new Docker({
 		socketPath: sock
 	});
+	try {	
+		// List
+		docker
+			.container
+			.list()
+			.catch(e=>{})
+			.then(containers => {
+				// get container info
+				if (typeof containers !== 'object') return;
+				if (typeof containers.forEach !== 'function') return;
 
-	// List
-	docker.container
-		.list()
-		.then(containers => {
-		// get container info
-			containers.forEach(container => {
-			// Preserve sanity by shortenign names
-				const d: any = container.data;
-				const ns: any = d.NetworkSettings.Networks;
-				const name: string = d.Names[0];
+				containers.forEach(container => {
+					// Preserve sanity by shortenign names
+					const d: any = container.data;
+					const ns: any = d.NetworkSettings.Networks;
+					const name: string = d.Names[0];
 
-				// If SSH isn't open, ignore the host:
-				if (portHasSSH(d)) {
-				// For each network:
-					Object.keys(ns).forEach(function(item) {
-					//console.log(item); // key
-						if (typeof ns[item].IPAddress == 'string') {
-						// Looks good:
+					// If SSH isn't open, ignore the host:
+					if (portHasSSH(d)) {
+						// For each network:
+						
+						if (typeof Object.keys(ns) == 'undefined') return;
+						Object.keys(ns).forEach(function(item) {
+							//console.log(item); // key
+							if (typeof ns[item].IPAddress == 'string') {
+								// Looks good:
 
-							dshosts.push({
-								name: name.substr(1),
-								fqdn: ns[item].IPAddress,
-								family: 'ipv4',
-								port: 22,
-								ssh: 'root@' + ns[item].IPAddress,
-								kind: 'docker'
-							});
-						}
-					});
-				} else {
-					console.warn(
-						`WARN: ${name} does not use SSH, skipping this Docker container.`
-					);
-				}
+								dshosts.push({
+									name: name.substr(1),
+									fqdn: ns[item].IPAddress,
+									family: 'ipv4',
+									port: 22,
+									ssh: 'root@' + ns[item].IPAddress,
+									kind: 'docker'
+								});
+							}
+						});
+					} else {
+						msg(`${name} does not use SSH, skipping this Docker container.`);
+					}
+				});
+
+				callback(false, dshosts);
+			})
+			.catch(e => {
+				callback(e, undefined);
+				console.log('CATCH');
 			});
-
-			callback(false, dshosts);
-		})
-		.catch(e => {
-			callback(e, undefined);
-		});
+	} catch(e){
+		callback(e, []);
+		console.log('CATCH');
+	}
 }
 
 // Export as async function
@@ -152,8 +165,8 @@ export class dockerPlugin extends DSPlugin {
 
 	// This is the main function of your plugin.
 	_start(debug){
-		const msg = this._msg.bind(this);
-		const emit = this.emit.bind(this);
+		msg = this._msg.bind(this);
+		emit = this.emit.bind(this);
 		// write to UI:
 		msg('Starting Docker plugin');
 
@@ -171,9 +184,6 @@ export class dockerPlugin extends DSPlugin {
 
 			});
 		}, sock);
-		// Generate random hosts to add:
-		setInterval(()=>{
-		},1000);
 	}
 }
 

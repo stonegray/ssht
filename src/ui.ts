@@ -2,10 +2,13 @@
 
 import chalk from 'chalk';
 import * as prompts from 'prompts';
-import { hosts } from './hosts';
 import * as cp		from 'child_process';
+import {  DSPool } from './pool';
 
 const commandPrefix: string = '\\';
+
+// initialize host pool
+const pool = new DSPool();
 
 function genRow(h): string {
 	const w = process.stdout.columns;
@@ -26,9 +29,12 @@ function genRow(h): string {
 		lengthOffset -= 10;
 	}
 
-	const endText = h.kind;
-	const instertAt = (str, sub, pos) =>
-	{return `${str.slice(0, pos)}${sub}${str.slice(pos)}`;};
+	const endText = '' + h.kind;
+	const instertAt = (str, sub, pos) => {
+		return `${str.slice(0, pos)}${sub}${str.slice(pos)}`;
+	};
+
+	// TODO: This is ugly:
 	return instertAt(
 		`${h.name} (${host})`.padEnd(w + w),
 		endText,
@@ -52,32 +58,28 @@ async function getChoices(arr) {
 	return ch;
 }
 
-// runtime commands
-const commands = [];
-commands.push({
-	str: 'foo',
-	run: () => {
-		console.log('ASDFASD');
-	}
-});
+let lastUpdated:number = Date.now();
 
 const suggestByTitle = (input, choices) => {
+
+	let wasUpdated = false;
+
+	// refresh match array:
+	if (typeof choices.length !== 'undefined'){
+		if (pool.hosts.length > choices.length){
+			choices = genMatchArray(pool.hosts);
+			wasUpdated = true;
+		}
+	}
+
 	// Figure out what the multiple searches are:
 	const searches = input.split(' ');
-	const activeCommandModes = [];
-
-	// Check if a command is used; add it to the active list:
-	commands.forEach(c => {
-		if (searches.includes(commandPrefix + c.str)) {
-			c.run();
-		}
-	});
-
 	// Main search filtering function:
 	const search = (i, searches): boolean => {
 		let doesMatch = 0;
 
 		searches.forEach(s => {
+			if (typeof i.title === 'undefined') return;
 			if (i.title.includes(s)) {
 				doesMatch++;
 			}
@@ -95,11 +97,28 @@ const suggestByTitle = (input, choices) => {
 	);
 };
 
+function genMatchArray(arr){
+
+	const output = [];
+	arr.forEach(i=>{
+		output.push({
+			title: genRow(i),
+			value: '' + arr.indexOf(i)
+		});
+	});
+
+	return output;
+}
+
 // main function:
 (async () => {
-	const arr = await hosts();
-	const availableHosts = await getChoices(arr);
+	const arr = [];
 
+
+	const availableHosts = {
+		title: 'Start typing to search hosts. New hosts will appear as they are discovered.',
+		value: -1
+	};
 	// Start autocomplete prompt:
 	const response = await prompts([
 		{
@@ -112,19 +131,25 @@ const suggestByTitle = (input, choices) => {
 	]);
 
 	const index = response.index;
+
 	process.stdout.write(''.padEnd(process.stdout.columns));
 	process.stdout.write('\x1B[2A');
 	process.stdout.write(''.padEnd(process.stdout.columns));
 	console.log();
+
 	if (index == null) {
 		console.log(chalk.red('Unable to locate host'));
 		return;
 	}
+
+	console.error(index, index.toString(), pool.hosts[index.toString()]);
 	// console.log(index, response, arr[index.toString()]);
 
-	const target = arr[index.toString()];
+	const target = pool.hosts[index.toString()];
 
 	const childProcess = cp.spawn('ssh', [target.ssh], { stdio: 'inherit' });
 })();
+
+
 
 //

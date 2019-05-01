@@ -1,4 +1,5 @@
-
+**/.DS_Store
+tmpeslint
 node_modules
 *.swp
 built/*

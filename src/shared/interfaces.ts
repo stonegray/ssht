@@ -1,6 +1,5 @@
 // Shared interface definitions
 
-
 // Typedef of a host, returned by a discovery plugin.
 export interface DSHost {
 	
@@ -10,7 +9,6 @@ export interface DSHost {
 	 * - fqdn
 	 * - ssh command
 	 */
-
 
 	// Unique identifier. This is used or maintinag the host database, and must
 	// be unique. This is to allow updating information about the host.
@@ -33,7 +31,6 @@ export interface DSHost {
 	ssh: string;
 
 	// Status information
-	online?: boolean;
 	ping?: number;
 
 	// Usually your plugin name, eg 'docker'
