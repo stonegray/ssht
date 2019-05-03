@@ -51,21 +51,32 @@ export class floodPlugin extends DSPlugin {
 
 		const genHost = ()=>{
 			count++;
+			const rfqdn = ()=>{
+				const tlds = [
+					'.com','.org','.net','.ca','.foobar','.com.cn'
+				];
+				const i = ~~(Math.random()*tlds.length);
+				const tld = tlds[i];
+				if (tld === 'undefined') return;
+				return tld;
+			};
 			const host:DSHost = {
 				name: randomWords(2).join('-'),
-				fqdn: randomWords(3).join(),
+				username: randomWords(),
+				fqdn: `example${rfqdn()}`,
+				port: ~~(Math.random()*65535),
 				uudd: 'flood',
 				ssh: '',
 				kind: 'flood'
 			};
 			this.emit(DSPEvents.host, host);
 
-			if (count > 1e4) {
+			if (count > 1e3) {
 				msg('done');
 				return;
 			}
 
-			if (count % 45 == 0){
+			if (count % 5 == 0){
 				setTimeout(genHost,0);
 			} else {
 				setImmediate(genHost);
