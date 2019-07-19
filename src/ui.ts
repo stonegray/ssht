@@ -169,7 +169,7 @@ function genMatchArray(arr){
 	}
 	
 	// get the record that the user requested
-	const target = pool.hosts[index];
+	const target = pool.hosts[+index];
 	
 	// Get plugin name for debugging:
 	let p: string = 'Unknown';

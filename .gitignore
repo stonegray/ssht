@@ -1,6 +1,8 @@
 **/.DS_Store
 tmpeslint
 node_modules
-*.swp
+node_modules.nosync
+*.sw*
+yarn-error.log
 built/*
 *.0x
