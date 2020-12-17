@@ -1,30 +1,26 @@
 // ui 
 
-import ansiEscapes from 'ansi-escapes';
+
+import chalk from 'chalk';
 import { EventEmitter } from 'events';
 
-function frame() {
+import keyboard from './keyboard';
+
+setTimeout(process.exit, 1029120);
+
+const ui = new EventEmitter();
 
 
-	let buf = '';
-
-	buf += 'foo';
-
-	process.stdout.write(buf);
-}
-
-const uiEvents = new EventEmitter(); 
-
-uiEvents.on('update', (object)=>{ 
-
-
+keyboard.on('search', search=>{
+	console.log('Running search for', search);
+	ui.emit('search', search);
 });
 
-frame();
 
 
 
 
+export default ui;
 
 
 

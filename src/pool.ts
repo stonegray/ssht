@@ -1,14 +1,19 @@
-// connection handler
+// Device Pool
 //
-//
+// Query plugins to maintain an in-memory database of devices. 
 
 // Import our plugins:
 
 import { sshPlugin } from './discover/ssh';
 //import { vboxPlugin } from './discover/vbox';
 //import { gcpPlugin } from './discover/gcp';
+
+
+import * as Fuse from 'fuse.js';
+
 //import { dockerPlugin } from './discover/docker';
-//import { floodPlugin } from './discover/flood';
+
+import { millionPlugin } from './discover/million';
 import { fooPlugin } from './discover/foo';
 
 import { EventEmitter } from 'events';
@@ -21,9 +26,13 @@ const discoveryPlugins = [];
 discoveryPlugins.push(fooPlugin);
 //discoveryPlugins.push(gcpPlugin);
 //discoveryPlugins.push(vboxPlugin);
-//discoveryPlugins.push(floodPlugin);
+discoveryPlugins.push(millionPlugin);
 discoveryPlugins.push(sshPlugin);
 //discoveryPlugins.push(dockerPlugin);
+
+discoveryPlugins.push(fooPlugin);
+
+
 
 
 
@@ -40,16 +49,12 @@ discoveryPlugins.push(sshPlugin);
 // the database record. 
 const db:Array<DSHost> = [];
 
-
-
-
-
 function addNewHost(host:DSHost){
-	//console.log('Detected new '+host.kind+' host:'+host.name);
+
 	db.push(host);
+
 	return true;
 }
-
 
 // Register discovery plugins; they will immediately start adding data.
 discoveryPlugins.forEach(PluginConstructor=>{
@@ -82,6 +87,23 @@ discoveryPlugins.forEach(PluginConstructor=>{
 	console.log('started '+plug.name);
 });
 
+
+// Update search
+function updateSearch(search: string, callback){
+
+	const options = {
+		keys: ['name','username','fqdn','port','kind'],
+		threshold: 0,
+		tokenize: true,
+	};
+	const fuse = new Fuse(db, options);
+
+	const results = fuse.search(search).slice(0, 128);
+
+	callback(results);
+
+}
+
 export class DSPool extends EventEmitter {
 	constructor(){
 
@@ -98,6 +120,11 @@ export class DSPool extends EventEmitter {
 	// Get a single record out of the array:
 	getRecord(index){
 		return db[index];
+	}
+
+	// execute a search:
+	search(searchString: string, cb){
+		return updateSearch(searchString, cb);
 	}
 
 

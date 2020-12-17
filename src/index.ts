@@ -1,12 +1,9 @@
 // UI2
 
 import { DSPool } from './pool';
-
-import { Readable } from 'stream';
-
+import ui from './ui';
 
 const pool = new DSPool();
-
 
 /* reminder:
  * {
@@ -20,16 +17,11 @@ const pool = new DSPool();
  * }
  */
 
-
-// Apply a filter:
-//
-
-
-function applySearch(search: string){
-
-
-
-}
+ui.on('search',(phrase)=>{
+	const stream = pool.search(phrase, (list)=>{
+		console.log(list);
+	});
+});
 
 
 console.log('ok');

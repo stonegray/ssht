@@ -5,7 +5,9 @@
     "main": "src/index.ts",
     "scripts": {
         "lint": "eslint . --fix",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "nodemon -e ts -w ./src -x npm run watch:serve",
+        "watch:serve": "ts-node src/index.ts"
     },
     "author": "",
     "license": "ISC",
@@ -17,6 +19,7 @@
         "eslint-plugin-prettier": "^3.0.1",
         "eslint-plugin-promise": "^4.1.1",
         "eslint-plugin-security": "^1.4.0",
+        "fuse.js": "3.4.5",
         "node-docker-api": "^1.1.22",
         "prompts": "^2.0.4",
         "random-words": "^1.1.0",
@@ -25,7 +28,7 @@
         "virtualbox": "^1.0.0"
     },
     "devDependencies": {
-        "@types/node": "^11.13.6",
+        "@types/node": "12.6.8",
         "@typescript-eslint/eslint-plugin": "^1.7.0",
         "@typescript-eslint/parser": "^1.7.0",
         "eslint": "^5.16.0",

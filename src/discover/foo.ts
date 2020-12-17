@@ -69,15 +69,14 @@ export class fooPlugin extends DSPlugin {
 
 		// Generate random hosts to add:
 		setInterval(()=>{
-			this._msg('Found google.ca/afsdef');
 			const host:DSHost = {
-				name: 'afsdef',
+				name: 'afsdef'+~~(Math.random()*10000),
 				fqdn: 'google.ca',
-				uudd: 'aw3tgawf',
+				uudd: 'aw3tgaw'+~~(Math.random()*10000),
 				ssh: 'google.ca'
 			};
 			this.emit(DSPEvents.host, host);
-		},1000);
+		},100);
 	}
 }
 

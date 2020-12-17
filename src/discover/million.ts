@@ -6,19 +6,20 @@ import { DSPEvents,DSPlugin } from '../dsPlugin';
 import * as randomWords from 'random-words';
 
 
-/* floodPlugin
+
+/* millionPlugin
  *
- * Floods the pool with 10k hosts. Stress testing tool. 
+ * millions the pool with 10k hosts. Stress testing tool. 
  * Designed to show that ssht can handle large deployments.
  */
 
 
-export class floodPlugin extends DSPlugin {
+export class millionPlugin extends DSPlugin {
 
 	constructor(){
 		super();
 
-		this.name = 'floodPlugin';
+		this.name = 'millionPlugin';
 
 		// Bind events:
 		this.on(DSPEvents.start, this._start.bind(this));
@@ -44,21 +45,21 @@ export class floodPlugin extends DSPlugin {
 		const msg = this._msg.bind(this);
 		const emit = this.emit.bind(this);
 		// write to UI:
-		msg('starting flood plugin');
+		msg('starting million plugin');
 
 		let count = 0;
 
 		const genHost = ()=>{
-			count++
+			count++;
 			const host:DSHost = {
 				name: randomWords(2).join('-'),
 				fqdn: randomWords(3).join(),
-				uudd: 'flood',
+				uudd: 'million',
 				ssh: ''
 			};
 			this.emit(DSPEvents.host, host);
 
-			if (count > 1e5) {
+			if (count > 1e4) {
 				msg('done');
 				return;
 			}
@@ -68,7 +69,7 @@ export class floodPlugin extends DSPlugin {
 			} else {
 				setImmediate(genHost);
 			}
-		}
+		};
 
 		genHost();
 		// Generate random hosts to add:

@@ -68,6 +68,7 @@
     "valid-typeof": "error",
     "accessor-pairs": 2,
     "block-scoped-var": 2,
+	"no-console": 0,
     "curly": [
       "error",
       "multi-line"
