@@ -1,0 +1,38 @@
+{
+    "name": "ssht",
+    "version": "2.0.1",
+    "author": "stonegray",
+    "description": "ssh helper tool",
+    "scripts": {
+        "lint": "node ./node_modules/.bin/eslint .",
+        "start": "node ./src/main.js",
+        "test": "npm run lint && ./node_modules/.bin/mocha --exit \"./test/**/*.test.js\""
+    },
+    "main": "src/main.js",
+    "type": "module",
+    "files": [
+        "*"
+    ],
+    "directories": {
+        "example": "./examples/",
+        "test": "./test/",
+        "bin": "./bin/"
+    },
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "private": true,
+    "devDependencies": {
+        "c8": "^7.3.5",
+        "eslint": "^7.15.0",
+        "eslint-plugin-import": "^2.22.1",
+        "espree": "stonegray/espree#acorn-options",
+        "mocha": "^8.2.1"
+    },
+    "dependencies": {
+        "blessed": "^0.1.81",
+        "node-docker-api": "^1.1.22",
+        "ssh-config": "^4.0.4",
+        "virtualbox": "^1.1.1"
+    }
+}
