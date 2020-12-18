@@ -1,2 +1,1 @@
-
-setTimeout(console.log, 3200, 'barf');
+import frame from './ui/ui.js';
