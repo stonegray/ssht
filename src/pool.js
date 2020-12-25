@@ -1,6 +1,9 @@
 
 import search from './search.js';
 
+import { EventEmitter } from 'events';
+
+import Discover from './discover.js';
 
 /* 
 export interface DSHost {
@@ -45,10 +48,11 @@ export interface DSHost {
     meta?: [string]
 } */
 // Store a giant array of all discovered hosts
-export default class Pool {
-    constructor(){
 
-        // 
+export default class Pool extends EventEmitter {
+    constructor(){
+		super();
+        this.pool = [];
     }
 
 
@@ -56,12 +60,32 @@ export default class Pool {
 
     }
     addHost(host){
-
-        return 'uuid';
+        this.pool.push(host);
     }
     removeHost(host){
 
     }
 
-    
+	search(string) {
+		this.emit('results', []);
+
+		if (string.length == 0) return [];
+
+		const results = [
+			{
+				name: 'Foo',
+				fqdn: 'google.com',
+				port: 32
+			},
+			{
+				name: 'Baro',
+				fqdn: 'example.com',
+				port: 3233
+			}
+		]
+		this.emit('results', results);
+
+	}
+
+
 }

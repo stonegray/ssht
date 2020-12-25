@@ -29,7 +29,7 @@ export default class UserInterface extends EventEmitter {
 
 		this.input.on('text', text =>{
 			this.searchString = text.trim();
-			self.frame();
+			this.screen.writeLine(0, 'SSHT> ' + this.searchString);
 			self.emit('text', text);
 		});
 
@@ -57,10 +57,28 @@ export default class UserInterface extends EventEmitter {
 	}
 
 	// Draw a frame on the screen:
-	frame(){
+	results(arr){
 
-		this.screen.writeLine(0, 
-			'SSHT> ' + this.searchString);
+
+		for (let i = 0; i < arr.length; i++) {
+			const element = arr[i];
+
+			this.screen.writeLine(i + 1, [
+				`${i + 1}. `,
+				element.name,
+				' ',
+				element.fqdn
+
+			].join(''));
+		}
+
+		// Fill blank lines:
+		if (arr.length < this.options.height - 2){
+			for (let i = arr.length; i < this.options.height - 2; i++) {
+				this.screen.writeLine(i + 1, `${i + 1}. ~`);
+			}
+		}
+
 
 
 	}

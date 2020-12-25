@@ -1,6 +1,19 @@
 import UserInterface from './ui/tui.js';
+import Pool from './pool.js';
+import Discover from './discover.js';
 
 const ui = new UserInterface();
+
+const pool = new Pool();
+
+
+ui.on('text', text => {
+    pool.search(text);
+});
+
+pool.on('results', res => {
+    ui.results(res);
+});
 
 
 
