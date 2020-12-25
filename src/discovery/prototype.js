@@ -55,9 +55,31 @@ export interface DSHost {
 }
 */
 
-export default class Discover extends EventEmitter {
+export default class DiscoveryPlugin extends EventEmitter {
     constructor(){
         super();
     }
+
+	addHost(host){
+		return 'uuid';
+	}
+
+	updateHost(update){
+
+	}
+
+
+	error(data){
+
+	}
+	debug(data){
+
+	}
+	status(data){
+
+	}
+	percentage(float){
+
+	}
 }
 

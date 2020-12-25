@@ -3,7 +3,7 @@ import search from './search.js';
 
 import { EventEmitter } from 'events';
 
-import Discover from './discover.js';
+import Discover from './discovery/prototype.js';
 
 /* 
 export interface DSHost {
