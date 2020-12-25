@@ -39,6 +39,7 @@ export default class Screen {
 
     writeLine(position, contents) {
 
+
         this.damage[position] = true;
         this.data[position] = contents;
 

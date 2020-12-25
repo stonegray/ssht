@@ -9,7 +9,7 @@ const mode = {
 }
 
 // Minimal single-line terminal text input field:
-export default class Input extends EventEmitter{
+export default class Input extends EventEmitter {
 	constructor(options){
 		super();
 		
@@ -88,6 +88,7 @@ export default class Input extends EventEmitter{
 	keypress(k, kp){
 
 		// Experimental modality:
+		/*
 		if (this.mode == mode.NORMAL){
 			if (k == 'v'){
 				this.mode = mode.VISUAL;
@@ -99,7 +100,7 @@ export default class Input extends EventEmitter{
 			if (kp.name == 'escape'){
 				this.mode = mode.NORMAL;
 			}
-		}
+		}*/
 
 		// Handle keys used for editing:
 		if (kp.name === 'backspace'){

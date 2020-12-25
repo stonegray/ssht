@@ -35,5 +35,10 @@ export const cursor = {
     hide: () => controlSequence('?25', 'l'),
     show: () => controlSequence('?25', 'h'),
 
+    // Colors:
+
+    bold: bool => bool ? 
+        controlSequence(1, 'm') :
+        controlSequence()
     
 }
