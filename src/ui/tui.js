@@ -29,6 +29,7 @@ export default class UserInterface extends EventEmitter {
 
 		this.input.on('text', text =>{
 			this.uiFields.search = text.trim();
+			this.drawSearchLine();
 			self.emit('text', text);
 		});
 
