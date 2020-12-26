@@ -36,6 +36,8 @@ export default class FooPlugin extends DiscoveryPlugin {
         // Get your hosts:
         this.emit('percentage', 0.99)
         this.emit('host', []);
+
+        this.emit('done');
     }
 
     /* The stop command instructs the plugin to stop searching for hosts.

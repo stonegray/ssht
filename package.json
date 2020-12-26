@@ -30,6 +30,7 @@
         "mocha": "^8.2.1"
     },
     "dependencies": {
+        "fuse.js": "^6.4.3",
         "node-docker-api": "^1.1.22",
         "random-words": "^1.1.1",
         "read-pkg": "^5.2.0",

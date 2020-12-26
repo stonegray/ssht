@@ -1,9 +1,7 @@
 
-import search from './search.js';
-
 import { EventEmitter } from 'events';
 
-import Discover from './discovery/prototype.js';
+import Fuse from 'fuse.js';
 
 /* 
 export interface DSHost {
@@ -53,7 +51,10 @@ export default class Pool extends EventEmitter {
     constructor(){
 		super();
         this.pool = [];
-    }
+
+	
+
+	}
 
 
     updateHost(uuid){
@@ -61,29 +62,43 @@ export default class Pool extends EventEmitter {
     }
     addHost(host){
         this.pool.push(host);
+
+		this.emit('size', this.pool.length)
     }
     removeHost(host){
+
+		this.emit('size', this.pool.length)
 
     }
 
 	search(string) {
+
+
 		this.emit('results', []);
+
+		if (string == "") {
+			this.emit('results', this.pool); 
+		}
 
 		if (string.length == 0) return [];
 
-		const results = [
-			{
-				name: 'Foo',
-				fqdn: 'google.com',
-				port: 32
-			},
-			{
-				name: 'Baro',
-				fqdn: 'example.com',
-				port: 3233
-			}
-		]
-		this.emit('results', results);
+		const options = {
+			keys: ['name','username','fqdn','port','kind'],
+			ignoreLocation: true,
+			includeMatches: true,
+			isCaseSensitive: false,
+			tokenize: true,
+		};
+		const fuse = new Fuse(this.pool, options);
+	
+		const results = fuse.search(string);
+
+		if (typeof results == 'undefined') return;
+
+		
+		this.emit('resultSize', results.length);
+
+		this.emit('results', results.map(i => i.item));
 
 	}
 

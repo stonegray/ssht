@@ -1,7 +1,7 @@
 import Screen from './screen.js';
 import Input from './input.js';
 
-import getTip from './tips.js';
+import { theme } from './theme.js';
 
 import { EventEmitter } from 'events';
 
@@ -28,8 +28,7 @@ export default class UserInterface extends EventEmitter {
 		this.searchString = '';
 
 		this.input.on('text', text =>{
-			this.searchString = text.trim();
-			this.screen.writeLine(0, 'SSHT> ' + this.searchString);
+			this.uiFields.search = text.trim();
 			self.emit('text', text);
 		});
 
@@ -40,36 +39,61 @@ export default class UserInterface extends EventEmitter {
 			process.stdout.write(bell);
 		})
 
+		//
+		this.uiFields = {
+			inputMode: 'INSERT',
+			poolSize: 0,
+			resultSize: 0,
+			search: '',
+			visualBell: false,
+		}
+
 		this._drawEmptyFrame();
 	}
 
 	_drawEmptyFrame(){
-		this.screen.writeLine(0, 'SSHT>  Begin typing to search.');
 
-		this.screen.writeLine(1, '1. ');
-		this.screen.writeLine(3, '3.        Tip:'); 
-		this.screen.writeLine(4, '4.        ' + getTip()); 
-		this.screen.writeLine(2, '2. ');
-		this.screen.writeLine(5, '5. ')
-		this.screen.writeLine(6, '6. ');
+		const lines = theme.splash();
 
-		this.screen.writeLine(7, ' --- ready ---')
+		lines.splice(0, this.screen.height);
+
+		lines.forEach(line =>{
+
+			this.screen.writeLine(lines.indexOf(line), line);
+		})
+	}
+
+	updateUIField(field, data){
+
+		// Error prone, fixme:
+		this.uiFields[field] = data;
+
+		this.drawStatusLine();
+	}
+
+	drawStatusLine(){
+
+		let string = theme.statusLine(this.uiFields);
+
+		this.screen.writeLine(7,string);
+	}
+
+	drawSearchLine(){
+		let string = theme.searchLine(this.uiFields);
+
+		this.screen.writeLine(0,string);
+
 	}
 
 	// Draw a frame on the screen:
 	results(arr){
 
-
 		for (let i = 0; i < arr.length; i++) {
 			const element = arr[i];
 
-			this.screen.writeLine(i + 1, [
-				`${i + 1}. `,
-				element.name,
-				' ',
-				element.fqdn
+			const str = theme.resultLine(i, element, this.uiFields);
 
-			].join(''));
+			this.screen.writeLine(i + 1, str);
 		}
 
 		// Fill blank lines:
@@ -78,7 +102,6 @@ export default class UserInterface extends EventEmitter {
 				this.screen.writeLine(i + 1, `${i + 1}. ~`);
 			}
 		}
-
 
 
 	}

@@ -88,20 +88,6 @@ export async function startPlugins(pluginNames){
 }
 
 
-const p = await startPlugins([
-    //'../builtins/foo.js',
-    //'../builtins/ssh.js',
-    '../builtins/fake.js',
-]);
-
-
-p.forEach(plugin => {
-    console.log(plugin)
-    plugin.on('host', console.log);
-
-    plugin.start();
-})
-
 
 
 const Discover = 32;

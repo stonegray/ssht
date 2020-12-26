@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-export default import('../src/discovery/pluginLoader.js');
+export default import('../src/main.js');

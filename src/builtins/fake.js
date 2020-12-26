@@ -16,6 +16,8 @@ be emitted by a DiscoveryPlugin, any others are invalid:
  - percentage   Optional floating point indicator of progress.
  - debug        Non-fatal errors and warnings that should be logged to disk
  - error        Fatal errors that should be shown to the user.         
+ - done         Emit this exactly one time when your plugin is finished
+                running and no more hosts will be emitted.
 
 */
 
@@ -34,13 +36,14 @@ export default class FakePlugin extends DiscoveryPlugin {
 
         this.emit('status', "Inserting fake hosts...")
 
-        const count = 10;
-        const delay = 100;
+        const count = 4000;
+        const delay = 0.1;
 
         // Make an empty array of size n
         const output = [...new Array(count)].map(()=>({
             name: randomWords(2).join('-'),
             fqdn: randomWords(3).join(),
+            username: randomWords(1).join(''),
             port: 22,
             uuid: 'million',
             ssh: ''
@@ -50,7 +53,10 @@ export default class FakePlugin extends DiscoveryPlugin {
         let timer = setInterval(()=>{
 
             // If there's nothing more to do, cancel the iterator:
-            if (output.length == 0) return clearInterval(timer);
+            if (output.length == 0) {
+                clearInterval(timer);
+                this.emit('done');
+            }
 
             // Otherwise pop a fake host and send it:
             this.emit('host', output.pop());
