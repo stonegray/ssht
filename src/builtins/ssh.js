@@ -1,6 +1,7 @@
 import readPkg from 'read-pkg';
 import DiscoveryPlugin from '../discovery/prototype.js'
 
+import getHosts from './ssh/getHosts.js';
 
 
 /* This template implements a DiscoveryPlugin as used by ssht. DiscoveryPlugins
@@ -32,13 +33,22 @@ export default class SSHPlugin extends DiscoveryPlugin {
     start(){
 
         this.emit('status', "Starting up...")
-        this.emit('percentage', 0.10)
+        this.emit('percentage', 0.0)
 
-        // Get your hosts:
-        this.emit('percentage', 0.99)
-        this.emit('host', []);
+        ;(async ()=>{
 
-        this.emit('done');
+            const hosts = await getHosts();
+
+            // Ideally we'd emit them as we get them instead of caching
+            // them all, but this seems to work well enough.
+            for (const h of hosts){
+                this.emit('host', h);
+            }
+
+            this.emit('percentage', 1.00);
+            this.emit('done');
+
+        })();
     }
 
     /* The stop command instructs the plugin to stop searching for hosts.

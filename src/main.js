@@ -8,8 +8,8 @@ const pool = new Pool();
 
 const p = await startPlugins([
     //'../builtins/foo.js',
-    //'../builtins/ssh.js',
-    '../builtins/fake.js',
+    '../builtins/ssh.js',
+    //'../builtins/fake.js',
 ]);
 
 

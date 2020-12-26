@@ -23,7 +23,7 @@ function resultLine(index, host, uiFields){
 
     debugger;
 
-    if (typeof host.username == 'string') {
+    if (typeof host.user == 'string') {
         string += `${host.user}@`;
     }
 
