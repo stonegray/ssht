@@ -2,6 +2,7 @@ import readPkg from 'read-pkg';
 import DiscoveryPlugin from '../discovery/prototype.js'
 
 
+
 /* This template implements a DiscoveryPlugin as used by ssht. DiscoveryPlugins
 asynchronously retrieve information from a variety of sources, such as scanning
 the local machine for running virtual machines.
@@ -14,6 +15,7 @@ be emitted by a DiscoveryPlugin, any others are invalid:
  - percentage   Optional floating point indicator of progress.
  - debug        Non-fatal errors and warnings that should be logged to disk
  - error        Fatal errors that should be shown to the user.         
+ - done         
 
 */
 
@@ -22,7 +24,7 @@ export default class SSHPlugin extends DiscoveryPlugin {
         super();
 
         this.name = "SSH";
-        this.description = "Reads local ssh_config files"
+        this.description = "Reads local ~/.ssh/config files"
     }
 
     /* The start command instructs the plugin to begin searching for hosts
