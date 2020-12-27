@@ -1,6 +1,6 @@
 # `src`
 
-`./builtins/` Contains the builtin discovery plugins, such as SSH, Docker, etc.
+`./plugins/` Contains the builtin discovery plugins, such as SSH, Docker, etc.
 
 `./core` Contains internal code for error handling, logging, startup, argument parsing, config file read/write, etc.
 

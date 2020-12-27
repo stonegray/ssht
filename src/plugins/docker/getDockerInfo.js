@@ -32,7 +32,7 @@ var docker6 = new Docker({
 */
 
 // async wrapper for Dockerode:
-export default async function getContainers(options) {
+export async function getContainers(options) {
 
     return new Promise((resolve)=> {
 
@@ -48,3 +48,36 @@ export default async function getContainers(options) {
     });
 }
 
+// async wrapper for Dockerode:
+export async function getNetworks(options) {
+
+  return new Promise((resolve)=> {
+
+      const docker = new Docker(options);
+  
+      docker.listNetworks(function (err, networks) {
+          resolve({
+              err: err,
+              networks: networks
+          })
+      });
+
+  });
+}
+
+// async wrapper for Dockerode:
+export async function getInfo(options) {
+
+  return new Promise((resolve)=> {
+
+      const docker = new Docker(options);
+  
+      docker.info(function (err, info) {
+          resolve({
+              err: err,
+              info: info
+          })
+      });
+
+  });
+}
