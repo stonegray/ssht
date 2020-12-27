@@ -150,7 +150,7 @@ definitions.push({
     type: 'integer', // can be bool or string
     alias: '-t',
     argument: '--threads',
-    description: "Number of threads to use. Defaults to the number of available CPUs. (currently "+os.cpus().length+") Set to 0 to disable all concurrency.",
+    description: "Number of search threads to use. Defaults to the number of    available CPUs. (currently "+os.cpus().length+") Set to 0 to disable all         concurrency and run the search from the main thread",
     hidden: false,
     conflicts: [],
     group: 'Advanced',
