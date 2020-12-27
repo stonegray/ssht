@@ -1,20 +1,22 @@
 import { EventEmitter } from 'events';
 import os from 'os';
-import { spawn, Thread, Worker } from "threads"
+import options from '../core/options.js'
+import { spawn, Worker } from "threads"
 
 export default class Searcher extends EventEmitter {
     constructor() {
         super();
 
-        this.searchJob = null;
-
         this.workers = [];
 
         // The modulo of the hostCount is used to evenly distrobute hosts
         // across workers in the pool:
-        this.numWorkers = 16;//os.cpus().length;
         this.hostCount = 0;
 
+
+        // Unless specified, we default to using the same number of threads
+        // as there are CPUs.
+        this.numWorkers = options.threads || os.cpus().length;
 
         // Cache searches and hosts until the engine is initialized:
         this.hostCache = [];
@@ -24,20 +26,22 @@ export default class Searcher extends EventEmitter {
         // finish whenever.
         this.initialize();
 
+        // Set when workers are running, until this is true all incoming quereis
+        // and hosts will be cached.
         this.ready = false;
     }
 
-
-    async initialize(initialize){
-        console.log('starting...')
+    // We need to wait for some async stuff to happen during startup,
+    // so we can't do it in the constructor.
+    async initialize(){
 
         for (let i = 0; i < this.numWorkers; i++) {
 
-            this.workers.push(await spawn(new Worker("./worker.js")))
-            
-        }
+            // Create a new worker
+            const w = await spawn(new Worker("./worker.js"));
 
-        console.log('running x', this.workers.length)
+            this.workers.push(w);
+        }
 
         this.ready = true;
 
@@ -55,7 +59,6 @@ export default class Searcher extends EventEmitter {
             this.hostCache.push(host);
             return;
         }
-
 
         // Pick a worker:
         const target = this.hostCount % this.numWorkers;

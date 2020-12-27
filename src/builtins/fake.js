@@ -73,7 +73,7 @@ export default class FakePlugin extends DiscoveryPlugin {
 
         this.emit('status', "Inserting fake hosts...")
 
-        const count = 10000;
+        const count = 100;
         const delay = 0.0;
 
         // Make an empty array of size n

@@ -2,12 +2,17 @@
 import { expose } from "threads/worker"
 import Fuse from 'fuse.js';
 
-const cache = [];
-
-debugger;
+let cache = [];
 
 // Add a host to the local cache
 function addHost(host){
+
+  // Support ingesting arrays instead of individual hosts:
+  if (Array.isArray(host)){
+    cache = cache.concat(host);
+    return;
+  } 
+
   cache.push(host);
 }
 
@@ -31,8 +36,16 @@ function query(string){
   return [...results];
 }
 
+function info(){
+
+  return {
+    cacheSize: cache.length
+  }
+
+}
 
 expose({
   addHost: addHost,
-  query: query
+  query: query,
+  info: info
 })
