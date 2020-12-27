@@ -51,9 +51,6 @@ export default class Pool extends EventEmitter {
     constructor(){
 		super();
         this.pool = [];
-
-	
-
 	}
 
 

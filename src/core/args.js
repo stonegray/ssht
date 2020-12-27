@@ -5,10 +5,12 @@ import definitions from './definitions.js';
 /* In hindsight, it might make sense to implement our own argument parser,
 as yargs doesn't do a great job of playing nice with everything else. 
 
-We're using a few weird hacks here, so beware. */
+We're using a few weird hacks here, so beware. Notably we're abusing top-level
+await to stop the entire process until the yargs callback returns */
 
-// take an array of defintions, return an object with key-value pairs 
-
+/* Yargs expects a chain of .option().option().option() to configure it,
+so we're using a quick helper function that returns a .option()'d copy
+and iterating through our definitions array instead */
 function createYargsObject(definitions) {
 
     // Create the initial object, then we have to add .options:
@@ -22,9 +24,11 @@ function createYargsObject(definitions) {
         const opt = definition;
 
         const a = opt.argument.substring(2);
-        console.log(opt.argument, a);
+        //console.log(opt.argument, a);
         return yarg.option(a, {
-            alias: opt.alias,
+
+            // es2020 optional chaining opr:
+            alias: opt.alias?.substring(1),
             description: opt.description,
             type: opt.type,
             hidden: opt.hidden,
@@ -84,14 +88,34 @@ const a = await new Promise(resolve => {
         if (output.length > 0) {
             console.log(' ')
             console.log(' ')
-            console.log('                              ssht v. 2.0.0')
+                      //--------------------------------------------------------------------------------
+            console.log('                                ssht v2.0.0')
             console.log(' ')
+            //console.log('                      https://github.com/stonegray/ssht');
+            //console.log(' ')
+            console.log('_______________________________________________________________________________')
             process.stdout.write(output);
             process.stdout.write('\n');
         }
 
+
+        // There doesn't appear to be any good way to see if yargs has printed
+        // the help message to the terminal, which we need to catch before we
+        // start drawing the UI.
+
+        // As a temporary fix, I'm going to just exit if yargs produces any
+        // output.
+
+        // TODO: Find better solution
+        if (output.length > 0){
+            process.exit();
+        }
+
         const out = remapOutputArray(y.parsed.argv);
-        resolve(Object.freeze(out));
+        resolve(Object.freeze({
+            argv: y.parsed.argv._,
+            ...out
+        }));
     });
 });
 

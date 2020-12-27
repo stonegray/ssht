@@ -1,13 +1,17 @@
 import definitions from './definitions.js';
 
-// If the minimal argument is set, it outputs only required parameters.
-// By default, any option with a 'default' parameter is 
+// We need to build an empty objects array from the definition file
+// on startup, as well as when we're rebuilding the config file.
 
 export default function buildEmptyOptions() {
 
     // Create empty object structure:
     const o = {
+
+        // Future use, if we introduce any breaking changes into our config
+        // file we can increment the _configVersion and reject older versions
         _configVersion: 2
+
     };
 
     for (const def of definitions) {

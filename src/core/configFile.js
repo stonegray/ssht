@@ -5,11 +5,9 @@ import { resolveTilde } from '../util/fileHelpers.js';
 import readJSONSync from '../util/readJSONSync.js';
 import buildEmptyOptions from './buildEmptyOptions.js'
 
-const optionsFile = "options.json"
+const optionsFile = "built/options.json"
 
 function initializeOptionsFile() {
-
-    console.log("rebuilding...");
 
     const opts = buildEmptyOptions();
 
@@ -26,7 +24,6 @@ function initializeOptionsFile() {
     fs.writeFileSync(filePath, str, {
         encoding: 'utf-8'
     })
-    console.log('Rebuilt options file ', filePath)
 
 }
 
@@ -47,14 +44,13 @@ export function getOptions() {
         options = readJSONSync(resolved);
     }
 
-
     // If we still can't write, just use default options
     // and warn the user.
     if (options == null){
-        console.error('Failed to write options.json');
+        // TODO: Error handling
+        console.error('ERROR: Failed to write options.json');
         return buildEmptyOptions();
     }
-
 
     return options;
 

@@ -4,6 +4,43 @@ import randomWords from 'random-words';
 import DiscoveryPlugin from '../discovery/prototype.js'
 
 
+// Quick helper for getting random elements out of arrays
+const random = (arr)=>{
+    return arr[Math.floor((Math.random() * arr.length))];
+}
+
+function randomFQDN() {
+    
+    let str = '';
+
+    // Should we have a subdomain?
+    if (Math.random() > 0.5) {
+        str += randomWords(1);
+        str += '.';
+    }
+    str += randomWords(2).join('-');
+    // Add a TLD:
+    const tlds = ['com', 'net', 'org', 'ca', 'co.uk', 'io', 'foobar'];
+
+    str += '.' + random(tlds);
+
+    return str;
+}
+
+function randomUsername(){
+
+    const usernames = [
+        ...randomWords(2),
+        'admin',
+        'ec2-user',
+        'root',
+        'guest',
+        'ubuntu',
+    ]
+
+    return random(usernames);
+}
+
 /* This template implements a DiscoveryPlugin as used by ssht. DiscoveryPlugins
 asynchronously retrieve information from a variety of sources, such as scanning
 the local machine for running virtual machines.
@@ -36,19 +73,24 @@ export default class FakePlugin extends DiscoveryPlugin {
 
         this.emit('status', "Inserting fake hosts...")
 
-        const count = 4000;
+        const count = 4e2;
         const delay = 0.1;
 
         // Make an empty array of size n
-        const output = [...new Array(count)].map(()=>({
-            name: randomWords(2).join('-'),
-            fqdn: randomWords(3).join(),
-            username: randomWords(1).join(''),
-            port: 22,
-            uuid: 'million',
-            ssh: ''
-        }));
-      
+        const output = [...new Array(count)].map(()=>{
+            const name = randomFQDN(); 
+
+            return {
+                name: name,
+                fqdn: name, 
+                username: randomUsername(),
+                port: random([22, 2022, 1234, 29322, 42011, 2222]),
+                family: random([undefined, 4, 6]),
+                uuid: 'fake',
+                ssh: ''
+            }
+        });
+
         // Slowly emit them:
         let timer = setInterval(()=>{
 
