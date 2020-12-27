@@ -27,9 +27,9 @@ if (!options.headless){
 
 
 const p = await startPlugins([
-    //'../builtins/foo.js',
-    //'../builtins/ssh.js',
-    '../builtins/fake.js',
+    //'../plugins/foo.js',
+    //'../plugins/ssh.js',
+    '../plugins/fake.js',
 ]);
 
 p.forEach(plugin => {
