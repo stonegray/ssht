@@ -18,6 +18,7 @@ function createYargsObject(definitions) {
 
     // Quick helper function:
     function appendOption(yarg, definition) {
+
         const opt = definition;
 
         const a = opt.argument.substring(2);
@@ -47,17 +48,38 @@ function createYargsObject(definitions) {
 // we need to reassemble what yargs gives us back into a usable object:
 function remapOutputArray(args){
 
-    return args;
+    const out = {};
+
+    // For each definition, check if it exists in the args output.
+    // If it does, fix the name and push into the output object.
+    for (const def of definitions){
+
+        const argsName = def.argument.substring(2);
+
+        if (typeof args[argsName] !== 'undefined'){
+            out[def.name] = args[argsName];
+        }
+    }
+
+    return out;
 }
 
 
 const a = await new Promise(resolve => {
 
     const y = createYargsObject(definitions);
-    
+
     y.parse(process.argv.slice(2), (a, b, output) => {
-        // Remove types (e.g. [string], [boolean]) from the output
+
+        // Remove garbage from the output
+
+        // Issue:
+        // https://github.com/yargs/yargs/issues/1145
+        // Workaround:
+        // https://github.com/yargs/yargs/issues/319
+
         output = output.replace(/\[\w+\]/g, '');
+
         // Show the modified output
         if (output.length > 0) {
             console.log(' ')
@@ -69,7 +91,6 @@ const a = await new Promise(resolve => {
         }
 
         const out = remapOutputArray(y.parsed.argv);
-
         resolve(Object.freeze(out));
     });
 });

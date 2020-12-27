@@ -3,24 +3,9 @@ import path from 'path';
 
 import { resolveTilde } from '../util/fileHelpers.js';
 import readJSONSync from '../util/readJSONSync.js';
-import definitions from './definitions.js'
+import buildEmptyOptions from './buildEmptyOptions.js'
 
 const optionsFile = "options.json"
-
-export function buildEmptyOptions() {
-
-    const o = {
-        _configVersion: 2
-    };
-
-    for (const def of definitions) {
-        if (def.allowEmpty == false) {
-            o[def.fileField] = def.default;
-        }
-    }
-
-    return o;
-}
 
 function initializeOptionsFile() {
 
@@ -46,7 +31,7 @@ function initializeOptionsFile() {
 }
 
 
-export default function getOptions() {
+export function getOptions() {
 
     const resolved = resolveTilde(optionsFile);
 
@@ -62,6 +47,7 @@ export default function getOptions() {
         options = readJSONSync(resolved);
     }
 
+
     // If we still can't write, just use default options
     // and warn the user.
     if (options == null){
@@ -74,3 +60,6 @@ export default function getOptions() {
 
 }
 
+const configOptions = getOptions();
+
+export default configOptions;

@@ -1,22 +1,17 @@
-import args from './args.js';
-import getOptions, { buildEmptyOptions } from './configFile.js';
-import definitions from './definitions.js';
+import argOptions from './args.js';
+import buildEmptyOptions from './buildEmptyOptions.js';
+import configOptions from './configFile.js';
 
 
-const options = buildEmptyOptions();
-
-for (const def of definitions){
-
-    const argName = def.argument.substring(2);
-
-    // get CLI options:
-    if (args[argName] !== undefined){
-        options[def.name] = args[argName];
-    }
-
-
+// This specifies the 
+const options = {
+    ...buildEmptyOptions(),
+    ...configOptions,
+    ...argOptions
 }
 
+export default options;
 
+console.log(buildEmptyOptions(), configOptions, argOptions);
 
 console.log(options);
