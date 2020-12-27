@@ -21,7 +21,6 @@ function resultLine(index, host, uiFields){
 
     string += `${index + 1}. `;
 
-    debugger;
 
     if (typeof host.user == 'string') {
         string += `${host.user}@`;

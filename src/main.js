@@ -3,7 +3,7 @@ import options from './core/options.js'
 import Pool from './pool.js';
 import { startPlugins } from './discovery/pluginLoader.js';
 
-console.log('Go!');
+console.log(options, process.pid);
 
 // Instantiate host pool:
 const pool = new Pool();
@@ -27,8 +27,8 @@ if (!options.headless){
 
 
 const p = await startPlugins([
-    '../builtins/foo.js',
-    '../builtins/ssh.js',
+    //'../builtins/foo.js',
+    //'../builtins/ssh.js',
     '../builtins/fake.js',
 ]);
 
@@ -46,6 +46,7 @@ p.forEach(plugin => {
     },100);
 })
 
+pool.search('asdf');
 
 
 

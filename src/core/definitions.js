@@ -1,3 +1,5 @@
+import os from 'os';
+
 const definitions = []
 
 /*
@@ -136,6 +138,19 @@ definitions.push({
     alias: '-H',
     argument: '--headless',
     description: "Run in headless mode for programmatic use",
+    hidden: false,
+    conflicts: [],
+    group: 'Advanced',
+    validator: () => true
+});
+
+definitions.push({
+    name: 'threads',
+    default: false,
+    type: 'integer', // can be bool or string
+    alias: '-t',
+    argument: '--threads',
+    description: "Number of threads to use. Defaults to the number of available CPUs. (currently "+os.cpus().length+") Set to 0 to disable all concurrency.",
     hidden: false,
     conflicts: [],
     group: 'Advanced',

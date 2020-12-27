@@ -2,6 +2,7 @@
 import { EventEmitter } from 'events';
 
 import Fuse from 'fuse.js';
+import Searcher from './search/search.js';
 
 /* 
 export interface DSHost {
@@ -51,6 +52,8 @@ export default class Pool extends EventEmitter {
     constructor(){
 		super();
         this.pool = [];
+
+		this.engine = new Searcher();
 	}
 
 
@@ -60,6 +63,9 @@ export default class Pool extends EventEmitter {
     addHost(host){
         this.pool.push(host);
 
+		// Send it to it's worker:
+		this.engine.addHost(host);
+
 		this.emit('size', this.pool.length)
     }
     removeHost(host){
@@ -68,7 +74,7 @@ export default class Pool extends EventEmitter {
 
     }
 
-	search(string) {
+	async search(string) {
 
 
 		this.emit('results', []);
@@ -79,6 +85,14 @@ export default class Pool extends EventEmitter {
 
 		if (string.length == 0) return [];
 
+		const result = await this.engine.query(string);
+
+		//console.log('RESULT', result)
+
+		this.emit('results', result);
+		this.emit('resultSize', result.length);
+
+		/*
 		const options = {
 			keys: ['name','username','fqdn','port','kind'],
 			ignoreLocation: true,
@@ -92,10 +106,10 @@ export default class Pool extends EventEmitter {
 
 		if (typeof results == 'undefined') return;
 
+		*/
 		
-		this.emit('resultSize', results.length);
 
-		this.emit('results', results.map(i => i.item));
+		//this.emit('results', results.map(i => i.item));
 
 	}
 
