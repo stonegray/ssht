@@ -6,6 +6,8 @@
 
 `./discovery` Files related to the discovery plugin loader and the discovery plugin prototype.
 
+`./search` Files related to the search engine, including the workers and threading stuff
+
 `./ui` Files related to the user interface
 
 `./util` Miscellaneous helper functions
