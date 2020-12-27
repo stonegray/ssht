@@ -7,6 +7,7 @@ import os from 'os';
  * This helper function splits the path, fixes a broken root, 
  * checks that it can be reasseembled, and throws an error if it can't. 
  */
+// FIXME: The rebuild fails on paths that begin with "./" 
 export function safePathSplit(string){
 
     if (typeof string !== 'string'){
