@@ -3,6 +3,8 @@ import net from 'net';
 
 import readPkg from 'read-pkg';
 
+import options from '../core/options.js';
+
 import { asyncSleep, hrtimeToMs } from '../util/time.js';
 
 // Get package info for building clientIdentifier
@@ -11,7 +13,13 @@ const pkg = await readPkg();
 // We should use something human readable for a comment, since sysadmins might
 // be curious why there's a host opening and not completing a handshake if
 // they are looking at logs.
-const sshComment = "SSHT PREFLIGHT HOST CHECKER HTTPS://GITHUB.COM/STONEGRAY/SSHT";
+let sshComment = options.fastSSHComment
+    || "ssht preflight host checker https://github.com/stonegray/ssht";
+
+// An option is provided to disable courtesy messages like this:
+if (options.impolite){
+    sshComment == ''
+}
 
 // ClientIdentifier docs:
 // RFC 4253 4.2
@@ -19,7 +27,7 @@ const sshComment = "SSHT PREFLIGHT HOST CHECKER HTTPS://GITHUB.COM/STONEGRAY/SSH
 const clientIdentifier = `SSH-2.0-${pkg.name}_${pkg.version} ${sshComment}\r\n`
 
 // TODO: Move these into an options file:
-const maxConnections = 1;
+const maxConnections = options.maxTCPConnections || 64;
 const tcpTimeout = 512;
 const maxQueueSlowdown = 1000;
 

@@ -1,6 +1,6 @@
 
 import ICMPPEcho from "./icmpEcho.js"
-
+import options from '../core/options.js';
 
 const hosts = [
     '1.1.1.1',
@@ -11,7 +11,7 @@ const hosts = [
 const pinger = new ICMPPEcho();
 
 async function ping(host){
-    return new Promise(res =>{
+    return new Promise(resolve =>{
         pinger.queueICMPEcho({
             fqdn: host
         }, resolve);
@@ -20,19 +20,23 @@ async function ping(host){
 
 export default async function checkInternet(){
 
+    // If the connectivity check is disabled, assume we're online:
+    if (options.noOnlineCheck){
+        return true;
+    }
+
     let online = 0;
     
-    let avgTime = null;
-
     for (const host of hosts){
         let p = await ping(host);
 
-        if (avgTime == null) {
-            ;
-        }
+        if (p.alive) online++;
     }
 
-
-
+    // Return true of more than half of the hosts are OK.
+    return (online > (0.5*hosts.length));
 
 }
+
+
+console.log(await checkInternet())

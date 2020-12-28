@@ -1,6 +1,9 @@
 import os from 'os';
 
-const definitions = []
+import networkOptions from './options/network.js';
+
+let definitions = []
+
 
 /*
 
@@ -156,5 +159,30 @@ definitions.push({
     group: 'Advanced',
     validator: () => true
 });
+definitions.push({
+    name: 'noConcurrency',
+    default: false,
+    type: 'boolean', // can be bool or string
+    argument: '--no-conc',
+    description: "Disable concurrency globally.",
+    hidden: false,
+    conflicts: [],
+    group: 'Advanced',
+    validator: () => true
+});
+definitions.push({
+    name: 'loggingZone',
+    default: false,
+    type: 'array', // can be bool or string
+    alias: '-z',
+    argument: '--zone',
+    description: "Enable debug logging for a given pattern. See documentation   for usage of this option",
+    hidden: false,
+    conflicts: [],
+    group: 'Advanced',
+    validator: () => true
+});
+
+definitions = definitions.concat(networkOptions);
 
 export default definitions;

@@ -1,12 +1,12 @@
 
 import raw from 'raw-socket';
-
+import options from '../core/options.js'
 import resolve4 from './dns.js';
 
 import { hrtimeToMs } from '../util/time.js'
 import { createHeader, parseResponse } from './icmpHelpers.js';
 
-const pingTimeout = 2000;
+const pingTimeout = options.icmpTimeout || 2000;
 
 const maxConnections = 32;
 
@@ -131,16 +131,15 @@ export default class ICMPPEcho {
 
         })
 
-        // Note that the .err property can be set by the response or by the
-        // parser.
-
-        console.log(response)
+        const out = parseResponse(response.buffer);
 
         callback({
-            ...parseResponse(response.buffer),
+            alive: false,
             error: response.error || null,
-            elapsed: response.elapsed,
-            ip: ip
+            ping: response.elapsed,
+            host: host,
+            ip: ip,
+            ...out // sets .alive, adds type/code
         });
     }
 

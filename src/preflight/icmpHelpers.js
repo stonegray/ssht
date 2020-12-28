@@ -71,14 +71,14 @@ export function parseResponse(buffer){
 
 
     // If the type is 0/"echo reply", then we should be good:
-    if (type === 0){
+    const alive = type === 0;
 
-    } else {
-        
-    }
+
+    // We should really parse the types, but for now let's just check if th
+    // e host is alive.
 
     return {
-        alive
+        alive: alive,
         type: type,
         code: code
     }
