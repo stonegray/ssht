@@ -57,13 +57,30 @@ export function createHeader() {
 
 export function parseResponse(buffer){
 
-   // TODO: Should we verify the checksum?
-   const type = buffer.readUInt8(20);
-   const code = buffer.readUInt8(21);
+    if (buffer === null) return {}
 
-   return {
-       type: type,
-       code: code
-   }
+    // TODO: Should we verify the checksum?
+    let type, code;
+    try {
+        type = buffer.readUInt8(20);
+        code = buffer.readUInt8(21);
+    } catch (e){
+        console.error("WARN: Internal error, unexpected buffer contents in parseResponse");
+        return {};
+    }
+
+
+    // If the type is 0/"echo reply", then we should be good:
+    if (type === 0){
+
+    } else {
+        
+    }
+
+    return {
+        alive
+        type: type,
+        code: code
+    }
 
 }

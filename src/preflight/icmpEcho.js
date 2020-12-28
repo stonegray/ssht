@@ -82,7 +82,6 @@ export default class ICMPPEcho {
             let elapsed = 0;
 
             socket.send(header, 0, header.length, ip, (error, source) => {
-                console.log('START', error, source, ip, header);
                 if (error) {
                     resolve({
                         buffer: null,
@@ -104,7 +103,8 @@ export default class ICMPPEcho {
             });
 
             socket.on('message', (buffer, source) => {
-                console.log('MSG', buffer, source)
+                
+                // Discard anything we're not specifically looking for:
                 if (source !== ip) return;
                 clearTimeout(timeout);
 
@@ -121,7 +121,6 @@ export default class ICMPPEcho {
             });
 
             socket.on('error', err => {
-                console.log('MSG', err);
                 clearTimeout(timeout);
                 resolve({
                     buffer: null,

@@ -1,4 +1,9 @@
 node_modules
+built
+.vscode
+examples
+resources
+docs
 .DS_Store
 coverage
 logs

@@ -11,7 +11,7 @@ const pkg = await readPkg();
 // We should use something human readable for a comment, since sysadmins might
 // be curious why there's a host opening and not completing a handshake if
 // they are looking at logs.
-const sshComment = "SSHT PREFLIGHT HOSTVd CHECKER HTTPS://GITHUB.COM/STONEGRAY/SSHT";
+const sshComment = "SSHT PREFLIGHT HOST CHECKER HTTPS://GITHUB.COM/STONEGRAY/SSHT";
 
 // ClientIdentifier docs:
 // RFC 4253 4.2

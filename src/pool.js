@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 
 import Fuse from 'fuse.js';
 import Searcher from './search/search.js';
-
+import HostChecker from './preflight/hostChecker.js'
 /* 
 export interface DSHost {
 	

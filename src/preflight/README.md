@@ -27,6 +27,7 @@ checker:
         port; note that a host can still pass if FastSSH is unable to connect
         at all, this will only force a failure if FastSSH can confirm the
         host is not compatible with the SSH protocol. 
+    - The FQDN provided cannot be resolved to an IP address
     - The host does not reply to ICMP and UDP pings.
 
 These states implement a finites state machine, with the following flow. Any

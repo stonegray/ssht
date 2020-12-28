@@ -1,7 +1,6 @@
 import readPkg from 'read-pkg';
 import DiscoveryPlugin from '../discovery/prototype.js'
 
-import getContainers from './docker/getDockerInfo.js';
 
 
 /* This template implements a DiscoveryPlugin as used by ssht. DiscoveryPlugins
