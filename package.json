@@ -1,7 +1,11 @@
 {
     "name": "ssht",
     "version": "2.0.1",
-    "author": "stonegray",
+    "author": {
+        "name": "stonegray",
+        "url" : "https://stonegray.ca",
+        "email": "d986ec0c-1ff2-44cc-a9ec-a0719d59cd21@f41b8adf243cac52dc.anonaddy.com"
+    },
     "description": "ssh helper tool",
     "scripts": {
         "lint": "node ./node_modules/.bin/eslint .",
@@ -21,7 +25,7 @@
     "engines": {
         "node": ">=14.0.0"
     },
-    "private": true,
+    "license": "GPL-3.0",
     "devDependencies": {
         "c8": "^7.3.5",
         "eslint": "^7.15.0",
