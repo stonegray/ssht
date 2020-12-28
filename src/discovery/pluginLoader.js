@@ -4,6 +4,10 @@ import DiscoveryPlugin from './prototype.js';
 
 // Precache plugins to improve launch times:
 /* eslint-disable no-unused-vars */
+import SSHPlugin from '../plugins/ssh.js'
+import FooPlugin from '../plugins/foo.js'
+import FakePlugin from '../plugins/fake.js'
+import DockerPlugin from '../plugins/docker.js'
 /* eslint-enable no-unused-vars */
 
 async function getPlugins(pluginNames){

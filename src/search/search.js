@@ -3,6 +3,8 @@ import os from 'os';
 import options from '../core/options.js'
 import { spawn, Worker } from "threads"
 
+import worker from './worker.js'
+
 export default class Searcher extends EventEmitter {
     constructor() {
         super();
