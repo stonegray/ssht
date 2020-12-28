@@ -1,6 +1,6 @@
 import yargs from 'yargs';
-
 import definitions from './definitions.js';
+import readPkg from 'read-pkg';
 
 /* In hindsight, it might make sense to implement our own argument parser,
 as yargs doesn't do a great job of playing nice with everything else. 
@@ -69,11 +69,47 @@ function remapOutputArray(args){
 }
 
 
+function getUsageString(definitions){
+
+    const optionAliases = {
+        lower: [],
+        upper: [],
+        other: []
+    }
+    
+    for (const d of definitions){
+        if (typeof d.alias !== 'string') continue;
+
+        const alias = d.alias.slice(1);
+
+        // Skip invalid lengths:
+        if (alias.length !== 1) continue;
+
+        if (alias == alias.toUpperCase()){
+            optionAliases.upper.push(alias);
+        }
+
+        if (alias == alias.toLowerCase()){
+            optionAliases.lower.push(alias);
+        }
+    }
+    
+    const output = [
+        ...optionAliases.lower.sort(),
+        ...optionAliases.upper.sort(),
+        ...optionAliases.other
+    ].join('')
+
+    return output;
+
+}
+
+
 const a = await new Promise(resolve => {
 
     const y = createYargsObject(definitions);
 
-    y.parse(process.argv.slice(2), (a, b, output) => {
+    y.parse(process.argv.slice(2), async (a, b, output) => {
 
         // Remove garbage from the output
 
@@ -83,17 +119,23 @@ const a = await new Promise(resolve => {
         // https://github.com/yargs/yargs/issues/319
 
         output = output.replace(/\[\w+\]/g, '');
+        
+        const pkg = await readPkg();
 
         // Show the modified output
         if (output.length > 0) {
             console.log(' ')
             console.log(' ')
                       //--------------------------------------------------------------------------------
-            console.log('                                ssht v2.0.0')
+            console.log('                                ssht v'+pkg.version);
             console.log(' ')
             //console.log('                      https://github.com/stonegray/ssht');
             //console.log(' ')
             console.log('_______________________________________________________________________________')
+            console.log('')
+            console.log('Usage')
+            console.log('\tssht [-'+getUsageString(definitions)+'] [options] [query...] [-- sshargs...]');
+            console.log('')
             process.stdout.write(output);
             process.stdout.write('\n');
         }

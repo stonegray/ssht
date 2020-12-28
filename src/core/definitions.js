@@ -91,7 +91,7 @@ definitions.push({
     name: 'noplugins',
     default: false,
     type: 'boolean',
-    alias: '-N',
+    alias: '-P',
     argument: '--noplugins',
     fileId: 'main',
     fileField: undefined,
@@ -124,7 +124,7 @@ definitions.push({
     name: 'dump',
     default: false,
     type: undefined, // can be bool or string
-    alias: undefined,
+    alias: '-d',
     argument: '--dump',
     fileId: 'main',
     fileField: undefined,
@@ -164,6 +164,7 @@ definitions.push({
     name: 'noConcurrency',
     default: false,
     type: 'boolean', // can be bool or string
+    alias: '-C',
     argument: '--no-conc',
     description: "Disable concurrency globally, including plugins.",
     hidden: false,
@@ -178,6 +179,18 @@ definitions.push({
     alias: '-z',
     argument: '--zone',
     description: "Enable debug logging for a given pattern. See documentation   for usage of this option",
+    hidden: false,
+    conflicts: [],
+    group: 'Advanced',
+    validator: () => true
+});
+definitions.push({
+    name: 'logAllZones',
+    default: false,
+    type: 'boolean', // can be bool or string
+    alias: '-Z',
+    argument: '--allzones',
+    description: "Log debugging information from all zones. Will result in very large log files, use only when troubleshooting an issue",
     hidden: false,
     conflicts: [],
     group: 'Advanced',
