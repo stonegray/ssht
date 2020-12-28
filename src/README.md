@@ -3,6 +3,8 @@
 
 `./core` Contains internal code for error handling, logging, startup, argument parsing, config file read/write, etc.
 
+`./db` Host database
+
 `./discovery` Files related to the discovery plugin loader and the discovery plugin prototype.
 
 `./plugins/` Contains the builtin discovery plugins, such as SSH, Docker, etc.

@@ -13,7 +13,7 @@ export default async function resolve4(fqdn) {
 
             // TODO: Better error handling:
             if (err) {
-                console.warn("WARN: Badly handled DNS resolution error, fix me please");
+                //console.warn("WARN: Badly handled DNS resolution error, fix me please");
                 resolve(null)
                 return;
             }

@@ -37,6 +37,3 @@ export default async function checkInternet(){
     return (online > (0.5*hosts.length));
 
 }
-
-
-console.log(await checkInternet())

@@ -164,7 +164,7 @@ definitions.push({
     default: false,
     type: 'boolean', // can be bool or string
     argument: '--no-conc',
-    description: "Disable concurrency globally.",
+    description: "Disable concurrency globally, including plugins.",
     hidden: false,
     conflicts: [],
     group: 'Advanced',

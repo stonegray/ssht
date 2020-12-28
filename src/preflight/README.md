@@ -9,7 +9,7 @@ checker:
     The host cannot be checked by HostChecker. This occurs when:</br>
     - The SSH Config specifices a `ProxyCommand`, as it's not practical to
           exec a whole process to follow large numbers of hosts.</br>
-    - FQDN is malformed. This can occur when a literal hostname is   specified in `~/.ssh/config`, but no Hostname is set.</br>
+    - FQDN is malformed. This can occur when a literal hostname is specified in `~/.ssh/config`, but no Hostname is set.</br>
     - The domain requires MDNS resolution (.local)
     - The host FQDN matches the blacklist
     - The host `meta.noCheck` property is truthy
@@ -21,6 +21,7 @@ checker:
     - The host replies to ICMP echo
     - The host ICMP NACKs to a UDP probe
     - FastSSH successfully identifies a running SSH service
+    - The host `meta.alive` property is truthy
 - ***FAIL*** <br/>
     The host is non-responsive or invalid. This occurs when:  
     - FastSSH detects an invalid (non-SSH) service running on the specified

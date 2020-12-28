@@ -6,9 +6,9 @@ import resolve4 from './dns.js';
 import { hrtimeToMs } from '../util/time.js'
 import { createHeader, parseResponse } from './icmpHelpers.js';
 
-const pingTimeout = options.icmpTimeout || 2000;
+const pingTimeout = options.icmpTimeout || 1000;
 
-const maxConnections = 32;
+const maxConnections = 64;
 
 export default class ICMPPEcho {
     constructor(){
@@ -22,7 +22,7 @@ export default class ICMPPEcho {
     queueICMPEcho(host, callback){
 
         // Temporary fix for overfull queue:
-        if (this.connectionCount > 3 * maxConnections){
+        if (this.connectionCount > 10 * maxConnections){
             console.warn("WARN: ICMPEcho connection queue is too long, skipping hosts:");
             callback({
                 header: false,

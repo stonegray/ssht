@@ -28,8 +28,8 @@ const clientIdentifier = `SSH-2.0-${pkg.name}_${pkg.version} ${sshComment}\r\n`
 
 // TODO: Move these into an options file:
 const maxConnections = options.maxTCPConnections || 64;
-const tcpTimeout = 512;
-const maxQueueSlowdown = 1000;
+const tcpTimeout = options.TCPTimeout || 512;
+const maxQueueSlowdown = 10;
 
 function parseSSHHeader(header){
 

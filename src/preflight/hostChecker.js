@@ -2,6 +2,7 @@
 
 import FastSSH from './fastSSH.js'
 import ICMPPEcho from './icmpEcho.js';
+import checkInternet from './connectivity.js';
 
 
 const icmp = new ICMPPEcho();
