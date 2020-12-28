@@ -1,6 +1,7 @@
 import os from 'os';
 
 import networkOptions from './options/network.js';
+import sshOptions from './options/ssh.js';
 
 let definitions = []
 
@@ -184,5 +185,6 @@ definitions.push({
 });
 
 definitions = definitions.concat(networkOptions);
+definitions = definitions.concat(sshOptions);
 
 export default definitions;
