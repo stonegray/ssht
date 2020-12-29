@@ -1,3 +1,8 @@
+import winston from 'winston';
+import minimatch from 'minimatch';
+
+import options from '../core/options.js'
+
 // Scoped (zone-based) logging implementation using Winston logger
 
 // By tagging each log message with a "zone", we can filter them at runtime
@@ -18,16 +23,23 @@ https://tools.ietf.org/html/rfc5424#section-6.2.1
 ssht's levels differ from RFC5424 in that levels 0, 2, and 5 are unused, and an
 additional level, trace: 8, is added.
 
-the 'alert'/1 level is used to indicate a fatal error  
+the 'alert'/1 level is the most servere, and used to indicate a fatal internal
+error. This should only be used with the error is a result of a fault in the
+program itself, not in the input or enviroment. Basically anything that the
+user should file a Github Issue for.
 
+The rest follow pretty standard policy:
 
+- Error should be used for problems that prevent normal operation of the 
+  program.
+- Warn should be used for significant problems that may degrade user
+  experience, performance, etc. but do not substantially interfere with
+  operation of the program.
+- Trace is provided as a compatibility for npm standard logging, to 
+  replace the 'silly' level. 
 
 */
 
-import winston from 'winston';
-import minimatch from 'minimatch';
-
-import options from '../core/options.js'
 
 const config = {
     loggingZone: options.loggingZone,
@@ -37,28 +49,39 @@ const config = {
 
 // Messy initial implementation:
 
-const filterMetadata = winston.format((info, opts) => {
+const filterMetadata = winston.format(info => {
 
     let message = info.message;
-    
+
     if (typeof info.data == 'object'){
         try {
-            message += '\n' + JSON.stringify(info.data, null, 2)
+            message += ': ' + JSON.stringify(info.data, null, 2)
 
         } catch (e){
             message += `\n[Failed to stringify data: ${e.message}]`
         }
     }
 
+    if (typeof info.data == 'string'){
+            message += ': ' + info.data;
+    }
+
+    let level = '';
+    level = info.level;
+
+    if (info.zone){
+        level += '@' + info.zone;
+    }
+
     return {
-        level: info.level,
+        level,
         message
     };
 })
 
-const filterZone = winston.format((info, opts) => {
+const filterZone = winston.format(info => {
 
-   
+  
     // If the zone isn't valid, skip:
     if (typeof info.zone !== 'string') return false;
     if (info.zone === '') return false;
@@ -75,6 +98,9 @@ const filterZone = winston.format((info, opts) => {
     }
 
     for (const z of logZones){
+
+        if (info.zone === z) return info;
+
         if (minimatch(info.zone, z)) return info;
         if (minimatch(info.zone, z+".*")) return info;
     }
@@ -88,7 +114,7 @@ const winstonLogger = winston.createLogger({
     transports: [
         new winston.transports.File({
             filename: './built/user.log.json',
-            level: 'warn',
+            level: 'debug',
             format: winston.format.combine(
                 filterZone(),
                 winston.format.json()
