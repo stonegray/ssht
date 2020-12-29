@@ -15,7 +15,7 @@ export default class HostChecker {
 
 
 }
-
+/*
 icmp.queueICMPEcho({
     fqdn: '127.0.0.1'
 }, data =>{
@@ -41,3 +41,4 @@ icmp.queueICMPEcho({
 }, data =>{
     console.log(data)
 });
+*/

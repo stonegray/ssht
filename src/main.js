@@ -1,5 +1,7 @@
-import UserInterface from './ui/tui.js';
+import loadingMessage, { doneLoading } from './ui/loadingIndicator.js';
 import options from './core/options.js'
+
+import UserInterface from './ui/tui.js';
 import Pool from './pool.js';
 import { startPlugins } from './discovery/pluginLoader.js';
 
@@ -8,13 +10,16 @@ import { startPlugins } from './discovery/pluginLoader.js';
 // it's technically a stage-3 proposal.
 export default async function main() {
 
-    console.log(options, process.pid);
+    //console.log(options, process.pid);
 
     // Instantiate host pool:
     const pool = new Pool();
 
     // Connect UI to pool:
     if (!options.headless) {
+
+
+        doneLoading();
         const ui = new UserInterface();
         ui.on('text', text => {
             pool.search(text);
@@ -36,6 +41,8 @@ export default async function main() {
         //'../plugins/ssh.js',
         '../plugins/fake.js',
     ]);
+
+    doneLoading();
 
     p.forEach(plugin => {
         plugin.on('host', host => {
