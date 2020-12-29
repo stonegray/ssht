@@ -54,6 +54,7 @@ function remapOutputArray(args){
 
     const out = {};
 
+
     // For each definition, check if it exists in the args output.
     // If it does, fix the name and push into the output object.
     for (const def of definitions){
@@ -104,12 +105,13 @@ function getUsageString(definitions){
 
 }
 
+const pkg = await readPkg();
 
 const a = await new Promise(resolve => {
 
     const y = createYargsObject(definitions);
 
-    y.parse(process.argv.slice(2), async (a, b, output) => {
+    y.parse(process.argv.slice(2), (a, b, output) => {
 
         // Remove garbage from the output
 
@@ -120,8 +122,6 @@ const a = await new Promise(resolve => {
 
         output = output.replace(/\[\w+\]/g, '');
         
-        const pkg = await readPkg();
-
         // Show the modified output
         if (output.length > 0) {
             console.log(' ')
@@ -153,7 +153,9 @@ const a = await new Promise(resolve => {
             process.exit();
         }
 
+
         const out = remapOutputArray(y.parsed.argv);
+
         resolve(Object.freeze({
             argv: y.parsed.argv._,
             ...out
