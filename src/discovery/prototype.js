@@ -19,17 +19,16 @@ export interface DSHost {
 	
 	/* Required values
 	 * - uuid (optional for now)
-	 * - name
 	 * - fqdn
 	 * - ssh command
-	 *
+	 *\/
 
 	// Unique identifier. This is used or maintinag the host database, and must
 	// be unique. This is to allow updating information about the host.
 	uudd?: string; 
 
-	// Human readable name of the host. 
-	name: string; 
+	// Human readable name of the host, optional
+	name?: string; 
 
 	// FQDN or IP of host.
 	fqdn: string;
@@ -41,14 +40,39 @@ export interface DSHost {
 	bindaddress?: string;
 	bindinterface?: string;
 
+	// Extended (-o) SSH options:
+	sshOptions?: {
+		proxyCommand?: string;
+	}
+
 	// SSH command to use when connecting.
 	ssh: string;
 
-	// Status information
-	ping?: number;
-
 	// Usually your plugin name, eg 'docker'
 	kind?: string;
+
+	// Meta information
+	meta?: {
+
+		// Disable host checking
+		moCheck?: boolean;
+
+		// Force host checking to see host as online
+		alive?: boolean;
+	}
+
+	// Status information as determined by HostChecker
+	status: {
+
+		// One of the valid states defined in ./src/preflight/README.md
+		state: 'PENDING',
+
+		// Whether host is online
+		alive: boolean;
+
+		// Ping time in milliseconds
+		ping?: number;
+	}
 
 	// Additional human readable content
 	comment?: string;
