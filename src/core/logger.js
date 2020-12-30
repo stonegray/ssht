@@ -41,10 +41,6 @@ The rest follow pretty standard policy:
 */
 
 
-const config = {
-    loggingZone: options.loggingZone,
-    logAllZones: options.logAllZones,
-}
 
 
 // Messy initial implementation:
@@ -92,13 +88,13 @@ const filterZone = winston.format(info => {
 
     let logZones = [];
 
-    if (config.logAllZones === true){
+    if (options.logAllZones === true){
         logZones.push("*");
     }
 
     // TODO this is kinda messy, fix later:
-    if (Array.isArray(config.loggingZone)){
-        logZones = [...logZones, ...config.loggingZone];
+    if (Array.isArray(options.loggingZone)){
+        logZones = [...logZones, ...options.loggingZone];
     }
 
     for (const z of logZones){
@@ -167,3 +163,9 @@ export default function log(logObj){
     winstonLogger.log(obj)
 
 }
+
+log({
+    zone: 'timing',
+    message: "Initialized logger",
+    data: process.uptime()
+})

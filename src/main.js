@@ -1,6 +1,6 @@
-import loadingMessage, { doneLoading } from './ui/loadingIndicator.js';
 import options from './core/options.js'
 import log from './core/logger.js';
+import { doneLoading } from './ui/loadingIndicator.js';
 import UserInterface from './ui/tui.js';
 import Pool from './pool.js';
 import { startPlugins } from './discovery/pluginLoader.js';
@@ -14,8 +14,13 @@ import { startPlugins } from './discovery/pluginLoader.js';
 
 export default async function main() {
 
+    // Exit on --version, this is a hack to fix weird yargs behaviour and
+    // should be fixed properly soon:
+    // TODO
+    if (options.version) return;
+
     log({
-        zone: 'main',
+        zone: 'timing',
         message: 'Library loading completed in',
         data: String(process.uptime())
     })

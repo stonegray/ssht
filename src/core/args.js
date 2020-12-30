@@ -2,6 +2,7 @@ import yargs from 'yargs';
 import definitions from './definitions.js';
 import readPkg from 'read-pkg';
 
+
 /* In hindsight, it might make sense to implement our own argument parser,
 as yargs doesn't do a great job of playing nice with everything else. 
 
@@ -121,9 +122,11 @@ const a = await new Promise(resolve => {
         // https://github.com/yargs/yargs/issues/319
 
         output = output.replace(/\[\w+\]/g, '');
+
+        // Check if we're running the --version comand:
         
         // Show the modified output
-        if (output.length > 0) {
+        if (output.length > 0 && !y.parsed?.argv?.version) {
             console.log(' ')
             console.log(' ')
                       //--------------------------------------------------------------------------------
@@ -149,7 +152,7 @@ const a = await new Promise(resolve => {
         // output.
 
         // TODO: Find better solution
-        if (output.length > 0){
+        if (output.length > 0 &&  !y.parsed?.argv?.version){
             process.exit();
         }
 
@@ -161,6 +164,9 @@ const a = await new Promise(resolve => {
             ...out
         }));
     });
+    
+    
+    
 });
 
 

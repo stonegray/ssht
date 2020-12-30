@@ -13,9 +13,10 @@ import options from '../core/options.js';
 import log from '../core/logger.js';
 const zone = 'pluginLoader';
 
-async function getPlugins(pluginNames){
+export async function getPlugins(pluginNames, options){
 
     let pluginsToLoad = pluginNames;
+    
 
     // Respect noPlugins options:
     if (options.noplugins){
@@ -37,6 +38,10 @@ async function getPlugins(pluginNames){
     for (const name of pluginsToLoad){
         try {
             const imp = await import(name);
+
+            imp.default.meta = imp.meta;
+            imp.default.pluginName = name;
+
             plugins.push(imp.default);
         } catch (error) {
             error.name = name;
@@ -70,7 +75,7 @@ async function readPluginMeta(plugin){
 
 export async function startPlugins(pluginNames){
 
-    const pluginConstructors = await getPlugins(pluginNames);
+    const pluginConstructors = await getPlugins(pluginNames, options);
     const plugins = [];
 
     const pluginMeta = [];

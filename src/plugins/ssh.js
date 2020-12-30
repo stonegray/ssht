@@ -59,6 +59,12 @@ export default class SSHPlugin extends DiscoveryPlugin {
         this.emit('status', "Stopped")
     }
 
-    // Leave this here, used to collect package information for external packages:
-    async meta() { return await readPkg() }
+}
+
+// Leave this here, used to collect package information for external packages:
+export async function meta(){
+    return {
+        pkg: await readPkg(),
+        path: import.meta.url
+    } 
 }
