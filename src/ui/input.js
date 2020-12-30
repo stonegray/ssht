@@ -1,6 +1,7 @@
 
 import { EventEmitter } from 'events';
 import * as readline from 'readline';
+import log from '../core/logger.js'
 
 const mode = {
 	'NORMAL': 0,
@@ -23,8 +24,16 @@ export default class Input extends EventEmitter {
 		this.selection = [0,0];
 		this.cursor = 0;
 		this.mode = mode.INSERT;
-		
-		process.stdin.setRawMode(true);
+	
+		try {
+			process.stdin.setRawMode(true);
+		} catch (e){
+			log({
+				level: 'warn',
+				zone: 'ui',
+				message: 'Failed to setRawMode on stdin'
+			})	
+		}
 		readline.emitKeypressEvents(process.stdin);
 		process.stdin.setEncoding('utf-8');
 
