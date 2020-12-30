@@ -66,6 +66,10 @@ const filterMetadata = winston.format(info => {
             message += ': ' + info.data;
     }
 
+    if (typeof info.data == 'number'){
+            message += ': ' + String(info.data);
+    }
+
     let level = '';
     level = info.level;
 
