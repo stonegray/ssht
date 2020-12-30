@@ -3,6 +3,8 @@ import Input from './input.js';
 
 import { theme } from './theme.js';
 
+import log from '../core/logger.js';
+
 import { EventEmitter } from 'events';
 
 // emits: text
@@ -50,6 +52,12 @@ export default class UserInterface extends EventEmitter {
 		}
 
 		this._drawEmptyFrame();
+
+		log({
+			zone: 'timing',
+			message: "Drew first frame",
+			data: process.uptime()
+		})
 	}
 
 	_drawEmptyFrame(){
