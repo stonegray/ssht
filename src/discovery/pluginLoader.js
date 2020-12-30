@@ -9,11 +9,32 @@ import FakePlugin from '../plugins/fake.js'
 import DockerPlugin from '../plugins/docker.js'
 /* eslint-enable no-unused-vars */
 
+import options from '../core/options.js';
+import log from '../core/logger.js';
+const zone = 'pluginLoader';
+
 async function getPlugins(pluginNames){
 
-    const plugins = [];
+    let pluginsToLoad = pluginNames;
 
-    for (const name of pluginNames){
+    // Respect noPlugins options:
+    if (options.noplugins){
+        pluginsToLoad = [];
+    }
+
+    // If plugins is a non-zero length array, add it to the list of plugins
+    // that we should load. This comes from --plugin args:
+    // We're using implicit bool here, if length is 0 it's falsy:
+    if (Array.isArray(options.plugins)){
+        pluginsToLoad = pluginsToLoad.concat(options.plugins);
+    }
+
+    // Convert '${builtin}/foo' to '../plugins/foo.js'
+    pluginsToLoad = pluginsToLoad.map(p => p.replace('/builtin/', '../plugins/') + ".js");
+
+    const plugins = [];
+    
+    for (const name of pluginsToLoad){
         try {
             const imp = await import(name);
             plugins.push(imp.default);
@@ -26,10 +47,33 @@ async function getPlugins(pluginNames){
     return plugins;
 }
 
+
+async function readPluginMeta(plugin){
+
+    let pl = {};
+
+    try {
+        pl = await plugin.meta();
+        
+    } catch(e){
+        return Error('Failed to read plugin metadata: '+e.message);
+    }
+
+    const meta = {
+        version: pl.version,
+        name: pl.name,
+        description: pl.description,
+    }
+
+    return meta;
+}
+
 export async function startPlugins(pluginNames){
 
     const pluginConstructors = await getPlugins(pluginNames);
     const plugins = [];
+
+    const pluginMeta = [];
 
     for (const Plugin of pluginConstructors) {
 
@@ -51,7 +95,11 @@ export async function startPlugins(pluginNames){
 
         // Check plugin metadata:
         try {
-            p._pkg = await p.meta();
+            p._pkg = await readPluginMeta(p);
+
+            if ( p._pkg instanceof Error) throw (p._pkg);
+
+            pluginMeta.push(p._pkg);
         } catch (e){
             console.error(`Failed to get plugin metadata for ${Plugin.name}: ${e.message}`);
             continue;
@@ -85,6 +133,16 @@ export async function startPlugins(pluginNames){
         // Add to plugin array:
         plugins.push(p);
     }
+
+    log({
+        zone, 
+        message: "Loaded plugins",
+        data: {
+            total: pluginConstructors.length,
+            plugins: pluginMeta
+        }
+    })
+    
     return plugins;
 }
 

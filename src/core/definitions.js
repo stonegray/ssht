@@ -104,15 +104,17 @@ definitions.push({
     validator: () => true
 });
 definitions.push({
-    name: 'plugin',
-    default: '',
-    type: 'string',
+    name: 'plugins',
+    default: [
+        '/builtin/ssh',
+    ],
+    type: 'array',
     alias: '-p',
-    argument: '--plugin',
+    argument: '--plugins',
     fileId: 'main',
-    fileField: undefined,
+    fileField: 'plugins',
     allowEmpty: false,
-    description: "Force loading a single plugin",
+    description: "Force loading a plugin. Specify multiple times to load more  than one",
     hidden: false,
     conflicts: [],
     group: 'Plugins',

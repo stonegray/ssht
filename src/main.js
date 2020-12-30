@@ -60,8 +60,8 @@ export default async function main() {
 
     const p = await startPlugins([
         //'../plugins/foo.js',
-        //'../plugins/ssh.js',
-        '../plugins/fake.js',
+        // '/builtin/ssh',
+        //'../plugins/fake.js',
     ]);
 
     doneLoading();
