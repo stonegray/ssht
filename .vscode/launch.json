@@ -37,15 +37,6 @@
                 "<node_internals>/**"
             ],
             "type": "pwa-node"
-        },
-        {
-            "type": "pwa-node",
-            "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}/src/main.js"
         }
     ]
 }
