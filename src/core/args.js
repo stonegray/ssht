@@ -134,7 +134,7 @@ const a = await new Promise(resolve => {
             console.log('_______________________________________________________________________________')
             console.log('')
             console.log('Usage')
-            console.log('\tssht [-'+getUsageString(definitions)+'] [options] [query...] [-- sshargs...]');
+            console.log('\tssht [-'+getUsageString(definitions)+'] [query...] [options] [-- sshargs...]');
             console.log('')
             process.stdout.write(output);
             process.stdout.write('\n');
