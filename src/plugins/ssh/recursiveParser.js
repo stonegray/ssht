@@ -7,6 +7,8 @@ import glob from 'glob';
 import { resolveTilde } from '../../util/fileHelpers.js';
 import { getSSHDirectory } from './getSSHDirectory.js';
 import readSSHConfigFile from './readFile.js'
+import options from '../../core/options.js';
+import log from '../../core/logger.js'
 
 const sshRootPath = "~/.ssh"
 const sshConfigFile = './config';
@@ -25,9 +27,35 @@ const asyncGlob = (pattern, options) => {
 }
 
 export default async function recursiveParser(){
+
     const sshRoot = await getSSHDirectory(sshRootPath);
 
-    const configPath = path.join(sshRoot, sshConfigFile);
+    let configPath = path.join(sshRoot, sshConfigFile);
+
+    // Check if the user has supplied a readable config file. If so,
+    // use it insead of the detected configPath.
+    if (options.sshConfigFile == 'string'){
+        try {
+            let userPath = resolveTilde(options.sshConfigFile);
+
+            const canRead = await fs.promises.access(
+                userPath, fs.constants.R_OK
+            );
+
+            if (canRead) configPath = userPath;
+
+        } catch (e){
+
+            log({
+                zone: 'plugin.ssh.recursiveParser',
+                message: "Failed to load user specified SSH config file",
+                data: {
+                    path: String(options.sshConfigFile),
+                    error: e
+                }
+            })
+        }
+    }
 
     // Check if it's a file:
     let dirent = await fs.promises.lstat(configPath);
