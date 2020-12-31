@@ -2,7 +2,16 @@
 
 SSH Helper Tool
 
+[![npm](https://img.shields.io/npm/v/ssht)](https://www.npmjs.com/package/ssht)
+![Lines of code](https://img.shields.io/tokei/lines/github/stonegray/ssht)
+![NPM](https://img.shields.io/npm/l/ssht)
+![node-current](https://img.shields.io/node/v/ssht)
+<!--[![npm](https://img.shields.io/npm/dt/ssht)](https://www.npmjs.com/package.ssht)-->
+
+
 `ssht` is a powerful tool for frequent SSH users. It provides a lighting-fast search of all hosts you can connect to. Extensible plugins automatically discover them across your network, virtualization platforms, the cloud, and more. 
+
+> ssht is currently unstable, features and APIs are subject to change at any time. 
 
 [gif]
 
