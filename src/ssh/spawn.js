@@ -1,0 +1,28 @@
+
+import cp from 'child_process';
+
+
+// x-man-page://ssh
+const options = {
+    family: 0, //4,6
+    bind: {
+        interface: undefined, //B
+        address: undefined, //b  
+    },
+    logFile: undefined, // e
+    print: false, // g
+    user: undefined, // l
+    sshOption: undefined, //o
+    port: undefined, //p
+}
+
+
+
+function spawnSSH(options){
+
+    const childProcess = cp.spawn('ssh', ['localhost'], { stdio: 'inherit' });
+
+}
+
+
+spawnSSH();
