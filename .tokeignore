@@ -3,3 +3,10 @@ node_modules
 package-lock.json
 *.log
 *.0x
+
+# Ignore things that are code, but not source:
+./*.*
+./resources/*
+./examples/*
+./test/*
+*.json
