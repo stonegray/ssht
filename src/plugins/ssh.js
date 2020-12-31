@@ -58,7 +58,6 @@ export default class SSHPlugin extends DiscoveryPlugin {
         // Stop searching, perform any cleanup tasks. 
         this.emit('status', "Stopped")
     }
-
 }
 
 // Leave this here, used to collect package information for external packages:

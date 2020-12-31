@@ -37,18 +37,30 @@ export async function getPlugins(pluginNames, options){
     
     for (const name of pluginsToLoad){
         try {
-            const imp = await import(name);
+            const imported = await import(name);
 
+            // Add metadata:
+            imported.pluginName = name;
+
+            /*
             imp.default.meta = imp.meta;
             imp.default.pluginName = name;
+            */
 
-            plugins.push(imp.default);
+            plugins.push(imported);
         } catch (error) {
             error.name = name;
             plugins.push(error);
         }
     }
 
+    // Returns array of objects or error
+    // object is {
+    //      default: class extending DiscoveryPlugin,
+    //      pluginName: string,
+    //      meta: async functione
+    // }
+    
     return plugins;
 }
 
@@ -59,7 +71,6 @@ async function readPluginMeta(plugin){
 
     try {
         pl = await plugin.meta();
-        
     } catch(e){
         return Error('Failed to read plugin metadata: '+e.message);
     }
@@ -83,7 +94,7 @@ export async function startPlugins(pluginNames){
     for (const Plugin of pluginConstructors) {
 
         if (Plugin instanceof Error) {
-            console.error(`Failed to load ${Plugin.name}: ${Plugin.message}`);
+            console.error(`Failed to load ${Plugin.pluginName}: ${Plugin.message}`);
             continue;
             //TODO: Error handling
         }
