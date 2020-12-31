@@ -32,17 +32,6 @@ It has full support for even the most advanced config files, with recursive pars
 
 This plugin uses optional multithreaded computational parsing to quickly resolves all of the globbed patterns (eg. `Host *.example.org`) and allow searching by the actual parameters, even in complex configuration files.
 
-#### Comments
-While `ssh_config` has no standard for host-specific comment fields, **ssht** interprets comments directly before a `Host` entry to be assosciated with that particular host (or glob), unless a comment is present below, in which case that will be used instead.
-```ssh-config
-# My web server
-Host webserver
-    # This will be used instead of the above if it's present
-    Hostname webserver.example.org
-    Port 2022
-    User web-user
-    Include ~/.ssh/aws_config
-```
 
 ### Docker
 
