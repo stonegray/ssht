@@ -1,12 +1,13 @@
 {
     "name": "ssht",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "author": {
         "name": "stonegray",
         "url": "https://stonegray.ca",
         "email": "d986ec0c-1ff2-44cc-a9ec-a0719d59cd21@f41b8adf243cac52dc.anonaddy.com"
     },
     "description": "ssh helper tool",
+    "keywords": ["ssh"],
     "scripts": {
         "lint": "node ./node_modules/.bin/eslint .",
         "start": "node ./src/main.js",
@@ -26,6 +27,12 @@
         "node": ">=14.0.0"
     },
     "license": "GPL-3.0",
+    "homepage": "https://github.com/stonegray/ssht",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/stonegray/ssht"
+    },
+    "bugs": "https://github.com/stonegray/ssht/issues",
     "devDependencies": {
         "c8": "^7.3.5",
         "eslint": "^7.15.0",
