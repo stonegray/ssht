@@ -1,4 +1,3 @@
-import readPkg from 'read-pkg';
 import DiscoveryPlugin from '../discovery/prototype.js'
 
 import getHosts from './ssh/getHosts.js';
@@ -62,8 +61,5 @@ export default class SSHPlugin extends DiscoveryPlugin {
 
 // Leave this here, used to collect package information for external packages:
 export async function meta(){
-    return {
-        pkg: await readPkg(),
-        path: import.meta.url
-    } 
+    return import.meta.url 
 }

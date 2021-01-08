@@ -36,22 +36,23 @@ export async function getPlugins(pluginNames, options){
     const plugins = [];
     
     for (const name of pluginsToLoad){
+
+        let imported = {};
+        let error = null;
         try {
-            const imported = await import(name);
-
-            // Add metadata:
-            imported.pluginName = name;
-
-            /*
-            imp.default.meta = imp.meta;
-            imp.default.pluginName = name;
-            */
-
-            plugins.push(imported);
-        } catch (error) {
-            error.name = name;
-            plugins.push(error);
+            imported = await import(name);
+        } catch (e) {
+            error = e;
+            throw error;
         }
+
+        plugins.push({
+            name,
+            error,
+
+            // adds .default and .meta if they exist:
+            ...imported
+        });
     }
 
     // Returns array of objects or error
@@ -65,75 +66,53 @@ export async function getPlugins(pluginNames, options){
 }
 
 
-async function readPluginMeta(plugin){
-
-    let pl = {};
-
-    try {
-        pl = await plugin.meta();
-    } catch(e){
-        return Error('Failed to read plugin metadata: '+e.message);
-    }
-
-    const meta = {
-        version: pl.version,
-        name: pl.name,
-        description: pl.description,
-    }
-
-    return meta;
-}
-
 export async function startPlugins(pluginNames){
 
     const pluginConstructors = await getPlugins(pluginNames, options);
     const plugins = [];
-
     const pluginMeta = [];
 
-    for (const Plugin of pluginConstructors) {
+    for (const thisPlugin of pluginConstructors) {
 
-        if (Plugin instanceof Error) {
-            console.error(`Failed to load ${Plugin.pluginName}: ${Plugin.message}`);
+
+        if (thisPlugin.error) {
+            console.error(`Failed to load ${thisPlugin.name}: ${thisPlugin.message}`);
             continue;
             //TODO: Error handling
         }
 
+
+         
+        // get constructor:
+        let Plugin = thisPlugin.default;
+
+        // allocate variable for instantiated plugin 
         let p;
 
         // Instantiate plugin
         try {
             p = new Plugin();
         } catch (e){
-            console.error(`Failed to instantiate ${Plugin.name}: ${e.message}`);
+            console.error(`Failed to instantiate ${thisPlugin.name}: ${e.message}`);
+            console.error(e);
             continue;
         }
 
-        // Check plugin metadata:
-        try {
-            p._pkg = await readPluginMeta(p);
-
-            if ( p._pkg instanceof Error) throw (p._pkg);
-
-            pluginMeta.push(p._pkg);
-        } catch (e){
-            console.error(`Failed to get plugin metadata for ${Plugin.name}: ${e.message}`);
-            continue;
-        }
+        // Check that required information is added:
         if (typeof p.name !== 'string' && p.name.length > 1){
-            console.error(`Malformed plugin ${Plugin.name}: invalid name property`);
+            console.error(`Malformed plugin ${thisPlugin.name}: invalid name property`);
             continue;
         }
         if (typeof p.description !== 'string' && p.description.length > 1){
-            console.error(`Malformed plugin ${Plugin.name}: invalid description property`);
+            console.error(`Malformed plugin ${thisPlugin.name}: invalid description property`);
             continue;
         }
 
         // Run sanity checks:
 
         // eslint-disable-next-line no-prototype-builtins
-        if (! DiscoveryPlugin.isPrototypeOf(Plugin)){
-            console.error(`Malformed plugin ${Plugin.name}: Invalid class parent`);
+        if (!DiscoveryPlugin.isPrototypeOf(Plugin)) {
+            console.error(`Malformed plugin ${thisPlugin.name}: Invalid class parent`);
             continue;
         }
 
