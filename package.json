@@ -7,7 +7,9 @@
         "email": "d986ec0c-1ff2-44cc-a9ec-a0719d59cd21@f41b8adf243cac52dc.anonaddy.com"
     },
     "description": "ssh helper tool",
-    "keywords": ["ssh"],
+    "keywords": [
+        "ssh"
+    ],
     "scripts": {
         "lint": "node ./node_modules/.bin/eslint .",
         "start": "node ./src/main.js",
@@ -27,7 +29,7 @@
         "node": ">=14.0.0"
     },
     "license": "GPL-3.0",
-    "homepage": "https://github.com/stonegray/ssht",
+    "homepage": "https://github.com/stonegray/ssht#readme",
     "repository": {
         "type": "git",
         "url": "https://github.com/stonegray/ssht"
@@ -45,6 +47,7 @@
         "fuse.js": "^6.4.3",
         "glob": "^7.1.6",
         "minimatch": "^3.0.4",
+        "multicast-dns": "^7.2.2",
         "random-words": "^1.1.1",
         "raw-socket": "^1.7.0",
         "read-pkg": "^5.2.0",
