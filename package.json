@@ -39,7 +39,7 @@
         "c8": "^7.3.5",
         "eslint": "^7.15.0",
         "eslint-plugin-import": "^2.22.1",
-        "espree": "stonegray/espree#acorn-options",
+        "espree": "github:stonegray/espree#acorn-options",
         "mocha": "^8.2.1"
     },
     "dependencies": {
