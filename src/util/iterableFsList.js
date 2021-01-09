@@ -1,4 +1,4 @@
-import { resolve } from 'path';
+import path from 'path';
 import { promises as fs } from 'fs';
 
 // getFiles was borrowed from qwtel's answer on StackOverflow:
@@ -9,7 +9,7 @@ import { promises as fs } from 'fs';
 export default async function* getFiles(dir) {
   const dirents = await fs.readdir(dir, { withFileTypes: true });
   for (const dirent of dirents) {
-    const res = resolve(dir, dirent.name);
+    const res = path.resolve(dir, dirent.name);
     if (dirent.isDirectory()) {
       yield* getFiles(res);
     } else {
