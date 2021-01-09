@@ -7,7 +7,10 @@
         "eslint:recommended",
         "plugin:import/errors",
         "plugin:import/warnings",
-        "plugin:unicorn/recommended"
+        "plugin:unicorn/recommended",
+        "plugin:promise/recommended",
+        "plugin:node/recommended",
+        "plugin:security/recommended"
     ],
     "parserOptions": {
         "ecmaVersion": 2020,
@@ -48,11 +51,19 @@
         "unicorn/prevent-abbreviations": 0,
         "unicorn/no-null": 0,
         "unicorn/catch-error-name": 0,
-
         // borken:
         // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/999
-        "unicorn/prefer-string-slice": 0
+        "unicorn/prefer-string-slice": 0,
+        // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/999
+        "unicorn/explicit-length-check": 0,
+        "unicorn/no-process-exit": 0,
+        "no-process-exit": 0,
 
-        
+       // node
+       "node/no-unsupported-features/es-syntax": 0,
+
+       //security
+       "security/detect-non-literal-fs-filename": 0
+       
     }
 }
