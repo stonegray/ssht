@@ -1,1 +1,1 @@
-export default function foo () { return true }
+export default function foo () { return true; }

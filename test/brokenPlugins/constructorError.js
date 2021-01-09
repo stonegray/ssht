@@ -1,12 +1,13 @@
 import readPkg from 'read-pkg';
-import DiscoveryPlugin from '../../src/discovery/prototype.js'
+
+import DiscoveryPlugin from '../../src/discovery/prototype.js';
 
 export default class ConstructorErrorPlugin extends DiscoveryPlugin {
     constructor(){
         super();
 
         this.name = "Foo";
-        this.description = "Example builtin plugin that does nothing."
+        this.description = "Example builtin plugin that does nothing.";
 
         throw Error('Failed during constructor!');
     }
@@ -14,5 +15,5 @@ export default class ConstructorErrorPlugin extends DiscoveryPlugin {
     }
     stop(){
     }
-    async meta() { return await readPkg() }
+    async meta() { return await readPkg(); }
 }

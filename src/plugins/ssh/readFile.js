@@ -5,7 +5,7 @@ import fs from 'fs';
 
 export default async function readSSHConfigFile(filename){
 
-    let contents = null
+    let contents = null;
 
     // eslint-disable-next-line no-undef
     //const timeout = new AbortController();
@@ -22,7 +22,7 @@ export default async function readSSHConfigFile(filename){
         contents = await fs.promises.readFile(filename, {
             encoding: 'utf-8',
  //           signal: timeout.signal
-        })
+        });
 
   //      clearTimeout(timer);
     } catch (e){

@@ -10,7 +10,7 @@ const animation = ['-','/','|','\\'];
 const framerate = 15;
 
 let frame = 0;
-let message = "loading core libraries..."
+let message = "loading core libraries...";
 
 function drawFrame(){
     //cursor.clear();
@@ -19,7 +19,7 @@ function drawFrame(){
     process.stdout.write(str);
 }
 
-const interval = setInterval(drawFrame, 1e3/framerate)
+const interval = setInterval(drawFrame, 1e3/framerate);
 
 export default function loadingMessage(m){
     message = m;

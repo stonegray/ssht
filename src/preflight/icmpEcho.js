@@ -1,9 +1,10 @@
 
 import raw from 'raw-socket';
-import options from '../core/options.js'
-import resolve4 from './dns.js';
 
-import { hrtimeToMs } from '../util/time.js'
+import options from '../core/options.js';
+import { hrtimeToMs } from '../util/time.js';
+
+import resolve4 from './dns.js';
 import { createHeader, parseResponse } from './icmpHelpers.js';
 
 const pingTimeout = options.icmpTimeout || 1000;
@@ -28,7 +29,7 @@ export default class ICMPPEcho {
                 header: false,
                 handshakeTime: 0,
                 error: "ICMPEcho queue is full, goodbye"
-            })
+            });
             return;
         }
         
@@ -67,7 +68,7 @@ export default class ICMPPEcho {
                 buffer: null,
                 error: "Failed to resolve IP address",
                 elapsed: 0
-            })
+            });
             return;
         }
 
@@ -81,6 +82,7 @@ export default class ICMPPEcho {
             // Ping time:
             let elapsed = 0;
 
+            // eslint-disable-next-line no-unused-vars
             socket.send(header, 0, header.length, ip, (error, source) => {
                 if (error) {
                     resolve({
@@ -129,7 +131,7 @@ export default class ICMPPEcho {
                 });
             });
 
-        })
+        });
 
         const out = parseResponse(response.buffer);
 

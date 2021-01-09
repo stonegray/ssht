@@ -1,5 +1,6 @@
 import readPkg from 'read-pkg';
-import DiscoveryPlugin from '../../src/discovery/prototype.js'
+
+import DiscoveryPlugin from '../../src/discovery/prototype.js';
 
 
 // async equvillant of a setTimeout callback:
@@ -17,12 +18,12 @@ export default class SlowLoadingPlugin extends DiscoveryPlugin {
         super();
 
         this.name = "Foo";
-        this.description = "Example builtin plugin that does nothing."
+        this.description = "Example builtin plugin that does nothing.";
 
     }
     start(){
     }
     stop(){
     }
-    async meta() { return await readPkg() }
+    async meta() { return await readPkg(); }
 }

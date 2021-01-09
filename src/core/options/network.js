@@ -16,7 +16,7 @@ definitions.push({
     conflicts: [],
     group: 'Network',
     validator: value => {
-        return (value < 1e4) && value > -1
+        return (value < 1e4) && value > -1;
     }
 });
 
@@ -33,7 +33,7 @@ definitions.push({
     conflicts: [],
     group: 'Network',
     validator: value => {
-        return (value < 1000) && value > -1
+        return (value < 1000) && value > -1;
     }
 });
 
@@ -50,7 +50,7 @@ definitions.push({
     conflicts: [],
     group: 'Network',
     validator: value => {
-        return (value < 1000) && value > -1
+        return (value < 1000) && value > -1;
     }
 });
 
@@ -68,7 +68,7 @@ definitions.push({
     conflicts: [],
     group: 'Network',
     validator: value => {
-        return (value < 1000) && value > -1
+        return (value < 1000) && value > -1;
     }
 });
 

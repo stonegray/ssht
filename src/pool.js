@@ -2,8 +2,9 @@
 import { EventEmitter } from 'events';
 
 import Fuse from 'fuse.js';
+
 import Searcher from './search/search.js';
-import HostChecker from './preflight/hostChecker.js'
+import HostChecker from './preflight/hostChecker.js';
 /* 
 export interface DSHost {
 	
@@ -66,11 +67,11 @@ export default class Pool extends EventEmitter {
 		// Send it to it's worker:
 		this.engine.addHost(host);
 
-		this.emit('size', this.pool.length)
+		this.emit('size', this.pool.length);
     }
     removeHost(host){
 
-		this.emit('size', this.pool.length)
+		this.emit('size', this.pool.length);
 
     }
 

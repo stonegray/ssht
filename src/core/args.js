@@ -1,6 +1,7 @@
 import yargs from 'yargs';
-import definitions from './definitions.js';
 import readPkg from 'read-pkg';
+
+import definitions from './definitions.js';
 
 
 /* In hindsight, it might make sense to implement our own argument parser,
@@ -17,7 +18,7 @@ function createYargsObject(definitions) {
     // Create the initial object, then we have to add .options:
     let args = yargs().parserConfiguration({
         'boolean-negation': false
-    })
+    });
 
     // Quick helper function:
     function appendOption(yarg, definition) {
@@ -35,7 +36,7 @@ function createYargsObject(definitions) {
             hidden: opt.hidden,
             group: opt.group,
             //default: opt.default
-        })
+        });
     }
 
     function loadArgs(definitions) {
@@ -77,7 +78,7 @@ function getUsageString(definitions){
         lower: [],
         upper: [],
         other: []
-    }
+    };
     
     for (const d of definitions){
         if (typeof d.alias !== 'string') continue;
@@ -100,7 +101,7 @@ function getUsageString(definitions){
         ...optionAliases.lower.sort(),
         ...optionAliases.upper.sort(),
         ...optionAliases.other
-    ].join('')
+    ].join('');
 
     return output;
 
@@ -127,18 +128,18 @@ const a = await new Promise(resolve => {
         
         // Show the modified output
         if (output.length > 0 && !y.parsed?.argv?.version) {
-            console.log(' ')
-            console.log(' ')
+            console.log(' ');
+            console.log(' ');
                       //--------------------------------------------------------------------------------
             console.log('                                ssht v'+pkg.version);
-            console.log(' ')
+            console.log(' ');
             //console.log('                      https://github.com/stonegray/ssht');
             //console.log(' ')
-            console.log('_______________________________________________________________________________')
-            console.log('')
-            console.log('Usage')
+            console.log('_______________________________________________________________________________');
+            console.log('');
+            console.log('Usage');
             console.log('\tssht [-'+getUsageString(definitions)+'] [query...] [options] [-- sshargs...]');
-            console.log('')
+            console.log('');
             process.stdout.write(output);
             process.stdout.write('\n');
         }

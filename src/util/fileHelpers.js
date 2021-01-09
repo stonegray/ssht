@@ -38,7 +38,7 @@ export function safePathSplit(string){
         const message = [
             'WARN: destructive path seperation: ',
             `Expected: "${string}", got "${rebuilt}"`
-        ].join('')
+        ].join('');
 
         throw Error(message);
     }
@@ -57,7 +57,7 @@ export function resolveTilde(pathString, home){
 
     const homeDirArray = safePathSplit(home || os.homedir());
    
-    let pathArray = safePathSplit(pathString) 
+    let pathArray = safePathSplit(pathString); 
 
     // Since we're working with a tokenized path instead of a string, we don't
     // need to check for edge cases like "~user/" or "~+", as this will only 

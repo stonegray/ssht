@@ -1,6 +1,7 @@
 // workers/add.js
-import { expose } from "threads/worker"
-import { isMainThread } from "worker_threads"
+import { isMainThread } from "worker_threads";
+
+import { expose } from "threads/worker";
 import Fuse from 'fuse.js';
 
 let cache = [];
@@ -41,7 +42,7 @@ function info(){
 
   return {
     cacheSize: cache.length
-  }
+  };
 
 }
 
@@ -49,7 +50,7 @@ const exposed = {
   addHost: addHost,
   query: query,
   info: info
-}
+};
 if (!isMainThread){
   expose(exposed);
 }

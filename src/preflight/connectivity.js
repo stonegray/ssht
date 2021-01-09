@@ -1,6 +1,7 @@
 
-import ICMPPEcho from "./icmpEcho.js"
 import options from '../core/options.js';
+
+import ICMPPEcho from "./icmpEcho.js";
 
 const hosts = [
     '1.1.1.1',
@@ -15,7 +16,7 @@ async function ping(host){
         pinger.queueICMPEcho({
             fqdn: host
         }, resolve);
-    })
+    });
 }
 
 export default async function checkInternet(){

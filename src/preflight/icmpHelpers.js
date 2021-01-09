@@ -57,7 +57,7 @@ export function createHeader() {
 
 export function parseResponse(buffer){
 
-    if (buffer === null) return {}
+    if (buffer === null) return {};
 
     // TODO: Should we verify the checksum?
     let type, code;
@@ -81,6 +81,6 @@ export function parseResponse(buffer){
         alive: alive,
         type: type,
         code: code
-    }
+    };
 
 }

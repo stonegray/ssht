@@ -1,5 +1,6 @@
 import readPkg from 'read-pkg';
-import DiscoveryPlugin from '../discovery/prototype.js'
+
+import DiscoveryPlugin from '../discovery/prototype.js';
 
 
 
@@ -23,7 +24,7 @@ export default class FooPlugin extends DiscoveryPlugin {
         super();
 
         this.name = "Foo";
-        this.description = "Example builtin plugin that does nothing."
+        this.description = "Example builtin plugin that does nothing.";
     }
 
     /* The start command instructs the plugin to begin searching for hosts
@@ -33,11 +34,11 @@ export default class FooPlugin extends DiscoveryPlugin {
 
        // const containers = getContainers();
 
-        this.emit('status', "Starting up...")
-        this.emit('percentage', 0.10)
+        this.emit('status', "Starting up...");
+        this.emit('percentage', 0.10);
 
         // Get your hosts:
-        this.emit('percentage', 0.99)
+        this.emit('percentage', 0.99);
         this.emit('host', []);
 
         this.emit('done');
@@ -48,9 +49,9 @@ export default class FooPlugin extends DiscoveryPlugin {
      * as a destructor before the process exits or connects to a host. */
     stop(){
         // Stop searching, perform any cleanup tasks. 
-        this.emit('status', "Stopped")
+        this.emit('status', "Stopped");
     }
 
     // Leave this here, used to collect package information for external packages:
-    async meta() { return await readPkg() }
+    async meta() { return await readPkg(); }
 }

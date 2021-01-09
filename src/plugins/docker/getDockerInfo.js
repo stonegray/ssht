@@ -1,4 +1,4 @@
-import Docker  from 'dockerode'
+import Docker  from 'dockerode';
 
 
 
@@ -42,7 +42,7 @@ export async function getContainers(options) {
             resolve({
                 err: err,
                 containers: containers
-            })
+            });
         });
 
     });
@@ -59,7 +59,7 @@ export async function getNetworks(options) {
           resolve({
               err: err,
               networks: networks
-          })
+          });
       });
 
   });
@@ -76,7 +76,7 @@ export async function getInfo(options) {
           resolve({
               err: err,
               info: info
-          })
+          });
       });
 
   });

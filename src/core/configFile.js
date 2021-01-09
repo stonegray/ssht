@@ -3,9 +3,10 @@ import path from 'path';
 
 import { resolveTilde } from '../util/fileHelpers.js';
 import readJSONSync from '../util/readJSONSync.js';
-import buildEmptyOptions from './buildEmptyOptions.js'
 
-const optionsFile = "built/options.json"
+import buildEmptyOptions from './buildEmptyOptions.js';
+
+const optionsFile = "built/options.json";
 
 function initializeOptionsFile() {
 
@@ -23,7 +24,7 @@ function initializeOptionsFile() {
 
     fs.writeFileSync(filePath, str, {
         encoding: 'utf-8'
-    })
+    });
 
 }
 

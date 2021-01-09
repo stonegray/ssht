@@ -1,13 +1,14 @@
 
 import { EventEmitter } from 'events';
 import * as readline from 'readline';
-import log from '../core/logger.js'
+
+import log from '../core/logger.js';
 
 const mode = {
 	'NORMAL': 0,
 	'INSERT': 1,
 	'VISUAL': 2
-}
+};
 
 // Minimal single-line terminal text input field:
 export default class Input extends EventEmitter {
@@ -18,7 +19,7 @@ export default class Input extends EventEmitter {
 			modal: false,
 			maxLength: 1e3,
 			...options,
-		}
+		};
 
 		this.string = [];
 		this.selection = [0,0];
@@ -32,7 +33,7 @@ export default class Input extends EventEmitter {
 				level: 'warn',
 				zone: 'ui',
 				message: 'Failed to setRawMode on stdin'
-			})	
+			});	
 		}
 		readline.emitKeypressEvents(process.stdin);
 		process.stdin.setEncoding('utf-8');

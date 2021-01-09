@@ -1,16 +1,17 @@
 import fs from 'fs';
-import path from 'path'
+import path from 'path';
 
-import sshConfigParser from 'ssh-config'
+import sshConfigParser from 'ssh-config';
 import glob from 'glob';
 
 import { resolveTilde } from '../../util/fileHelpers.js';
-import { getSSHDirectory } from './getSSHDirectory.js';
-import readSSHConfigFile from './readFile.js'
 import options from '../../core/options.js';
-import log from '../../core/logger.js'
+import log from '../../core/logger.js';
 
-const sshRootPath = "~/.ssh"
+import { getSSHDirectory } from './getSSHDirectory.js';
+import readSSHConfigFile from './readFile.js';
+
+const sshRootPath = "~/.ssh";
 const sshConfigFile = './config';
 
 const asyncGlob = (pattern, options) => {
@@ -22,9 +23,9 @@ const asyncGlob = (pattern, options) => {
             if (err) resolve(null);
 
             resolve(files);
-        })
-    })
-}
+        });
+    });
+};
 
 export default async function recursiveParser(){
 
@@ -53,14 +54,14 @@ export default async function recursiveParser(){
                     path: String(options.sshConfigFile),
                     error: e
                 }
-            })
+            });
         }
     }
 
     // Check if it's a file:
     let dirent = await fs.promises.lstat(configPath);
     if (!dirent.isFile()){
-        console.log('Missing SSH config, stopping')
+        console.log('Missing SSH config, stopping');
         return false;
     }
 
@@ -114,7 +115,7 @@ export default async function recursiveParser(){
                 }
             }
         }
-    }
+    };
 
     await readConfig(configPath);
 

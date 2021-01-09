@@ -1,4 +1,4 @@
-import options from './core/options.js'
+import options from './core/options.js';
 import log from './core/logger.js';
 import { doneLoading } from './ui/loadingIndicator.js';
 import UserInterface from './ui/tui.js';
@@ -23,19 +23,19 @@ export default async function main() {
         zone: 'timing',
         message: 'Library loading completed in',
         data: String(process.uptime())
-    })
+    });
 
     log({
         zone: 'process',
         message: 'Master process PID',
         data: String(process.pid)
-    })
+    });
 
     log({
         zone: 'main',
         message: 'Parsed options',
         data: options
-    })
+    });
 
     //console.log(options, process.pid);
 
@@ -80,7 +80,7 @@ export default async function main() {
         });
 
         // Even if this is async, we just start it and keep going:
-        plugin.start()
+        plugin.start();
     }
 
 

@@ -5,7 +5,7 @@ export default class Screen {
     constructor(options){
         const defaultOptions = {
             height: 8
-        }
+        };
 
         this.opts = {...defaultOptions, ...options};
 
@@ -20,7 +20,7 @@ export default class Screen {
         for (const line in this.data) {
 
             if (!this.damage[line]){
-                cursor.lineDown(1)
+                cursor.lineDown(1);
                 continue;
             }
     

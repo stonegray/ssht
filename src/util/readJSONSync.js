@@ -10,12 +10,12 @@ export default function readJSONSync(filePath) {
     try {
         const string = fs.readFileSync(path.resolve(resolved), {
             encoding: 'utf-8'
-        })
+        });
 
         return JSON.parse(string);
 
     } catch (e) {
-        console.error(e)
+        console.error(e);
         return null;
     }
 }

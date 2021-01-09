@@ -1,13 +1,13 @@
 import readPkg from 'read-pkg';
 import randomWords from 'random-words';
 
-import DiscoveryPlugin from '../discovery/prototype.js'
+import DiscoveryPlugin from '../discovery/prototype.js';
 
 
 // Quick helper for getting random elements out of arrays
 const random = (arr)=>{
     return arr[Math.floor((Math.random() * arr.length))];
-}
+};
 
 function randomFQDN() {
     
@@ -36,7 +36,7 @@ function randomUsername(){
         'root',
         'guest',
         'ubuntu',
-    ]
+    ];
 
     return random(usernames);
 }
@@ -63,7 +63,7 @@ export default class FakePlugin extends DiscoveryPlugin {
         super();
 
         this.name = "Fake";
-        this.description = "Inserts fake hosts for testing"
+        this.description = "Inserts fake hosts for testing";
     }
 
     /* The start command instructs the plugin to begin searching for hosts
@@ -71,7 +71,7 @@ export default class FakePlugin extends DiscoveryPlugin {
      * before the plugin recieves the start() command are non-fatal errors */
     start(){
 
-        this.emit('status', "Inserting fake hosts...")
+        this.emit('status', "Inserting fake hosts...");
 
         const count = 100;
         const delay = 0.0;
@@ -88,7 +88,7 @@ export default class FakePlugin extends DiscoveryPlugin {
                 family: random([undefined, 4, 6]),
                 uuid: 'fake',
                 ssh: ''
-            }
+            };
         });
 
         // Slowly emit them:
@@ -114,9 +114,9 @@ export default class FakePlugin extends DiscoveryPlugin {
      * as a destructor before the process exits or connects to a host. */
     stop(){
         // Stop searching, perform any cleanup tasks. 
-        this.emit('status', "Stopped")
+        this.emit('status', "Stopped");
     }
 
     // Leave this here, used to collect package information for external packages:
-    async meta() { return await readPkg() }
+    async meta() { return await readPkg(); }
 }

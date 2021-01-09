@@ -41,4 +41,4 @@ export const cursor = {
         controlSequence(1, 'm') :
         controlSequence()
     
-}
+};

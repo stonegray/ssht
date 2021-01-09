@@ -1,7 +1,7 @@
 import winston from 'winston';
 import minimatch from 'minimatch';
 
-import options from '../core/options.js'
+import options from '../core/options.js';
 
 // Scoped (zone-based) logging implementation using Winston logger
 
@@ -51,10 +51,10 @@ const filterMetadata = winston.format(info => {
 
     if (typeof info.data == 'object'){
         try {
-            message += ': ' + JSON.stringify(info.data, null, 2)
+            message += ': ' + JSON.stringify(info.data, null, 2);
 
         } catch (e){
-            message += `\n[Failed to stringify data: ${e.message}]`
+            message += `\n[Failed to stringify data: ${e.message}]`;
         }
     }
 
@@ -77,7 +77,7 @@ const filterMetadata = winston.format(info => {
         level,
         message
     };
-})
+});
 
 const filterZone = winston.format(info => {
 
@@ -138,7 +138,7 @@ const winstonLogger = winston.createLogger({
         }),
     ]
 
-})
+});
 
 /*
 const ignorePrivate = format((info, opts) => {
@@ -156,11 +156,11 @@ export default function log(logObj){
         level: 'info',
         message: 'Empty message',
         data: null
-    }
+    };
 
     const obj = {...defaults, ...logObj};
 
-    winstonLogger.log(obj)
+    winstonLogger.log(obj);
 
 }
 
@@ -168,4 +168,4 @@ log({
     zone: 'timing',
     message: "Initialized logger",
     data: process.uptime()
-})
+});

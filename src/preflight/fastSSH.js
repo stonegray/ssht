@@ -4,7 +4,6 @@ import net from 'net';
 import readPkg from 'read-pkg';
 
 import options from '../core/options.js';
-
 import { asyncSleep, hrtimeToMs } from '../util/time.js';
 
 // Get package info for building clientIdentifier
@@ -18,13 +17,13 @@ let sshComment = options.fastSSHComment
 
 // An option is provided to disable courtesy messages like this:
 if (options.impolite){
-    sshComment == ''
+    sshComment == '';
 }
 
 // ClientIdentifier docs:
 // RFC 4253 4.2
 // https://tools.ietf.org/html/rfc4253#section-4.2
-const clientIdentifier = `SSH-2.0-${pkg.name}_${pkg.version} ${sshComment}\r\n`
+const clientIdentifier = `SSH-2.0-${pkg.name}_${pkg.version} ${sshComment}\r\n`;
 
 // TODO: Move these into an options file:
 const maxConnections = options.maxTCPConnections || 64;
@@ -65,7 +64,7 @@ function parseSSHHeader(header){
     return {
         version: arr[0],
         comment: arr[1] || ''
-    }
+    };
 }
 
 // Quickly perform the first bytes of an SSH handshake to check that server is
@@ -88,7 +87,7 @@ export default class FastSSH {
                 header: false,
                 handshakeTime: 0,
                 error: "FastSSH queue is full, try again later"
-            })
+            });
             return;
         }
         
@@ -118,7 +117,7 @@ export default class FastSSH {
             header: false,
             handshakeTime: 0,
             error: "Malformed host"
-        }
+        };
 
         if (typeof host.fqdn !== 'string'){
             callback(defaultFailResult);
@@ -139,7 +138,7 @@ export default class FastSSH {
                     header: false,
                     handshakeTime: tcpTimeout,
                     error: 'Timeout'
-                })
+                });
             }, tcpTimeout);
 
             socket.on('data', function (data) {
@@ -151,7 +150,7 @@ export default class FastSSH {
                     header: parseSSHHeader(String(data)),
                     handshakeTime: hrtimeToMs(time),
                     error: false
-                })
+                });
             });
 
             socket.on('error', function (err) {
@@ -162,7 +161,7 @@ export default class FastSSH {
                     header: false,
                     handshakeTime: hrtimeToMs(time),
                     error: err
-                })
+                });
             });
 
             const port = host.port || 22;
@@ -171,7 +170,7 @@ export default class FastSSH {
                 socket.write(clientIdentifier);
                 startTime = process.hrtime();
             });
-        })
+        });
 
         // when the promise resolves, the socket is destroyed so we can allow
         // others to run:

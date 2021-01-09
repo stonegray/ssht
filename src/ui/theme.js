@@ -12,7 +12,7 @@ function splash(){
     lines[4] = '4.       '+ getTip();
     lines[5] = '5. ';
     lines[6] = '6. ';
-    lines[7] = "initializing | 0/0"
+    lines[7] = "initializing | 0/0";
     return lines;
 }
 
@@ -29,7 +29,7 @@ function resultLine(index, host, uiFields){
     string += host.fqdn;
 
     if (host.username) {
-        string += `:${host.port}`
+        string += `:${host.port}`;
     }
 
     return string;
@@ -63,4 +63,4 @@ export const theme = {
     resultLine: resultLine,
     searchLine: searchLine,
     statusLine: statusLine
-}
+};

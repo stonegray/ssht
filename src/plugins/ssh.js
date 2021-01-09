@@ -1,4 +1,4 @@
-import DiscoveryPlugin from '../discovery/prototype.js'
+import DiscoveryPlugin from '../discovery/prototype.js';
 
 import getHosts from './ssh/getHosts.js';
 
@@ -24,14 +24,14 @@ export default class SSHPlugin extends DiscoveryPlugin {
         super();
 
         this.name = "SSH";
-        this.description = "Reads local ~/.ssh/config files"
+        this.description = "Reads local ~/.ssh/config files";
     }
 
     /* The start command instructs the plugin to begin searching for hosts
      * and emitting 'host' events when it finds new ones. */
     start(){
 
-        this.emit('status', "Starting up...")
+        this.emit('status', "Starting up...");
         this.emit('percentage', 0.0)
 
         ;(async ()=>{
@@ -55,11 +55,11 @@ export default class SSHPlugin extends DiscoveryPlugin {
      * as a destructor before the process exits or connects to a host. */
     stop(){
         // Stop searching, perform any cleanup tasks. 
-        this.emit('status', "Stopped")
+        this.emit('status', "Stopped");
     }
 }
 
 // Leave this here, used to collect package information for external packages:
 export async function meta(){
-    return import.meta.url 
+    return import.meta.url; 
 }

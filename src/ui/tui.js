@@ -1,11 +1,12 @@
-import Screen from './screen.js';
-import Input from './input.js';
-
-import { theme } from './theme.js';
+import { EventEmitter } from 'events';
 
 import log from '../core/logger.js';
 
-import { EventEmitter } from 'events';
+import Screen from './screen.js';
+import Input from './input.js';
+import { theme } from './theme.js';
+
+
 
 // emits: text
 // recieves: results (arr of DSHosts)
@@ -17,11 +18,11 @@ export default class UserInterface extends EventEmitter {
 		this.options = {
 			height: 8,
 			...options
-		}
+		};
 
 		this.input = new Input({
 			maxLength: 1e3
-		})
+		});
 	
 		this.screen = new Screen({
 			height: this.options.height
@@ -40,7 +41,7 @@ export default class UserInterface extends EventEmitter {
 
 			const bell = new Uint8Array([0x07]);
 			process.stdout.write(bell);
-		})
+		});
 
 		//
 		this.uiFields = {
@@ -49,7 +50,7 @@ export default class UserInterface extends EventEmitter {
 			resultSize: 0,
 			search: '',
 			visualBell: false,
-		}
+		};
 
 		this._drawEmptyFrame();
 
@@ -57,7 +58,7 @@ export default class UserInterface extends EventEmitter {
 			zone: 'timing',
 			message: "Drew first frame",
 			data: process.uptime()
-		})
+		});
 	}
 
 	_drawEmptyFrame(){
@@ -69,7 +70,7 @@ export default class UserInterface extends EventEmitter {
 		lines.forEach(line =>{
 
 			this.screen.writeLine(lines.indexOf(line), line);
-		})
+		});
 	}
 
 	updateUIField(field, data){

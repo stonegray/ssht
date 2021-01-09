@@ -4,7 +4,7 @@ import networkOptions from './options/network.js';
 import sshOptions from './options/ssh.js';
 import debugOptions from './options/debug.js';
 
-let definitions = []
+let definitions = [];
 
 
 /*

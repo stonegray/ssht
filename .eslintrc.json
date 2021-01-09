@@ -27,6 +27,19 @@
         }
     ],
     "rules": {
+        "no-unused-vars":"warn",
+
+        "semi": ["error", "always"],
+
+        // import:
+        "import/extensions": ["error", "always"],
+        "import/no-cycle": [2, { "maxDepth": 128 }],
+        "import/first": "error",
+        "import/order": ["error",{
+            "newlines-between": "always"
+        }],
+        "import/newline-after-import": "warn"
+
 
     }
 }

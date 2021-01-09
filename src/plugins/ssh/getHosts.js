@@ -1,7 +1,7 @@
 // Compute hosts
 
 
-import recursiveParser from './recursiveParser.js'
+import recursiveParser from './recursiveParser.js';
 import computeHosts from './computeHosts.js';
 import { translateHostFormat } from './translateHostFormat.js';
 
@@ -21,7 +21,7 @@ export default async function getHosts(){
         } else {
             literalHosts.push(host);
         }
-    }
+    };
 
     for (const host of hosts) {
 
@@ -45,11 +45,11 @@ export default async function getHosts(){
                     sortHost({
                         ...host,
                         value: n,
-                    })
+                    });
                 }
 
             } else {
-                console.error("Unexpected value type:", host)
+                console.error("Unexpected value type:", host);
             }
     
         }

@@ -1,16 +1,18 @@
 
 
-import DiscoveryPlugin from './prototype.js';
 
 // Precache plugins to improve launch times:
 /* eslint-disable no-unused-vars */
-import SSHPlugin from '../plugins/ssh.js'
-import FakePlugin from '../plugins/fake.js'
-import DockerPlugin from '../plugins/docker.js'
+import SSHPlugin from '../plugins/ssh.js';
+import FakePlugin from '../plugins/fake.js';
+import DockerPlugin from '../plugins/docker.js';
 /* eslint-enable no-unused-vars */
 
 import options from '../core/options.js';
 import log from '../core/logger.js';
+
+import DiscoveryPlugin from './prototype.js';
+
 const zone = 'pluginLoader';
 
 export async function getPlugins(pluginNames, options){
@@ -137,7 +139,7 @@ export async function startPlugins(pluginNames){
             total: pluginConstructors.length,
             plugins: pluginMeta
         }
-    })
+    });
     
     return plugins;
 }

@@ -1,9 +1,11 @@
-import readPkg from 'read-pkg';
-import {cursor} from '../ui/terminalUtils.js';
 import os from 'os';
 
+import readPkg from 'read-pkg';
 
-export default async function version(options){
+import {cursor} from '../ui/terminalUtils.js';
+
+
+export default async function version(){
 
     const pkg = await readPkg();
 
