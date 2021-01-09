@@ -10,6 +10,9 @@ const options = Object.freeze({
 });
 
 if (options.version) {
+
+    /* eslint-disable promise/catch-or-return */
+    /* eslint-disable promise/always-return */
     version(options).then(() => {
         process.exit(0);
     });

@@ -10,6 +10,7 @@ function internetChecksum(buf) {
     // Based off of:
     // https://gist.github.com/bryc/8a0885a4be58b6bbf0ec54c7758c0841#file-ipv4-js
     for (let i = 0; i < buf.length; i += 2) {
+        // eslint-disable-next-line security/detect-object-injection 
         let digit = (buf[i] << 8) + buf[i + 1];
         sum = (sum + digit) % 65535;
     }
