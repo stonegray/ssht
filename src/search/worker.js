@@ -1,7 +1,7 @@
 // workers/add.js
 import { isMainThread } from "worker_threads";
 
-import { expose } from "threads/worker";
+import { expose } from "threads/worker.js";
 import Fuse from 'fuse.js';
 
 let cache = [];
