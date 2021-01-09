@@ -9,8 +9,8 @@ export default class Screen {
 
         this.opts = {...defaultOptions, ...options};
 
-        this.data = Array(this.opts.height).fill('empty');
-        this.damage = Array(this.opts.height).fill(true);
+        this.data = new Array(this.opts.height).fill('empty');
+        this.damage = new Array(this.opts.height).fill(true);
 
         cursor.hide();
     }

@@ -10,9 +10,8 @@ export default class StartErrorPlugin extends DiscoveryPlugin {
         this.description = "Example builtin plugin that does nothing.";
     }
     start(){
-        throw Error('Failed during constructor!');
+        throw new Error('Failed during constructor!');
     }
-    stop(){
-    }
+    stop(){}
     async meta() { return await readPkg(); }
 }

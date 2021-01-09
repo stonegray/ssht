@@ -88,22 +88,12 @@ export default class DiscoveryPlugin extends EventEmitter {
 		return 'uuid';
 	}
 
-	updateHost(update){
-
-	}
+	updateHost(update){}
 
 
-	error(data){
-
-	}
-	debug(data){
-
-	}
-	status(data){
-
-	}
-	percentage(float){
-
-	}
+	error(data){}
+	debug(data){}
+	status(data){}
+	percentage(float){}
 }
 

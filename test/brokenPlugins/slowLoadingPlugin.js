@@ -21,9 +21,7 @@ export default class SlowLoadingPlugin extends DiscoveryPlugin {
         this.description = "Example builtin plugin that does nothing.";
 
     }
-    start(){
-    }
-    stop(){
-    }
+    start(){}
+    stop(){}
     async meta() { return await readPkg(); }
 }

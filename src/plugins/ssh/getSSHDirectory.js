@@ -35,7 +35,7 @@ export async function getSSHDirectory(p) {
 
             //console.log('debug: Following SSH folder rel symlink to ', link);
             // Build path based on relative link location:
-            return path.join.apply(null, [
+            return Reflect.apply(path.join, null, [
                 resolvedPath,
                 '..',
                 link
@@ -48,7 +48,7 @@ export async function getSSHDirectory(p) {
     dirent = await fs.promises.lstat(resolvedPath);
 
     if (dirent.isSymbolicLink()) {
-        throw Error('Deep symlinks are unsupported, please file an issue.');
+        throw new Error('Deep symlinks are unsupported, please file an issue.');
     }
 
     if (!dirent.isDirectory()) {

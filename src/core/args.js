@@ -122,7 +122,7 @@ const a = await new Promise(resolve => {
         // Workaround:
         // https://github.com/yargs/yargs/issues/319
 
-        output = output.replace(/\[\w+\]/g, '');
+        output = output.replace(/\[\w+]/g, '');
 
         // Check if we're running the --version comand:
         

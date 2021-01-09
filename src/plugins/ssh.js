@@ -32,7 +32,7 @@ export default class SSHPlugin extends DiscoveryPlugin {
     start(){
 
         this.emit('status', "Starting up...");
-        this.emit('percentage', 0.0)
+        this.emit('percentage', 0)
 
         ;(async ()=>{
 
@@ -44,7 +44,7 @@ export default class SSHPlugin extends DiscoveryPlugin {
                 this.emit('host', h);
             }
 
-            this.emit('percentage', 1.00);
+            this.emit('percentage', 1);
             this.emit('done');
 
         })();

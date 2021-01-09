@@ -98,8 +98,7 @@ export default class UserInterface extends EventEmitter {
 	// Draw a frame on the screen:
 	results(arr){
 
-		for (let i = 0; i < arr.length; i++) {
-			const element = arr[i];
+		for (const [i, element] of arr.entries()) {
 
 			const str = theme.resultLine(i, element, this.uiFields);
 

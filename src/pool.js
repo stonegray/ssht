@@ -58,9 +58,7 @@ export default class Pool extends EventEmitter {
 	}
 
 
-    updateHost(uuid){
-
-    }
+    updateHost(uuid){}
     addHost(host){
         this.pool.push(host);
 
@@ -84,7 +82,7 @@ export default class Pool extends EventEmitter {
 			this.emit('results', this.pool); 
 		}
 
-		if (string.length == 0) return [];
+		if (string.length === 0) return [];
 
 		const result = await this.engine.query(string);
 

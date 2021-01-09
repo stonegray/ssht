@@ -32,7 +32,7 @@ export default class FooPlugin extends DiscoveryPlugin {
     start(){
 
         this.emit('status', "Starting up...");
-        this.emit('percentage', 0.10);
+        this.emit('percentage', 0.1);
 
         // Get your hosts:
         this.emit('percentage', 0.99);

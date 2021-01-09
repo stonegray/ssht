@@ -6,7 +6,8 @@
     "extends": [
         "eslint:recommended",
         "plugin:import/errors",
-        "plugin:import/warnings"
+        "plugin:import/warnings",
+        "plugin:unicorn/recommended"
     ],
     "parserOptions": {
         "ecmaVersion": 2020,
@@ -38,8 +39,20 @@
         "import/order": ["error",{
             "newlines-between": "always"
         }],
-        "import/newline-after-import": "warn"
+        "import/newline-after-import": "warn",
 
+        // unicorn
+        "unicorn/filename-case": ["error", {
+            "case": "camelCase"
+        }],
+        "unicorn/prevent-abbreviations": 0,
+        "unicorn/no-null": 0,
+        "unicorn/catch-error-name": 0,
 
+        // borken:
+        // https://github.com/sindresorhus/eslint-plugin-unicorn/issues/999
+        "unicorn/prefer-string-slice": 0
+
+        
     }
 }

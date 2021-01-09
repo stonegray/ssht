@@ -7,12 +7,10 @@ export default class InvalidMetaPlugin extends DiscoveryPlugin {
         this.name = "Foo";
         this.description = "Example builtin plugin that does nothing.";
 
-        throw Error('Failed during constructor!');
+        throw new Error('Failed during constructor!');
     }
-    start(){
-    }
-    stop(){
-    }
+    start(){}
+    stop(){}
     async meta() {
         return {
             foo: 0

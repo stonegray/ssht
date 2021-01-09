@@ -9,11 +9,9 @@ export default class ConstructorErrorPlugin extends DiscoveryPlugin {
         this.name = "Foo";
         this.description = "Example builtin plugin that does nothing.";
 
-        throw Error('Failed during constructor!');
+        throw new Error('Failed during constructor!');
     }
-    start(){
-    }
-    stop(){
-    }
+    start(){}
+    stop(){}
     async meta() { return await readPkg(); }
 }

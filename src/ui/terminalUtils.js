@@ -3,13 +3,9 @@ function controlSequence(args, fun) {
 
     let arg;
 
-    if (Array.isArray(args)) {
-        arg = args.join(';');
-    } else {
-        arg = args;
-    }
+    arg = Array.isArray(args) ? args.join(';') : args;
 
-    process.stdout.write('\x1b[' + arg + fun);
+    process.stdout.write('\u001B[' + arg + fun);
 }
 
 export const cursor = {

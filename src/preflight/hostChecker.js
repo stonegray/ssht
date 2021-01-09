@@ -9,9 +9,7 @@ const icmp = new ICMPPEcho();
 const fastSSH = new FastSSH();
 
 export default class HostChecker {
-    constructor(){
-
-    }
+    constructor(){}
 
 
 }

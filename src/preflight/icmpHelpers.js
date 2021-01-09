@@ -64,7 +64,7 @@ export function parseResponse(buffer){
     try {
         type = buffer.readUInt8(20);
         code = buffer.readUInt8(21);
-    } catch (e){
+    } catch {
         console.error("WARN: Internal error, unexpected buffer contents in parseResponse");
         return {};
     }

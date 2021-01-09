@@ -40,7 +40,7 @@ export function safePathSplit(string){
             `Expected: "${string}", got "${rebuilt}"`
         ].join('');
 
-        throw Error(message);
+        throw new Error(message);
     }
 
     return arr;

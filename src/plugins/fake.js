@@ -74,7 +74,7 @@ export default class FakePlugin extends DiscoveryPlugin {
         this.emit('status', "Inserting fake hosts...");
 
         const count = 100;
-        const delay = 0.0;
+        const delay = 0;
 
         // Make an empty array of size n
         const output = [...new Array(count)].map(()=>{
@@ -95,7 +95,7 @@ export default class FakePlugin extends DiscoveryPlugin {
         let timer = setInterval(()=>{
 
             // If there's nothing more to do, cancel the iterator:
-            if (output.length == 0) {
+            if (output.length === 0) {
                 clearInterval(timer);
                 this.emit('done');
             }

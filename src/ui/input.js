@@ -28,7 +28,7 @@ export default class Input extends EventEmitter {
 	
 		try {
 			process.stdin.setRawMode(true);
-		} catch (e){
+		} catch {
 			log({
 				level: 'warn',
 				zone: 'ui',
