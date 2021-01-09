@@ -31,7 +31,7 @@ export default class FooPlugin extends DiscoveryPlugin {
      * before the plugin recieves the start() command are non-fatal errors */
     start(){
 
-        const containers = getContainers();
+       // const containers = getContainers();
 
         this.emit('status', "Starting up...")
         this.emit('percentage', 0.10)
