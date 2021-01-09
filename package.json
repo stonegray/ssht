@@ -11,7 +11,7 @@
         "ssh"
     ],
     "scripts": {
-        "lint": "node ./node_modules/.bin/eslint .",
+        "lint": "node ./node_modules/.bin/eslint --fix .",
         "start": "node ./src/main.js",
         "test": "npm run lint && ./node_modules/.bin/mocha --exit \"./test/**/*.test.js\""
     },
