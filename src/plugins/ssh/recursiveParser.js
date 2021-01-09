@@ -8,7 +8,7 @@ import { resolveTilde } from '../../util/fileHelpers.js';
 import options from '../../core/options.js';
 import log from '../../core/logger.js';
 
-import { getSSHDirectory } from './getSSHDirectory.js';
+import { getSSHDirectory } from './getSshDirectory.js';
 import readSSHConfigFile from './readFile.js';
 
 const sshRootPath = "~/.ssh";
