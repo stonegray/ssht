@@ -1,4 +1,4 @@
-
+/* eslint-disable security/detect-object-injection */
 import { cursor } from './terminalUtils.js';
 
 export default class Screen {

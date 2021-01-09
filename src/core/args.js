@@ -21,23 +21,6 @@ function createYargsObject(definitions) {
     });
 
     // Quick helper function:
-    function appendOption(yarg, definition) {
-
-        const opt = definition;
-
-        const a = opt.argument.substring(2);
-        //console.log(opt.argument, a);
-        return yarg.option(a, {
-
-            // es2020 optional chaining opr:
-            alias: opt.alias?.substring(1),
-            description: opt.description,
-            type: opt.type,
-            hidden: opt.hidden,
-            group: opt.group,
-            //default: opt.default
-        });
-    }
 
     function loadArgs(definitions) {
         for (const def of definitions) {
@@ -49,6 +32,25 @@ function createYargsObject(definitions) {
 
     return loadArgs(definitions);
 }
+
+function appendOption(yarg, definition) {
+
+    const opt = definition;
+
+    const a = opt.argument.substring(2);
+    //console.log(opt.argument, a);
+    return yarg.option(a, {
+
+        // es2020 optional chaining opr:
+        alias: opt.alias?.substring(1),
+        description: opt.description,
+        type: opt.type,
+        hidden: opt.hidden,
+        group: opt.group,
+        //default: opt.default
+    });
+}
+
 
 
 // we need to reassemble what yargs gives us back into a usable object:
@@ -63,7 +65,9 @@ function remapOutputArray(args){
 
         const argsName = def.argument.substring(2);
 
+        /* eslint-disable-next-line security/detect-object-injection */
         if (typeof args[argsName] !== 'undefined'){
+            /* eslint-disable-next-line security/detect-object-injection */
             out[def.name] = args[argsName];
         }
     }

@@ -67,6 +67,7 @@ export default class Searcher extends EventEmitter {
         // Pick a worker:
         const target = this.hostCount % this.numWorkers;
 
+        // eslint-disable-next-line security/detect-object-injection
         this.workers[target].addHost(host);
 
         this.hostCount++;

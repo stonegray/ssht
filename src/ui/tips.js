@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 
 const tips = [
     'Use meta+# to quick connect to a numbered result in the list',
@@ -6,7 +7,7 @@ const tips = [
 
 function getTip(){
     const index = Math.floor(Math.random() * tips.length);
-
+    
     const tip = tips[index];
 
     if (typeof tip == 'function') return tip();

@@ -1,7 +1,8 @@
 // workers/add.js
 import { isMainThread } from "worker_threads";
 
-import { expose } from "threads/worker.js";
+// eslint-disable-next-line import/extensions
+import { expose } from "threads/worker";
 import Fuse from 'fuse.js';
 
 let cache = [];
