@@ -7,7 +7,6 @@ import SSHPlugin from '../plugins/ssh.js';
 import FakePlugin from '../plugins/fake.js';
 import DockerPlugin from '../plugins/docker.js';
 /* eslint-enable no-unused-vars */
-
 import options from '../core/options.js';
 import log from '../core/logger.js';
 
