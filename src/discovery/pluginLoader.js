@@ -39,6 +39,7 @@ export async function getPlugins(pluginNames, options){
 
         let imported = {};
         let error = null;
+        
         try {
             imported = await import(name);
         } catch (e) {

@@ -39,7 +39,7 @@ function parseSSHHeader(header){
     
     // I originally used a regex for this, but it's not the best way:
     /^(?:SSH-2.0-)(\S*)(?: (.*))$/;
-    // I'll leave it documented here:
+    // I'll leave it documented here and uncommented for highlighting:
     // The protocol/prot version are uncaptured.
     // Capture group 1: "softwareversion" string
     // Capture group 2: "comment" string, optional
