@@ -18,20 +18,24 @@ export enum DSPEvents {
 export interface DSHost {
 	
 	/* Required values
-	 * - uuid (optional for now)
+	 * - id (optional for now)
 	 * - fqdn
+	 * - type
 	 * - ssh command
 	 *\/
 
 	// Unique identifier. This is used or maintinag the host database, and must
 	// be unique. This is to allow updating information about the host.
-	uudd?: string; 
+	identifier?: number; 
 
 	// Human readable name of the host, optional
 	name?: string; 
 
 	// FQDN or IP of host.
 	fqdn: string;
+
+	// Type of host, eg. SSH or AWS (basically plugin name)
+	type: string;
 
 	// SSH Settings:
 	username?: string;
@@ -51,17 +55,25 @@ export interface DSHost {
 	// Usually your plugin name, eg 'docker'
 	kind?: string;
 
-	// Meta information
-	meta?: {
+	// These parameters can optionally be supplied to influence how
+	// HostChecker processes the host
+	checker?: {
 
 		// Disable host checking
-		moCheck?: boolean;
+		noCheck?: boolean;
 
 		// Force host checking to see host as online
-		alive?: boolean;
+		forceAlive?: boolean;
+
+		// Force using a different FQDN to perform the host check
+		// This is used for compatibility with SSH's ProxyJump, we should
+		// check the proxy's state instead of the destination host
+		forceFqdn: string;
+
 	}
 
 	// Status information as determined by HostChecker
+	// This is undefined unless set by HostChecker
 	status: {
 
 		// One of the valid states defined in ./src/preflight/README.md
@@ -72,6 +84,12 @@ export interface DSHost {
 
 		// Ping time in milliseconds
 		ping?: number;
+
+		// True if the IP is within or resolves to a private range 
+		private?: boolean;
+
+		// SSH server version
+		serverVersion?: string | undefined;
 	}
 
 	// Additional human readable content
