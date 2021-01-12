@@ -2,51 +2,51 @@
 import { cursor } from './terminalUtils.js';
 
 export default class Screen {
-    constructor(options){
-        const defaultOptions = {
-            height: 8
-        };
+	constructor(options){
+		const defaultOptions = {
+			height: 8
+		};
 
-        this.opts = {...defaultOptions, ...options};
+		this.opts = {...defaultOptions, ...options};
 
-        this.data = new Array(this.opts.height).fill('empty');
-        this.damage = new Array(this.opts.height).fill(true);
+		this.data = new Array(this.opts.height).fill('empty');
+		this.damage = new Array(this.opts.height).fill(true);
 
-        cursor.hide();
-    }
+		cursor.hide();
+	}
 
-    render(){
+	render(){
 
-        for (const line in this.data) {
+		for (const line in this.data) {
 
-            if (!this.damage[line]){
-                cursor.lineDown(1);
-                continue;
-            }
+			if (!this.damage[line]){
+				cursor.lineDown(1);
+				continue;
+			}
     
-            cursor.clear();
-            process.stdout.write(
-                this.data[line] + '\n'
-            );
+			cursor.clear();
+			process.stdout.write(
+				this.data[line] + '\n'
+			);
     
-            this.damage[line] = false;
-        }
+			this.damage[line] = false;
+		}
     
-        cursor.save();
-        cursor.lineUp(this.data.length);
-    }
+		cursor.save();
+		cursor.lineUp(this.data.length);
+	}
 
 
-    writeLine(position, contents) {
+	writeLine(position, contents) {
 
 
-        this.damage[position] = true;
-        this.data[position] = contents;
+		this.damage[position] = true;
+		this.data[position] = contents;
 
 
-        this.render();
+		this.render();
 
-    }
+	}
 
 }
 

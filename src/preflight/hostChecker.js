@@ -8,31 +8,31 @@ import checkInternet from './connectivity.js';
 
 
 export default class HostChecker {
-    constructor(){
-        this.icmp = new ICMPPEcho();
-        this.fastSSH = new FastSSH();
-    }
+	constructor(){
+		this.icmp = new ICMPPEcho();
+		this.fastSSH = new FastSSH();
+	}
 
-    queueCheck(host, callback){
+	queueCheck(host, callback){
 
-        // All hosts will show as ineligable for preflight host checking if
-        // this option is truthy.
-        if (options.noPreflight){
+		// All hosts will show as ineligable for preflight host checking if
+		// this option is truthy.
+		if (options.noPreflight){
 
-            callback({
-                state: "INELIGABLE"
-            });
+			callback({
+				state: "INELIGABLE"
+			});
 
-            return;
-        }
+			return;
+		}
 
 
 
-    }
+	}
 
-    async _check(host){
-        host;
-    }
+	async _check(host){
+		host;
+	}
 
 
 }

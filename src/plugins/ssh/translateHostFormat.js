@@ -34,43 +34,43 @@
     // Additional human readable content
     comment?: string;*/
 export function translateHostFormat(hosts) {
-    return hosts.map(host => {
+	return hosts.map(host => {
 
-        // Build parameters array from SSHConfig object:
-        const params = {};
-        if (Array.isArray(host.config)) {
-            for (const c of host.config) {
+		// Build parameters array from SSHConfig object:
+		const params = {};
+		if (Array.isArray(host.config)) {
+			for (const c of host.config) {
 
-                // Strip comments for now:
-                if (c.type !== 1)
-                    continue;
+				// Strip comments for now:
+				if (c.type !== 1)
+					continue;
 
-                // rewrite as lowercase:
-                params[c.param.toLowerCase()] = c.value;
-            }
-        }
+				// rewrite as lowercase:
+				params[c.param.toLowerCase()] = c.value;
+			}
+		}
 
-        // For clarity, I'm using explicit assignment to undefined as
-        // it might be confusing otherwise.
-        return {
-            // Required parameters:
-            name: host.value,
-            fqdn: params.hostname || host.value,
+		// For clarity, I'm using explicit assignment to undefined as
+		// it might be confusing otherwise.
+		return {
+			// Required parameters:
+			name: host.value,
+			fqdn: params.hostname || host.value,
 
-            // Optional parameters:
-            port: params.port || undefined,
-            username: params.user || undefined,
-            family: 4,
-            kind: 'SSH',
+			// Optional parameters:
+			port: params.port || undefined,
+			username: params.user || undefined,
+			family: 4,
+			kind: 'SSH',
 
-            bindaddress: params.bindaddress || undefined,
-            bindinterface: params.bindinterface || undefined,
+			bindaddress: params.bindaddress || undefined,
+			bindinterface: params.bindinterface || undefined,
 
-            meta: {
-                ...host,
-                ...params
-            }
-        };
+			meta: {
+				...host,
+				...params
+			}
+		};
 
-    });
+	});
 }

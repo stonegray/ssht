@@ -7,15 +7,15 @@ import { promises as fs } from 'fs';
 // Modified to support recursion across symlinks
 
 export default async function* getFiles(dir) {
-  const dirents = await fs.readdir(dir, { withFileTypes: true });
-  for (const dirent of dirents) {
-    const res = path.resolve(dir, dirent.name);
-    if (dirent.isDirectory()) {
-      yield* getFiles(res);
-    } else {
-        yield res;
-    }
-  }
+	const dirents = await fs.readdir(dir, { withFileTypes: true });
+	for (const dirent of dirents) {
+		const res = path.resolve(dir, dirent.name);
+		if (dirent.isDirectory()) {
+			yield* getFiles(res);
+		} else {
+			yield res;
+		}
+	}
 }
 
 // usage:

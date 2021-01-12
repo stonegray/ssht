@@ -20,46 +20,46 @@ be emitted by a DiscoveryPlugin, any others are invalid:
 */
 
 export default class SSHPlugin extends DiscoveryPlugin {
-    constructor(){
-        super();
+	constructor(){
+		super();
 
-        this.name = "SSH";
-        this.description = "Reads local ~/.ssh/config files";
-    }
+		this.name = "SSH";
+		this.description = "Reads local ~/.ssh/config files";
+	}
 
-    /* The start command instructs the plugin to begin searching for hosts
+	/* The start command instructs the plugin to begin searching for hosts
      * and emitting 'host' events when it finds new ones. */
-    start(){
+	start(){
 
-        this.emit('status', "Starting up...");
-        this.emit('percentage', 0)
+		this.emit('status', "Starting up...");
+		this.emit('percentage', 0)
 
-        ;(async ()=>{
+		;(async ()=>{
 
-            const hosts = await getHosts();
+			const hosts = await getHosts();
 
-            // Ideally we'd emit them as we get them instead of caching
-            // them all, but this seems to work well enough.
-            for (const h of hosts){
-                this.emit('host', h);
-            }
+			// Ideally we'd emit them as we get them instead of caching
+			// them all, but this seems to work well enough.
+			for (const h of hosts){
+				this.emit('host', h);
+			}
 
-            this.emit('percentage', 1);
-            this.emit('done');
+			this.emit('percentage', 1);
+			this.emit('done');
 
-        })();
-    }
+		})();
+	}
 
-    /* The stop command instructs the plugin to stop searching for hosts.
+	/* The stop command instructs the plugin to stop searching for hosts.
      * Any hosts discovered after this will throw an error. This will be called
      * as a destructor before the process exits or connects to a host. */
-    stop(){
-        // Stop searching, perform any cleanup tasks. 
-        this.emit('status', "Stopped");
-    }
+	stop(){
+		// Stop searching, perform any cleanup tasks. 
+		this.emit('status', "Stopped");
+	}
 }
 
 // Leave this here, used to collect package information for external packages:
 export async function meta(){
-    return import.meta.url; 
+	return import.meta.url; 
 }

@@ -10,50 +10,50 @@ const optionsFile = "built/options.json";
 
 function initializeOptionsFile() {
 
-    const opts = buildEmptyOptions();
+	const opts = buildEmptyOptions();
 
-    const str = JSON.stringify(opts, null, 2);
+	const str = JSON.stringify(opts, null, 2);
 
-    const filePath = resolveTilde(optionsFile);
+	const filePath = resolveTilde(optionsFile);
 
-    const configDir = path.dirname(filePath);
+	const configDir = path.dirname(filePath);
 
-    fs.mkdirSync(configDir, {
-        recursive: true
-    });
+	fs.mkdirSync(configDir, {
+		recursive: true
+	});
 
-    fs.writeFileSync(filePath, str, {
-        encoding: 'utf-8'
-    });
+	fs.writeFileSync(filePath, str, {
+		encoding: 'utf-8'
+	});
 
 }
 
 
 export function getOptions() {
 
-    const resolved = resolveTilde(optionsFile);
+	const resolved = resolveTilde(optionsFile);
 
-    if (!fs.existsSync(resolved)) {
-        initializeOptionsFile();
-    } 
+	if (!fs.existsSync(resolved)) {
+		initializeOptionsFile();
+	} 
 
-    let options = readJSONSync(resolved);
+	let options = readJSONSync(resolved);
 
-    // TODO: better handling of malformed files
-    if (options == null){
-        initializeOptionsFile();
-        options = readJSONSync(resolved);
-    }
+	// TODO: better handling of malformed files
+	if (options == null){
+		initializeOptionsFile();
+		options = readJSONSync(resolved);
+	}
 
-    // If we still can't write, just use default options
-    // and warn the user.
-    if (options == null){
-        // TODO: Error handling
-        console.error('ERROR: Failed to write options.json');
-        return buildEmptyOptions();
-    }
+	// If we still can't write, just use default options
+	// and warn the user.
+	if (options == null){
+		// TODO: Error handling
+		console.error('ERROR: Failed to write options.json');
+		return buildEmptyOptions();
+	}
 
-    return options;
+	return options;
 
 }
 

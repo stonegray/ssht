@@ -47,96 +47,96 @@ The rest follow pretty standard policy:
 
 const filterMetadata = winston.format(info => {
 
-    let message = info.message;
+	let message = info.message;
 
-    if (typeof info.data == 'object'){
-        try {
-            message += ': ' + JSON.stringify(info.data, null, 2);
+	if (typeof info.data == 'object'){
+		try {
+			message += ': ' + JSON.stringify(info.data, null, 2);
 
-        } catch (e){
-            message += `\n[Failed to stringify data: ${e.message}]`;
-        }
-    }
+		} catch (e){
+			message += `\n[Failed to stringify data: ${e.message}]`;
+		}
+	}
 
-    if (typeof info.data == 'string'){
-            message += ': ' + info.data;
-    }
+	if (typeof info.data == 'string'){
+		message += ': ' + info.data;
+	}
 
-    if (typeof info.data == 'number'){
-            message += ': ' + String(info.data);
-    }
+	if (typeof info.data == 'number'){
+		message += ': ' + String(info.data);
+	}
 
-    let level = '';
-    level = info.level;
+	let level = '';
+	level = info.level;
 
-    if (info.zone){
-        level += '@' + info.zone;
-    }
+	if (info.zone){
+		level += '@' + info.zone;
+	}
 
-    return {
-        level,
-        message
-    };
+	return {
+		level,
+		message
+	};
 });
 
 const filterZone = winston.format(info => {
 
   
-    // If the zone isn't valid, skip:
-    if (typeof info.zone !== 'string') return false;
-    if (info.zone === '') return false;
+	// If the zone isn't valid, skip:
+	if (typeof info.zone !== 'string') return false;
+	if (info.zone === '') return false;
 
-    let logZones = [];
+	let logZones = [];
 
-    if (options.logAllZones === true){
-        logZones.push("*");
-    }
+	if (options.logAllZones === true){
+		logZones.push("*");
+	}
 
-    // TODO this is kinda messy, fix later:
-    if (Array.isArray(options.loggingZone)){
-        logZones = [...logZones, ...options.loggingZone];
-    }
+	// TODO this is kinda messy, fix later:
+	if (Array.isArray(options.loggingZone)){
+		logZones = [...logZones, ...options.loggingZone];
+	}
 
-    for (const z of logZones){
+	for (const z of logZones){
 
-        if (info.zone === z) return info;
+		if (info.zone === z) return info;
 
-        if (minimatch(info.zone, z)) return info;
-        if (minimatch(info.zone, z+".*")) return info;
-    }
+		if (minimatch(info.zone, z)) return info;
+		if (minimatch(info.zone, z+".*")) return info;
+	}
 
 
-    //return info;
+	//return info;
 });
 
 
 const winstonLogger = winston.createLogger({
-    transports: [
-        new winston.transports.File({
-            filename: './built/user.log.json',
-            level: 'debug',
-            format: winston.format.combine(
-                filterZone(),
-                winston.format.json()
-            )
-        }),
-        new winston.transports.File({
-            filename: './built/debug.log.json',
-            level: 'debug',
-            format: winston.format.json()
-        }),
-        new winston.transports.File({
-            filename: './built/debug.log',
-            level: 'debug',
-            format: winston.format.combine(
-                //winston.format.colorize(),
-                filterMetadata(),
-                winston.format.timestamp(),
-                winston.format.align(),
-                winston.format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
-              )
-        }),
-    ]
+	transports: [
+		new winston.transports.File({
+			filename: './built/user.log.json',
+			level: 'debug',
+			format: winston.format.combine(
+				filterZone(),
+				winston.format.json()
+			)
+		}),
+		new winston.transports.File({
+			filename: './built/debug.log.json',
+			level: 'debug',
+			format: winston.format.json()
+		}),
+		new winston.transports.File({
+			filename: './built/debug.log',
+			level: 'debug',
+			format: winston.format.combine(
+				//winston.format.colorize(),
+				filterMetadata(),
+				winston.format.timestamp(),
+				winston.format.align(),
+				winston.format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
+			)
+		}),
+	]
 
 });
 
@@ -148,24 +148,24 @@ const ignorePrivate = format((info, opts) => {
 
 export default function log(logObj){
 
-    if (typeof logObj.message !== 'string') return;
+	if (typeof logObj.message !== 'string') return;
 
-    const defaults = {
-        private: false,
-        zone: 'nowhere',
-        level: 'info',
-        message: 'Empty message',
-        data: null
-    };
+	const defaults = {
+		private: false,
+		zone: 'nowhere',
+		level: 'info',
+		message: 'Empty message',
+		data: null
+	};
 
-    const obj = {...defaults, ...logObj};
+	const obj = {...defaults, ...logObj};
 
-    winstonLogger.log(obj);
+	winstonLogger.log(obj);
 
 }
 
 log({
-    zone: 'timing',
-    message: "Initialized logger",
-    data: process.uptime()
+	zone: 'timing',
+	message: "Initialized logger",
+	data: process.uptime()
 });

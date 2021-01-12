@@ -20,38 +20,38 @@ be emitted by a DiscoveryPlugin, any others are invalid:
 */
 
 export default class FooPlugin extends DiscoveryPlugin {
-    constructor(){
-        super();
+	constructor(){
+		super();
 
-        this.name = "Foo";
-        this.description = "Example builtin plugin that does nothing.";
-    }
+		this.name = "Foo";
+		this.description = "Example builtin plugin that does nothing.";
+	}
 
-    /* The start command instructs the plugin to begin searching for hosts
+	/* The start command instructs the plugin to begin searching for hosts
      * and emitting 'host' events when it finds new ones. Any hosts emitted
      * before the plugin recieves the start() command are non-fatal errors */
-    start(){
+	start(){
 
-       // const containers = getContainers();
+		// const containers = getContainers();
 
-        this.emit('status', "Starting up...");
-        this.emit('percentage', 0.1);
+		this.emit('status', "Starting up...");
+		this.emit('percentage', 0.1);
 
-        // Get your hosts:
-        this.emit('percentage', 0.99);
-        this.emit('host', []);
+		// Get your hosts:
+		this.emit('percentage', 0.99);
+		this.emit('host', []);
 
-        this.emit('done');
-    }
+		this.emit('done');
+	}
 
-    /* The stop command instructs the plugin to stop searching for hosts.
+	/* The stop command instructs the plugin to stop searching for hosts.
      * Any hosts discovered after this will throw an error. This will be called
      * as a destructor before the process exits or connects to a host. */
-    stop(){
-        // Stop searching, perform any cleanup tasks. 
-        this.emit('status', "Stopped");
-    }
+	stop(){
+		// Stop searching, perform any cleanup tasks. 
+		this.emit('status', "Stopped");
+	}
 
-    // Leave this here, used to collect package information for external packages:
-    async meta() { return await readPkg(); }
+	// Leave this here, used to collect package information for external packages:
+	async meta() { return await readPkg(); }
 }

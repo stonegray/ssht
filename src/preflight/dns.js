@@ -31,15 +31,15 @@ async function queryMdns(fqdn){
 */
 
 export default async function resolve4(fqdn) {
-    return new Promise(resolve => {
+	return new Promise(resolve => {
 
-        // Do we even need to resolve it?
-        if (net.isIPv4(fqdn)) {
-            return resolve(fqdn);
-        }
+		// Do we even need to resolve it?
+		if (net.isIPv4(fqdn)) {
+			return resolve(fqdn);
+		}
 
-        // Experimental mDNS:
-        /*
+		// Experimental mDNS:
+		/*
         if (/.*\.local$/.test(fqdn)){
             const resp = await queryMdns(fqdn);
             resolve(resp.answers[0].data);
@@ -47,18 +47,18 @@ export default async function resolve4(fqdn) {
         }
         */
 
-        dns.resolve4(fqdn, (err, ips) => {
+		dns.resolve4(fqdn, (err, ips) => {
 
-            // TODO: Better error handling:
-            if (err) {
-                //console.warn("WARN: Badly handled DNS resolution error, fix me please");
-                resolve(null);
-                return;
-            }
+			// TODO: Better error handling:
+			if (err) {
+				//console.warn("WARN: Badly handled DNS resolution error, fix me please");
+				resolve(null);
+				return;
+			}
 
-            resolve(ips[0]);
-        });
-    });
+			resolve(ips[0]);
+		});
+	});
 }
 
 

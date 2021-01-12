@@ -50,28 +50,28 @@ export interface DSHost {
 // Store a giant array of all discovered hosts
 
 export default class Pool extends EventEmitter {
-    constructor(){
+	constructor(){
 		super();
-        this.pool = [];
+		this.pool = [];
 
 		this.engine = new Searcher();
 	}
 
 
-    updateHost(uuid){}
-    addHost(host){
-        this.pool.push(host);
+	updateHost(uuid){}
+	addHost(host){
+		this.pool.push(host);
 
 		// Send it to it's worker:
 		this.engine.addHost(host);
 
 		this.emit('size', this.pool.length);
-    }
-    removeHost(host){
+	}
+	removeHost(host){
 
 		this.emit('size', this.pool.length);
 
-    }
+	}
 
 	async search(string) {
 
@@ -114,3 +114,4 @@ export default class Pool extends EventEmitter {
 
 
 }
+

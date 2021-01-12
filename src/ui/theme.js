@@ -4,35 +4,35 @@ import getTip from './tips.js';
 system. For now, I'm 
 */
 function splash(){
-    const lines = [];
-    lines[0] = "SSHT> Start typing to begin searching hosts";
-    lines[1] = '1. ';
-    lines[2] = '2. ';
-    lines[3] = '3.       Tip:';
-    lines[4] = '4.       '+ getTip();
-    lines[5] = '5. ';
-    lines[6] = '6. ';
-    lines[7] = "initializing | 0/0";
-    return lines;
+	const lines = [];
+	lines[0] = "SSHT> Start typing to begin searching hosts";
+	lines[1] = '1. ';
+	lines[2] = '2. ';
+	lines[3] = '3.       Tip:';
+	lines[4] = '4.       '+ getTip();
+	lines[5] = '5. ';
+	lines[6] = '6. ';
+	lines[7] = "initializing | 0/0";
+	return lines;
 }
 
 function resultLine(index, host, uiFields){
-    let string = '';
+	let string = '';
 
-    string += `${index + 1}. `;
+	string += `${index + 1}. `;
 
 
-    if (typeof host.user == 'string') {
-        string += `${host.user}@`;
-    }
+	if (typeof host.user == 'string') {
+		string += `${host.user}@`;
+	}
 
-    string += host.fqdn;
+	string += host.fqdn;
 
-    if (host.username) {
-        string += `:${host.port}`;
-    }
+	if (host.username) {
+		string += `:${host.port}`;
+	}
 
-    return string;
+	return string;
 }
 
 /* Available params for status/search lines:
@@ -42,25 +42,25 @@ function resultLine(index, host, uiFields){
     search          Search string
 */
 function searchLine(uiFields){
-    let string = '';
+	let string = '';
 
-    string += 'SSHT> ';
+	string += 'SSHT> ';
 
-    string += uiFields.search;
+	string += uiFields.search;
 
-    return string;
+	return string;
 }
 function statusLine(uiFields){
-    let string = '';
+	let string = '';
 
 	string += (`ready | ${uiFields.resultSize}/${uiFields.poolSize}`);
 
-    return string;
+	return string;
 }
 
 export const theme = {
-    splash: splash,
-    resultLine: resultLine,
-    searchLine: searchLine,
-    statusLine: statusLine
+	splash: splash,
+	resultLine: resultLine,
+	searchLine: searchLine,
+	statusLine: statusLine
 };

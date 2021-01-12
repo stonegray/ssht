@@ -7,23 +7,23 @@ import {cursor} from '../ui/terminalUtils.js';
 
 export default async function version(){
 
-    const pkg = await readPkg();
+	const pkg = await readPkg();
 
-    cursor.clear();
-    console.log('\r');
-    console.log('ssht-core v'+pkg.version);
-    console.log('ssht-builtins v'+pkg.version);
-    console.log('node '+process.version);
-    console.log('os v'+os.release());
-    console.log('');
-    console.log('plugins:');
+	cursor.clear();
+	console.log('\r');
+	console.log('ssht-core v'+pkg.version);
+	console.log('ssht-builtins v'+pkg.version);
+	console.log('node '+process.version);
+	console.log('os v'+os.release());
+	console.log('');
+	console.log('plugins:');
 
     
-    /* I've removed the ability to get plugin versions for now, because they
+	/* I've removed the ability to get plugin versions for now, because they
     create a circular dependency. It works fine, it's just hacked together */
-    console.log('\t[disabled, see ./src/core/version.js]');
+	console.log('\t[disabled, see ./src/core/version.js]');
 
-    /*
+	/*
     const getPlugins = (await import('../discovery/pluginLoader.js'))
         .getPlugins;
 
@@ -46,7 +46,7 @@ export default async function version(){
     }
     */
 
-    console.log('');
+	console.log('');
 
-    // Will exit 0 when finished.
+	// Will exit 0 when finished.
 }

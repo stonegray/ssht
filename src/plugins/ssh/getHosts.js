@@ -8,57 +8,57 @@ import { translateHostFormat } from './translateHostFormat.js';
 // Takes hosts with multiple names:
 export default async function getHosts(){
     
-    const hosts = await recursiveParser();
+	const hosts = await recursiveParser();
 
-    const literalHosts = [];
-    const globHosts = [];
+	const literalHosts = [];
+	const globHosts = [];
 
-    // takes exactly one host:
-    const sortHost = (host) => {
-        if (/[!*?]/.test(host.value)) {
-            globHosts.push(host);
+	// takes exactly one host:
+	const sortHost = (host) => {
+		if (/[!*?]/.test(host.value)) {
+			globHosts.push(host);
 
-        } else {
-            literalHosts.push(host);
-        }
-    };
+		} else {
+			literalHosts.push(host);
+		}
+	};
 
-    for (const host of hosts) {
+	for (const host of hosts) {
 
-        // Skip comments:
-        if (host.type === 2) continue;
+		// Skip comments:
+		if (host.type === 2) continue;
        
-        // Sort wildcard hosts:
-        if (host.param === "Host"){
+		// Sort wildcard hosts:
+		if (host.param === "Host"){
 
-            // value can be an array or a string, because we can have hosts
-            // with multiple definitions with multiple types, eg:
-            //      Host foo.example.com *.bar.example.com !baz.bar.example.com
+			// value can be an array or a string, because we can have hosts
+			// with multiple definitions with multiple types, eg:
+			//      Host foo.example.com *.bar.example.com !baz.bar.example.com
     
-            if (typeof host.value === 'string'){
-                sortHost(host);
+			if (typeof host.value === 'string'){
+				sortHost(host);
     
-            } else if (Array.isArray(host.value)){
+			} else if (Array.isArray(host.value)){
 
-                // Process as discrete entries:
-                for (const n of host.value){
-                    sortHost({
-                        ...host,
-                        value: n,
-                    });
-                }
+				// Process as discrete entries:
+				for (const n of host.value){
+					sortHost({
+						...host,
+						value: n,
+					});
+				}
 
-            } else {
-                console.error("Unexpected value type:", host);
-            }
+			} else {
+				console.error("Unexpected value type:", host);
+			}
     
-        }
-    }
+		}
+	}
 
 
-    const computedHosts = computeHosts(literalHosts, globHosts);
+	const computedHosts = computeHosts(literalHosts, globHosts);
 
-    return translateHostFormat(computedHosts);
+	return translateHostFormat(computedHosts);
 
 }
 

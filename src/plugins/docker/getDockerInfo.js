@@ -34,50 +34,50 @@ var docker6 = new Docker({
 // async wrapper for Dockerode:
 export async function getContainers(options) {
 
-    return new Promise((resolve)=> {
+	return new Promise((resolve)=> {
 
-        const docker = new Docker(options);
+		const docker = new Docker(options);
     
-        docker.listContainers(function (err, containers) {
-            resolve({
-                err: err,
-                containers: containers
-            });
-        });
+		docker.listContainers(function (err, containers) {
+			resolve({
+				err: err,
+				containers: containers
+			});
+		});
 
-    });
+	});
 }
 
 // async wrapper for Dockerode:
 export async function getNetworks(options) {
 
-  return new Promise((resolve)=> {
+	return new Promise((resolve)=> {
 
-      const docker = new Docker(options);
+		const docker = new Docker(options);
   
-      docker.listNetworks(function (err, networks) {
-          resolve({
-              err: err,
-              networks: networks
-          });
-      });
+		docker.listNetworks(function (err, networks) {
+			resolve({
+				err: err,
+				networks: networks
+			});
+		});
 
-  });
+	});
 }
 
 // async wrapper for Dockerode:
 export async function getInfo(options) {
 
-  return new Promise((resolve)=> {
+	return new Promise((resolve)=> {
 
-      const docker = new Docker(options);
+		const docker = new Docker(options);
   
-      docker.info(function (err, info) {
-          resolve({
-              err: err,
-              info: info
-          });
-      });
+		docker.info(function (err, info) {
+			resolve({
+				err: err,
+				info: info
+			});
+		});
 
-  });
+	});
 }

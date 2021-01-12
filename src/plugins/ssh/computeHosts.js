@@ -1,7 +1,7 @@
 export default function computeHosts(hosts, globs){
 
-    // TODO
-    globs;
+	// TODO
+	globs;
 
-    return hosts;
+	return hosts;
 }

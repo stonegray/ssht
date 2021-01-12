@@ -98,9 +98,9 @@ export interface DSHost {
 */
 
 export default class DiscoveryPlugin extends EventEmitter {
-    constructor(){
-        super();
-    }
+	constructor(){
+		super();
+	}
 
 	addHost(host){
 		return 'uuid';
