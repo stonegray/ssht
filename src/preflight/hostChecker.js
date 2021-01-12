@@ -1,15 +1,38 @@
 
 
+import options from '../core/options.js';
+
 import FastSSH from './fastSsh.js';
 import ICMPPEcho from './icmpEcho.js';
 import checkInternet from './connectivity.js';
 
 
-const icmp = new ICMPPEcho();
-const fastSSH = new FastSSH();
-
 export default class HostChecker {
-    constructor(){}
+    constructor(){
+        this.icmp = new ICMPPEcho();
+        this.fastSSH = new FastSSH();
+    }
+
+    queueCheck(host, callback){
+
+        // All hosts will show as ineligable for preflight host checking if
+        // this option is truthy.
+        if (options.noPreflight){
+
+            callback({
+                state: "INELIGABLE"
+            });
+
+            return;
+        }
+
+
+
+    }
+
+    async _check(host){
+        host;
+    }
 
 
 }
