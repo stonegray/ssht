@@ -3,6 +3,7 @@ import os from 'os';
 import networkOptions from './options/network.js';
 import sshOptions from './options/ssh.js';
 import debugOptions from './options/debug.js';
+import preflightOptions from './options/preflight.js';
 
 let definitions = [];
 
@@ -203,5 +204,6 @@ definitions.push({
 definitions = definitions.concat(networkOptions);
 definitions = definitions.concat(sshOptions);
 definitions = definitions.concat(debugOptions);
+definitions = definitions.concat(preflightOptions);
 
 export default definitions;
