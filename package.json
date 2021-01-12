@@ -37,7 +37,7 @@
     "bugs": "https://github.com/stonegray/ssht/issues",
     "devDependencies": {
         "c8": "^7.3.5",
-        "eslint": "^7.17.0",
+        "eslint": "7.17.0",
         "eslint-plugin-import": "^2.22.1",
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^4.2.1",
