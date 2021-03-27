@@ -1,5 +1,6 @@
 import options from './core/options.js';
 import log from './core/logger.js';
+import diags from './diags.js';
 import { doneLoading } from './ui/loadingIndicator.js';
 import UserInterface from './ui/tui.js';
 import Pool from './pool.js';
@@ -37,10 +38,20 @@ export default async function main() {
 		data: options
 	});
 
-	//console.log(options, process.pid);
+
+	process.stdin.on('keypress', function (k, kp) {
+		if (kp && kp.ctrl && kp.name == 'c') process.exit();
+	});
 
 	// Instantiate host pool:
 	const pool = new Pool();
+
+	// If diags flag set, run diagnostics and exit:
+	if (options.diags){
+		doneLoading();
+		diags();	
+		process.exit(0);
+	}
 
 	// Connect UI to pool:
 	if (!options.headless) {
@@ -83,10 +94,6 @@ export default async function main() {
 		plugin.start();
 	}
 
-
-	process.stdin.on('keypress', function (k, kp) {
-		if (kp && kp.ctrl && kp.name == 'c') process.exit();
-	});
 
 }
 

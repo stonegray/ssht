@@ -17,4 +17,19 @@ definitions.push({
 	validator: () => true
 });
 
+definitions.push({
+	name: 'diags',
+	default: false,
+	type: 'boolean',
+	argument: '--diags',
+	fileId: 'main',
+	fileField: 'diagnostics',
+	allowEmpty: false,
+	description: "Show diagnostics and exit",
+	hidden: false,
+	conflicts: [],
+	group: 'Debug:',
+	validator: () => true
+});
+
 export default definitions;
