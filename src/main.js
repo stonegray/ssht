@@ -49,7 +49,7 @@ export default async function main() {
 	// If diags flag set, run diagnostics and exit:
 	if (options.diags){
 		doneLoading();
-		diags();	
+		await diags();	
 		process.exit(0);
 	}
 
