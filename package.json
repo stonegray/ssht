@@ -52,6 +52,7 @@
         "glob": "^7.1.6",
         "minimatch": "^3.0.4",
         "multicast-dns": "^7.2.2",
+        "network": "^0.5.0",
         "random-words": "^1.1.1",
         "raw-socket": "^1.7.0",
         "read-pkg": "^5.2.0",
