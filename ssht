@@ -1,2 +1,2 @@
 #!/bin/sh
-node ./src/main.js $@
+node ./src/launch.js $@

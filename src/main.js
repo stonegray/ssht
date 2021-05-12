@@ -1,3 +1,5 @@
+
+
 import options from './core/options.js';
 import log from './core/logger.js';
 import diags from './diags.js';
@@ -5,6 +7,7 @@ import { doneLoading } from './ui/loadingIndicator.js';
 import UserInterface from './ui/tui.js';
 import Pool from './pool.js';
 import { startPlugins } from './discovery/pluginLoader.js';
+import wtfnode from 'wtfnode';
 
 // We don't need to wrap this, but most AST parsers don't like the top-level
 // await just yet. (Even though it's been supported for some time now...) since
@@ -50,7 +53,16 @@ export default async function main() {
 	if (options.diags){
 		doneLoading();
 		await diags();	
+
+		// Remove keypress listener:
+		process.stdin.removeAllListeners();
+
+		// Would have preferred to fall through to exit here by return;, but we
+		// start a process when starting our search stuff in a way that doesn't
+		// allow for easily doing this. This works for now.
 		process.exit(0);
+		
+		//return;
 	}
 
 	// Connect UI to pool:
@@ -94,7 +106,4 @@ export default async function main() {
 		plugin.start();
 	}
 
-
 }
-
-main();

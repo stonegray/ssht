@@ -15,7 +15,7 @@
         "start": "node ./src/main.js",
         "test": "npm run lint && ./node_modules/.bin/mocha --exit \"./test/**/*.test.js\""
     },
-    "main": "src/main.js",
+    "main": "src/launch.js",
     "type": "module",
     "files": [
         "*"
@@ -44,7 +44,8 @@
         "eslint-plugin-security": "^1.4.0",
         "eslint-plugin-unicorn": "^25.0.1",
         "espree": "github:stonegray/espree#acorn-options",
-        "mocha": "^8.2.1"
+        "mocha": "^8.2.1",
+        "wtfnode": "^0.8.4"
     },
     "dependencies": {
         "dockerode": "^3.2.1",
