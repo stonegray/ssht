@@ -18,9 +18,14 @@ const options = {
 
 
 
+
 function spawnSSH(options){
 
-	const childProcess = cp.spawn('ssh', ['localhost'], { stdio: 'inherit' });
+	// Drop listeners for command keys:
+	process.stdin.removeAllListeners();
+
+	const childProcess = cp.spawn('ssh', ['saffron.stonegray.ca'], { stdio: 'inherit' });
+
 
 }
 
