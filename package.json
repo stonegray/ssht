@@ -48,6 +48,7 @@
         "wtfnode": "^0.8.4"
     },
     "dependencies": {
+        "@tib/sn": "^0.2.2",
         "dockerode": "^3.2.1",
         "fuse.js": "^6.4.3",
         "glob": "^7.1.6",
