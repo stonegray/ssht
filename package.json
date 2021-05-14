@@ -44,8 +44,7 @@
         "eslint-plugin-security": "^1.4.0",
         "eslint-plugin-unicorn": "^25.0.1",
         "espree": "github:stonegray/espree#acorn-options",
-        "mocha": "^8.2.1",
-        "wtfnode": "^0.8.4"
+        "mocha": "^8.2.1"
     },
     "dependencies": {
         "@tib/sn": "^0.2.2",

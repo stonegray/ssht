@@ -7,7 +7,6 @@ import { doneLoading } from './ui/loadingIndicator.js';
 import UserInterface from './ui/tui.js';
 import Pool from './pool.js';
 import { startPlugins } from './discovery/pluginLoader.js';
-import wtfnode from 'wtfnode';
 
 // We don't need to wrap this, but most AST parsers don't like the top-level
 // await just yet. (Even though it's been supported for some time now...) since
