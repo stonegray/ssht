@@ -5,7 +5,7 @@ import { exec } from 'child_process';
 
 export async function getClientVersion() {
 
-    const { stdout , stderr } = await util.promisify(exec)('ssh -V');
+	const { stdout , stderr } = await util.promisify(exec)('ssh -V');
 
-    return stderr;
+	return stderr;
 }

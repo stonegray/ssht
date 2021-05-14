@@ -21,7 +21,7 @@ export default async function version(){
     
 	/* I've removed the ability to get plugin versions for now, because they
     create a circular dependency. It works fine, it's just hacked together */
-    /* possible fix is to prevent plugins from requiring options/args and pass
+	/* possible fix is to prevent plugins from requiring options/args and pass
     all options to them on load */
 	console.log('\t[disabled, see ./src/core/version.js]');
 
